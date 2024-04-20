@@ -5,7 +5,7 @@ import Book2 from "../../../assets/book2.avif";
 import Book3 from "../../../assets/book3.jpeg";
 export const FeaturedCarousel = () => {
   return (
-    <div style={{backgroundColor:"beige"}}>
+    <div className="bg-gray-100 dark:bg-gray-800">
       <Carousel autoPlay showThumbs={false} showStatus={false} >
         <div>
           <img src={Book1} style={{height:"60vh", width: "fit-content"}}/>
