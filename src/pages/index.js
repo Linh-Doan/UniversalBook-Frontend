@@ -1,4 +1,4 @@
-export { HomePage } from "./HomePage";
+export { HomePage } from "./Home/HomePage";
 export { GenreList } from "./GenreList";
 export { BookList } from "./BookList";
 export { ChapterList } from "./ChapterList";
