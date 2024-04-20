@@ -1,7 +1,9 @@
+import { FeaturedCarousel } from "../components/FeaturedCarousel"
+
 export const HomePage = () => {
   return (
     <main>
-      HomePage
+      <FeaturedCarousel/>
     </main>
   )
 }
