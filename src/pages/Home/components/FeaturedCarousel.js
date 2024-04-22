@@ -6,7 +6,7 @@ import Book3 from "../../../assets/book3.jpeg";
 export const FeaturedCarousel = () => {
   return (
     <div className="bg-gray-100 dark:bg-gray-800">
-      <Carousel autoPlay showThumbs={false} showStatus={false} >
+      <Carousel autoPlay showThumbs={false} showStatus={false} infiniteLoop={true}>
         <div>
           <img src={Book1} style={{height:"60vh", width: "fit-content"}}/>
         </div>
