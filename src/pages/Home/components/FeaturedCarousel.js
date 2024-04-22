@@ -8,13 +8,13 @@ export const FeaturedCarousel = () => {
     <div className="bg-gray-100 dark:bg-gray-800">
       <Carousel autoPlay showThumbs={false} showStatus={false} infiniteLoop={true}>
         <div>
-          <img src={Book1} style={{height:"60vh", width: "fit-content"}}/>
+          <img src={Book1} alt="Introduction" style={{height:"60vh", width: "fit-content"}}/>
         </div>
         <div>
-          <img src={Book2} style={{height:"60vh", width: "fit-content"}}/>
+          <img src={Book2} alt="Writer" style={{height:"60vh", width: "fit-content"}}/>
         </div>
         <div>
-          <img src={Book3} style={{height:"60vh", width: "fit-content"}}/>
+          <img src={Book3} alt="Reader" style={{height:"60vh", width: "fit-content"}}/>
         </div>
       </Carousel>
     </div>
