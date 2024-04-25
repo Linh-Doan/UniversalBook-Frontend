@@ -16,8 +16,8 @@ export const FeaturedCarousel = () => {
     fade: true
   };
   const generalText = <div>
-      <p className="text-2xl py-2 font-bold text-white drop-shadow-lg">A place for people to</p>
-      <p className="text-4xl py-2 font-bold text-white drop-shadow-lg">Read, write, discuss and share</p>
+      <p className="text-4xl py-2 font-bold text-white drop-shadow-lg">A place for people to</p>
+      <p className="text-7xl py-2 font-bold text-white drop-shadow-lg">Read, write, discuss and share</p>
     </div>
   const writerText = <div>
   <p className="text-7xl py-2 font-bold text-white drop-shadow-lg">Writers</p>
