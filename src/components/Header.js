@@ -36,6 +36,7 @@ export const Header = () => {
                 <li>
                   <NavLink to="/chapters" className={({isActive}) => isActive ? activeClass : inActiveClass}>Chapters</NavLink>
                 </li>
+                
               </ul>
             </div>
           </section>
@@ -59,7 +60,7 @@ export const Header = () => {
               </div>
               <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."/>
             </div>
-            <span className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white px-3"></span>
+            <Link to="/login" className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white px-3"></Link>
             {/* Burger icon small size */}
             <button data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
