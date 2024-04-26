@@ -82,39 +82,37 @@ export const SearchResults = () => {
 	];
   return (
     <main className="flex flex-col items-start w-full md:w-3/4 mx-auto sm:px-4 px-6">
-    <div className="text-sm font-medium text-left text-gray-500 border-b border-gray-200 w-full mt-4 overflow-x-auto overflow-y-hidden">
-        <ul className="flex space-x-4 -mb-px">
-					{tabs.map((item, index) => (
-						<li key={item.tabDisplay}>
-							<button 
-								type="button"  
-								className={index === activeTab ? activeClass : inactiveClass}
-								onClick={() => setActiveTab(index)}
-							>
-								{item.tabDisplay}
-							</button>
-						</li>
-        ))}
-        </ul>
-    </div>
-
-    <section className="py-7 w-full">
-        <p className="text-2xl text-gray-700">{ results.filter((item) => item.category.match(tabs[activeTab].patternMatching)).length === 0 ? `No ${tabs[activeTab].tabDisplay.toLowerCase()} result found for '${queryTerm}'` : `${tabs[activeTab].tabDisplay} results for '${queryTerm}'` }</p>
+			<section className="py-7 w-full">
+        <p className="text-2xl text-gray-700">{ results.length === 0 ? `No result found for '${queryTerm}'` : `Results for '${queryTerm}'` }</p>
     </section>
-
-    <section className="py-7 w-full">
-        <div className="flex flex-wrap gap-4">       
-            { results.filter((item) => item.category.match(tabs[activeTab].patternMatching)).map((item) => (
-                <CarouselItem key={item.id} imageUrl={item.imageUrl} />
-            )) }          
-        </div>
-    </section>
-	</main>
-
-
-
-
-
-
+			<div className="text-sm font-medium text-left text-gray-500 border-b border-gray-200 w-full mt-4 overflow-x-auto overflow-y-hidden">
+					<ul className="flex space-x-4 -mb-px">
+						{tabs.map((item, index) => (
+							<li key={item.tabDisplay}>
+								<button 
+									type="button"  
+									className={index === activeTab ? activeClass : inactiveClass}
+									onClick={() => setActiveTab(index)}
+								>
+									{item.tabDisplay}
+								</button>
+							</li>
+					))}
+					</ul>
+			</div>
+			<section className="py-7 w-full">
+					<div className="flex flex-wrap gap-4">       
+							{ 
+								results.filter((item) => item.category.match(tabs[activeTab].patternMatching)).map((item) => (
+									<CarouselItem key={item.id} imageUrl={item.imageUrl} />
+								))
+							}
+							{ 
+								results.filter((item) => item.category.match(tabs[activeTab].patternMatching)).length ===  0? 
+								<p className="text-large text-gray-700">{`No ${tabs[activeTab].tabDisplay.toLowerCase()} results found`}</p> : ""
+							}       
+					</div>
+			</section>
+		</main>
   )
 }

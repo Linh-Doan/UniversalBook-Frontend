@@ -21,7 +21,7 @@ export const FeaturedCarousel = () => {
     </div>
   const writerText = <div>
   <p className="text-7xl py-2 font-bold text-white drop-shadow-lg">Writers</p>
-  <p className="text-4xl py-2 font-bold text-white drop-shadow-lg">Create your own book here</p>
+  <p className="text-4xl py-2 font-bold text-white drop-shadow-lg">Create your own books here</p>
   <button type="button" className="my-5 py-4 px-5 me-2 mb-2 text-lg font-medium text-gray-900 focus:outline-none bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">GET STARTED</button>
 </div>
   const readerText = <div>
