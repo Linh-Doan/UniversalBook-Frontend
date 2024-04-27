@@ -1,5 +1,9 @@
+import { CustomMultiCarousel } from "./Home/components/BookMultiCarousel.js"
+
 export const GenreList = () => {
   return (
-    <main>GenreList</main>
+    <main>
+      <CustomMultiCarousel title={"test"} itemsToDisplay={[]}/>
+    </main>
   )
 }
