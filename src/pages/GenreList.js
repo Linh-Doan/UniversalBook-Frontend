@@ -37,9 +37,10 @@ const genres = [
 export const GenreList = () => {
   return (
     <main>
-      <CustomMultiCarousel title={"Hot Genres"} itemsToDisplay={genres}/>
+      <CustomMultiCarousel title={"Trending Genres"} itemsToDisplay={genres}/>
       <CustomMultiCarousel title={"Top Genres"} itemsToDisplay={genres}/>
       <CustomMultiCarousel title={"New Genres"} itemsToDisplay={genres}/>
+      <CustomMultiCarousel title={"Random Genres"} itemsToDisplay={genres}/>
     </main>
   )
 }

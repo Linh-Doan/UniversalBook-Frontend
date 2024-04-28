@@ -37,9 +37,10 @@ const books = [
 export const BookList = () => {
   return (
     <main>
-      <CustomMultiCarousel title={"Hot Books"} itemsToDisplay={books}/>
+      <CustomMultiCarousel title={"Trending Books"} itemsToDisplay={books}/>
       <CustomMultiCarousel title={"Top Books"} itemsToDisplay={books}/>
       <CustomMultiCarousel title={"New Books"} itemsToDisplay={books}/>
+      <CustomMultiCarousel title={"Random Books"} itemsToDisplay={books}/>
     </main>
   )
 }

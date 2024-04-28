@@ -37,9 +37,10 @@ const chapters = [
 export const ChapterList = () => {
   return (
     <main>
-      <CustomMultiCarousel title={"Hot Chapters"} itemsToDisplay={chapters}/>
+      <CustomMultiCarousel title={"Trending Chapters"} itemsToDisplay={chapters}/>
       <CustomMultiCarousel title={"Top Chapters"} itemsToDisplay={chapters}/>
       <CustomMultiCarousel title={"New Chapters"} itemsToDisplay={chapters}/>
+      <CustomMultiCarousel title={"Random Chapters"} itemsToDisplay={chapters}/>
     </main>
   )
 }
