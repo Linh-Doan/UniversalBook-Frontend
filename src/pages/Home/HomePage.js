@@ -1,10 +1,18 @@
+import React from "react";
 import { FeaturedCarousel } from "./components/FeaturedCarousel"
+import BookSlider from "./components/BookSlider";
+
 import Book4 from "../../assets/book4.jpg";
 import Book5 from "../../assets/book5.jpg";
 import Book6 from "../../assets/book6.jpg";
 import Book7 from "../../assets/book7.jpg";
 import Book8 from "../../assets/book8.jpg";
 import Book9 from "../../assets/book9.jpg";
+import Book10 from "../../assets/book10.jpg";
+import Book11 from "../../assets/book11.jpg";
+import Book12 from "../../assets/book12.jpg";
+import Book13 from "../../assets/book13.jpg";
+
 // Array of book details
 const books = [
   {
@@ -31,30 +39,36 @@ const books = [
     id: 6,
     imageUrl: Book9, 
   },
+  {
+    id: 7,
+    imageUrl: Book10, 
+  },
+  {
+    id: 8,
+    imageUrl: Book11, 
+  },
+  {
+    id: 9,
+    imageUrl: Book12, 
+  },
+  {
+    id: 10,
+    imageUrl: Book13, 
+  },
 ];
-
-// Book component
-const Book = ({ title, imageUrl }) => (
-  <div className="rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-    <img src={imageUrl} alt="Book cover" className="w-40 h-60" />
-  </div>
-);
 
 export const HomePage = () => {
   return (
     <main className="bg-[#515375]">
       <FeaturedCarousel />
-      {/* Flex container with centering */}
       <div className="flex justify-center items-center my-4">
         <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-          Top pick
+          Top picks
         </p>
       </div>
-      <div className="flex justify-center overflow-x-auto py-4 px-16 space-x-12">
-          {books.map((book) => (
-            <Book key={book.id} imageUrl={book.imageUrl} />
-          ))}
+      <div className="px-16">
+        <BookSlider books={books} />
       </div>
     </main>
-  )
+  );
 }
