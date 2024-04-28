@@ -47,6 +47,7 @@ export const Header = () => {
                 <li>
                   <NavLink to="/chapters" className={({isActive}) => isActive ? activeClass : inActiveClass}>Chapters</NavLink>
                 </li>
+                
               </ul>
             </div>
           </section>
@@ -73,7 +74,7 @@ export const Header = () => {
               </form>
               
             </div>
-            <span className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 px-3"></span>
+            <Link to="/login" className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 px-3"></Link>
             {/* Burger icon small screen */}
             <button onClick={() => setHidden(!hidden)} data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-search" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
