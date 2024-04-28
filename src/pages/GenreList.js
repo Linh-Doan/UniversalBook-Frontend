@@ -1,4 +1,4 @@
-import { CustomMultiCarousel } from "./Home/components/BookMultiCarousel.js"
+import { CustomMultiCarousel } from "../components/BookMultiCarousel.js"
 import Book1 from "../assets/book1.jpeg";
 
 const genres = [
@@ -38,8 +38,8 @@ export const GenreList = () => {
   return (
     <main>
       <CustomMultiCarousel title={"Hot Genres"} itemsToDisplay={genres}/>
-      <CustomMultiCarousel title={"Top Genres"} itemsToDisplay={[]}/>
-      <CustomMultiCarousel title={"New Genres"} itemsToDisplay={[]}/>
+      <CustomMultiCarousel title={"Top Genres"} itemsToDisplay={genres}/>
+      <CustomMultiCarousel title={"New Genres"} itemsToDisplay={genres}/>
     </main>
   )
 }
