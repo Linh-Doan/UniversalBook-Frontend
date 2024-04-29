@@ -1,0 +1,29 @@
+.slick-list {
+  overflow: visible !important; /* Allows scaled items to overflow their container */
+}
+
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-next-arrow {
+  right: -10px;
+}
+
+.custom-prev-arrow {
+  left: -40px;
+}
+
+.custom-arrow::before {
+  font-size: 30px; 
+  opacity: 0.5;
+  color: white; /* Arrow color */
+}
