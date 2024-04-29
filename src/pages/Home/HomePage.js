@@ -1,6 +1,6 @@
 import React from "react";
 import { FeaturedCarousel } from "./components/FeaturedCarousel"
-import FeaturedSlider from "./components/FeaturedSlider";
+import FeaturedSlider from "../../components/FeaturedSlider";
 
 import Book4 from "../../assets/book4.jpg";
 import Book5 from "../../assets/book5.jpg";
