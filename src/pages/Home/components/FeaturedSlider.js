@@ -1,7 +1,8 @@
 import React from "react";
 import Slider from "react-slick";
+import SliderItem from "./SliderItem"; // Renamed the import
 import PropTypes from 'prop-types';
-import "./BookSlider.css";
+import "./FeaturedSlider.css";
 
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -25,13 +26,7 @@ const SamplePrevArrow = (props) => {
   );
 }
 
-const Book = ({ imageUrl }) => (
-  <div className="book-container rounded-lg overflow-hidden mx-1 transition-transform ease-in-out duration-300 hover:scale-110 cursor-pointer">
-    <img src={imageUrl} alt="Book cover" className="w-40 h-60 rounded-lg" />
-  </div>
-);
-
-const BookSlider = ({ books }) => {
+const FeaturedSlider = ({ SliderItems }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -70,18 +65,18 @@ const BookSlider = ({ books }) => {
 
   return (
     <Slider {...settings}>
-      {books.map((book) => (
-        <Book key={book.id} imageUrl={book.imageUrl} />
+      {SliderItems.map((item) => ( 
+        <SliderItem key={item.id} imageUrl={item.imageUrl} /> 
       ))}
     </Slider>
   );
 }
 
-BookSlider.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.shape({
+FeaturedSlider.propTypes = {
+  SliderItems: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     imageUrl: PropTypes.string.isRequired,
   })).isRequired,
 };
 
-export default BookSlider;
+export default FeaturedSlider;

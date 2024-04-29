@@ -1,6 +1,6 @@
 import React from "react";
 import { FeaturedCarousel } from "./components/FeaturedCarousel"
-import BookSlider from "./components/BookSlider";
+import FeaturedSlider from "./components/FeaturedSlider";
 
 import Book4 from "../../assets/book4.jpg";
 import Book5 from "../../assets/book5.jpg";
@@ -67,7 +67,7 @@ export const HomePage = () => {
         </p>
       </div>
       <div className="px-16">
-        <BookSlider books={books} />
+        <FeaturedSlider SliderItems={books} />
       </div>
     </main>
   );
