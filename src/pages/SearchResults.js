@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CarouselItem } from '../components'
+import { SliderItem } from '../components'
 import Book1 from "../assets/book1.jpeg";
 import Book2 from "../assets/book2.avif";
 import Book3 from "../assets/book3.jpeg";
@@ -9,10 +9,6 @@ export const SearchResults = () => {
 	const [searchParams] = useSearchParams()
 	const queryTerm = searchParams.get("q")
 	const tabs = [
-		// {
-		// 	tabDisplay: 'All',
-		// 	patternMatching: /.*.*/
-		// },
 		{
 			tabDisplay: 'Books',
 			patternMatching: /^Book$/
@@ -104,7 +100,7 @@ export const SearchResults = () => {
 					<div className="flex flex-wrap gap-4">       
 							{ 
 								results.filter((item) => item.category.match(tabs[activeTab].patternMatching)).map((item) => (
-									<CarouselItem key={item.id} imageUrl={item.imageUrl} />
+									<SliderItem key={item.id} imageUrl={item.imageUrl} />
 								))
 							}
 							{ 
