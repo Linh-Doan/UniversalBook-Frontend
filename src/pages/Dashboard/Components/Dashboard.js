@@ -22,7 +22,7 @@ export const Dashboard = () => {
   return (
     <>
 			<div className="bg-gray-100 border border-gray-200 rounded-lg">
-				<div className="flex flex-row justify-between items-end pb-10 w-4/5 mx-auto">
+				<div className="flex flex-row justify-between items-end py-10 w-4/5 mx-auto">
 					<div className="flex flex-col items-center">
 						<img className="w-40 h-40 mb-3 rounded-full shadow-lg" src={UserProfile} alt="User profile" />
 						<h5 className="mb-1 text-xl font-medium text-gray-900">Bonnie Green</h5>
