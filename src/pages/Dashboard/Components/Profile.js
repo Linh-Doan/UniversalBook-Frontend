@@ -1,14 +1,16 @@
-export const MembershipDetails = () => {
-
-
+export const Profile = () => {
   return (
     <div className="px-20">
-      <h1 className="px-3 py-4 text-3xl font-bold">Membership</h1>
-      <h2 className="px-3 py-4 text-large">Plan details</h2>
+      <h1 className="px-3 py-4 text-3xl font-bold">Profile</h1>
+      <h2 className="px-3 py-4 text-large">Personal information</h2>
       <div className="w-full flex flex-row items-start justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Premium plan</h5>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Unlimited books each month</p>
+          {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Premium plan</h5> */}
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">First name: Bonnie</p>
+					<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Last name: Green</p>
+					<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">DOB: 1/1/2000</p>
+					<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Address: 1 High Str, Melbourne</p>
+					<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Religion: None</p>
         </div>
         <div class="flex justify-end px-4 pt-4">
           <button id="dropdownButton" data-dropdown-toggle="dropdown" class=" inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
@@ -24,9 +26,5 @@ export const MembershipDetails = () => {
         
       </div>
     </div>
-
-    
-    
-  );
+  )
 }
-
