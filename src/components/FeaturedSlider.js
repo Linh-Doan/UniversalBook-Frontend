@@ -1,7 +1,9 @@
 import React from "react";
 import Slider from "react-slick";
-import SliderItem from "./SliderItem"; // Renamed the import
 import PropTypes from 'prop-types';
+import SliderItem from "./SliderItem"; // Renamed the import
+
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import "./FeaturedSlider.css";
 
 const SampleNextArrow = (props) => {
@@ -66,7 +68,9 @@ const FeaturedSlider = ({ SliderItems }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
-        <SliderItem key={item.id} imageUrl={item.imageUrl} /> 
+        <Link to={`/bookdetails/${item.id}`}> 
+        <SliderItem imageUrl={item.imageUrl} /> 
+      </Link>
       ))}
     </Slider>
   );
