@@ -58,22 +58,63 @@ const Chapters = [
 export const BookDetails = () => {
     const { id } = useParams();
     const chapter = Chapters.find(chapter => chapter.id === parseInt(id));
+    const [comment, setComment] = useState('');
+    const [commentsList, setCommentsList] = useState([]);
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+    };
+
+    const handleAddComment = () => {
+        if (comment.trim() !== '') {
+            setCommentsList([...commentsList, comment]);
+            setComment('');
+        }
+    };
 
     return (
         <main className="bg-[#515375]">
             <div className="flex justify-center items-center h-full">
                 {chapter ? (
                     // Display the book details
-                    <div className="mr-2">
-                        <img
-                            src={chapter.imageUrl}
-                            alt={`Book ${id}`}
-                            style={{ maxWidth: '400px', maxHeight: '400px' }} // Adjust the values as needed
-                        />
-                        {/* Add more details as needed */}
+                    <div className="flex items-center">
+                        <div className="mr-2">
+                            <img
+                                src={chapter.imageUrl}
+                                alt={`Book ${id}`}
+                                style={{ maxWidth: '400px', maxHeight: '400px' }} // Adjust the values as needed
+                            />
+                            <br />
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                            >
+                                Share book
+                            </button>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Create Chapter
+                            </button>
+                            {/* Add more details as needed */}
+                        </div>
+                        <div className="checkboxes">
+                            <div>
+                                <label style={{ fontSize: '25px' }}>
+                                    <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Like Book
+                                </label>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '25px' }}>
+                                    <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Follow Book
+                                </label>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '25px' }}>
+                                    <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Follow Author
+                                </label>
+                            </div>
+                        </div>
                     </div>
-
-
                 ) : (
                     <p>Book details page</p>
                 )}
@@ -81,8 +122,8 @@ export const BookDetails = () => {
 
             <div className="flex justify-center items-center my-4">
                 <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                    Book summary: sagjha gkjhlfijgyfiugj aeori apyoei nga;ejyg p9arngh;aoegy pd9fng aei;rjg h9ng [azoghapoing - ighaoig ynpdiubhdflkjb hsdfiub lxkbnkv h9udh]
-                    s dljh dfnjsjdfhgal kdfn                </p>
+                    Book summary: The Summary goes here...
+                </p>
             </div>
 
             <div className="flex justify-center items-center my-4">
@@ -95,52 +136,39 @@ export const BookDetails = () => {
                 <FeaturedSlider SliderItems={Chapters} />
             </div>
 
-            <br></br>
-            <br></br>
+            <br />
+            <br />
             <div className="flex justify-center items-center h-full">
-                <div className="checkboxes">
-
-
+                <div>
+                    <input
+                        type="text"
+                        value={comment}
+                        onChange={handleCommentChange}
+                        placeholder="Write your comment"
+                        className="border border-gray-400 p-2 mr-2"
+                    />
                     <button
-                        className="btn-create-chapter mt-4"
-                        style={{
-                            fontSize: '1.5rem',
-                            backgroundColor: '#4CAF50',
-                            border: 'none',
-                            color: 'white',
-                            padding: '15px 32px',
-                            textAlign: 'center',
-                            textDecoration: 'none',
-                            display: 'inline-block'
-                        }}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={handleAddComment}
                     >
-                        Create Chapter
+                        Add Comment
                     </button>
-
-
-                    <div>
-                        <label style={{ fontSize: '25px' }}>
-                            <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Like Book
-                        </label>
-                    </div>
-                    <div>
-                        <label style={{ fontSize: '25px' }}>
-                            <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Follow Book
-                        </label>
-                    </div>
-                    <div>
-                        <label style={{ fontSize: '25px' }}>
-                            <input type="checkbox" style={{ width: '24px', height: '24px' }} /> Follow Author
-                        </label>
-                    </div>
                 </div>
-
-
             </div>
-
+            <div className="flex justify-center items-center h-full">
+                <div>
+                    <h2 className="text-white text-xl font-semibold">Comments:</h2>
+                    <ul>
+                        {commentsList.map((comment, index) => (
+                            <li key={index} className="text-white">{comment}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </main>
     );
-}
+};
+
 
 
 
