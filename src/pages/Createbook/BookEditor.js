@@ -28,6 +28,8 @@ export const BookEditor = () => {
     }, []) 
 
   return (
-    <div className="container" ref={wrapperRef}></div>
+    <div className="bookeditor">
+        <div className="container" ref={wrapperRef}></div>
+    </div>
   )
 }
