@@ -66,7 +66,7 @@ export const ChapterList = () => {
             <section className="bg-[#6781a1] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Random Chapters
+                        Discover Chapters
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={chapters} />

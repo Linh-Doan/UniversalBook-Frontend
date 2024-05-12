@@ -42,7 +42,7 @@ export const BookList = () => {
             <section className="bg-[#969fac] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Trending Chapters
+                        Trending Books
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={books} />
@@ -50,7 +50,7 @@ export const BookList = () => {
             <section className="bg-[#6f7588] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Top Chapters
+                        Top Books
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={books} />
@@ -58,7 +58,7 @@ export const BookList = () => {
             <section className="bg-[#5c5d72] pb-8">
                 <div className="flex justify-center items-center py-4" >
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        New Chapters
+                        New Books
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={books} />
@@ -66,7 +66,7 @@ export const BookList = () => {
             <section className="bg-[#6781a1] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Random Chapters
+                        Discover Books
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={books} />
