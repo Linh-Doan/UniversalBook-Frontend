@@ -4,6 +4,7 @@ import FeaturedSlider from "../../../components/FeaturedSlider";
 import Book4 from "../../../assets/book4.jpg";
 import Book5 from "../../../assets/book5.jpg";
 import Book6 from "../../../assets/book6.jpg";
+import './Dashboard.css'
 const books = [
 	{
 		id: 1,
@@ -20,7 +21,7 @@ const books = [
 ];
 export const Dashboard = () => {
   return (
-    <>
+    <div className="dashboard-outlet">
 			<div className="bg-gray-100 border border-gray-200 rounded-lg">
 				<div className="flex flex-row justify-between items-end py-10 w-4/5 mx-auto">
 					<div className="flex flex-col items-center">
@@ -40,10 +41,7 @@ export const Dashboard = () => {
 					<h2 className="px-3 py-4 text-xl">Books</h2>
 					<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Create book</Link>
 				</div>
-				
-				<div className="px-3 w-full">  
-					{/* <FeaturedSlider SliderItems={books} /> */}
-				</div>
+				<FeaturedSlider SliderItems={books} />
 			</div>
 
 			<div>
@@ -51,17 +49,17 @@ export const Dashboard = () => {
 					<h2 className="px-3 py-4 text-xl" >Groups</h2>
 					<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Create group</Link>
 				</div>
-					{/* <FeaturedSlider SliderItems={books} /> */}
+				<FeaturedSlider SliderItems={books} />
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl" >Following</h2>
-					{/* <FeaturedSlider SliderItems={books} /> */}
+				<FeaturedSlider SliderItems={books} />
 			</div>
-			<div>
-			<h2 className="px-3 py-4 text-xl" >Followers</h2>
-					{/* <FeaturedSlider SliderItems={books} /> */}
+			<div className="box-sizing: border-box">
+				<h2 className="px-3 py-4 text-xl" >Followers</h2>
+				<FeaturedSlider SliderItems={books} />
 			</div>
-    </>
+    </div>
     
   )
 }
