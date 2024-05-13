@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, CreateBookPage } from "../pages";
 
 export const AllRoutes = () => {
   return (
@@ -18,6 +18,7 @@ export const AllRoutes = () => {
               <Route path="membership" element={<MembershipDetails />} />
               </Route>
             <Route path="*" element={<PageNotFound />}></Route>
+            <Route path="createBook" element={<CreateBookPage/>}></Route>
         </Routes>
     </main>
   )

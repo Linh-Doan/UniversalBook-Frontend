@@ -1,0 +1,5 @@
+
+
+export const CreateBookPage = () => {
+    return (<CreateBookPage>Test</>)
+}
