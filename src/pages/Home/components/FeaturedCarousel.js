@@ -1,6 +1,4 @@
 import Book1 from "../../../assets/book1.jpeg";
-import Book2 from "../../../assets/book2.avif";
-import Book3 from "../../../assets/book3.jpeg";
 import Image from "../../../assets/long_pic.jpg";
 import Image2 from "../../../assets/background-desktop-2500w.jpg"
 import "slick-carousel/slick/slick.css";
