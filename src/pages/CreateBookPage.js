@@ -1,5 +1,5 @@
 
 
 export const CreateBookPage = () => {
-    return (<CreateBookPage>Test</>)
+    return (<CreateBookPage>Test</CreateBookPage>)
 }
