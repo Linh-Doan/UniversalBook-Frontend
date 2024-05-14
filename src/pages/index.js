@@ -9,5 +9,6 @@ export { DashboardPage } from "./Dashboard/DashboardPage";
 export { Dashboard } from "./Dashboard/Components/Dashboard";
 export { Profile } from "./Dashboard/Components/Profile"
 export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
-export { GroupDashboard } from "./Group/GroupDashboard"
+export { GroupDashboard } from "./Group/GroupDashboard";
+export { GroupDashboardMember } from "./Group/GroupDashboardMember";
 export { PageNotFound } from "./PageNotFound";
