@@ -21,49 +21,83 @@ const books = [
 	}
 ];
 export const GroupDashboard = () => {
-	const [isMember, setIsMember] = useState(false);
+	const [isMember, setIsMember] = useState(true);
 	const [following, setFollowing] = useState(false);
-	const [clicked, setClicked] = useState(false);
+	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
+	const [followClicked, setFollowClicked] = useState(false);
+	const joinGroup = () => {
+		setIsMember(true)
+		setFollowing(true)
+	}
+	const leaveGroup = () => {
+		setIsMember(false)
+		setFollowing(false)
+	}
   return (
     <div className="mx-auto px-8">
-			<div className="border border-gray-200 rounded-lg w-full">
+			<div className="border border-gray-200 h-[65vh] overflow-visible rounded-lg w-full">
 				<img className="object-cover w-full h-[50vh]" src={GroupImg} alt="Group Image"></img>
-				<div className="flex flex-row justify-between items-end py-6 px-16 mx-auto">
+				<div className="flex flex-row justify-between items-start py-6 px-16 mx-auto">
 					<div className="flex flex-col">
 						<h5 className="text-xl font-medium text-gray-900">Scribble Squad</h5>
 						<span className="text-sm text-gray-500">1234 members</span>
 					</div>
-					<div className="flex flex-row mt-4 md:mt-6 pr-10">
+					<div className="flex flex-row items-start">
 						{!isMember &&
 						<>
-							<button onClick={() => setIsMember(true)}className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Join group</button>
-							<button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">{following ? 'Unfollow' : 'Follow'}</button>
+							<button onClick={() => setIsMember(true)}className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Join group</button>
+							{!following && <button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</button>}
+							{following && 
+							<div>
+								<button id="dropdownFollowButton" onClick={()=>setFollowClicked(!followClicked)} data-dropdown-toggle="dropdown" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">
+									Following
+								<svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+									<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+									</svg>
+								</button>
+								<div id="dropdown" className={`z-10 bg-white ${followClicked? '' : 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700`}>
+										<ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownFollowButton">
+											<li>
+												<button onClick={() => {
+													setFollowing(false)
+													setFollowClicked(false)
+												}} className="block pl-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Unfollow</button>
+											</li>
+										</ul>
+								</div>
+							</div>}
 						</>
 						}
 						{isMember &&
 						<>
-							<div>
-
-								<button id="dropdownDefaultButton" onClick={()=>setClicked(!clicked)} data-dropdown-toggle="dropdown" class="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">Joined<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+							<button type="button" class="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+								<svg class="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+									<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
 								</svg>
+								Invite
+							</button>
+							<div>
+								<button id="dropdownDefaultButton" onClick={()=>setJoinGroupClicked(!joinGroupClicked)} data-dropdown-toggle="dropdown" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">
+										Joined
+									<svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+									<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+									</svg>
 								</button>
-
-								<div id="dropdown" class={`z-10 bg-white ${clicked? '' : 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700`}>
-										<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+								<div id="dropdown" className={`z-10 bg-white ${joinGroupClicked? '' : 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700`}>
+										<ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
 											<li>
 												<button onClick={() => {
-													setIsMember(false);
-													setClicked(false)
-												}} class="block px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Leave group</button>
+													leaveGroup()
+													setJoinGroupClicked(false)
+												}} className="block px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Leave group</button>
 											</li>
 										</ul>
 								</div>
-
 							</div>
 						</>
 						}
 					</div>
+					
 				</div>
 			</div>
 			<div className="border border-gray-200 rounded-lg w-full my-8">
