@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, BookDetails, Dashboard, Profile, MembershipDetails } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, BookDetails, Dashboard, Profile, MembershipDetails, CreateChapter } from "../pages";
 
 
 export const AllRoutes = () => {
@@ -16,7 +16,7 @@ export const AllRoutes = () => {
             <Route path="search" element={<SearchResults />}></Route>
 
             <Route path="bookdetails/:id" element={<BookDetails />} />
-
+            <Route path="create-chapter" element={<CreateChapter />} />
             <Route path="dashboard" element={<DashboardPage />}>
               <Route index element={<Dashboard />} />
               <Route path="profile" element={<Profile />} />

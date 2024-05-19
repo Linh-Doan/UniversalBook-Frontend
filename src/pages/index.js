@@ -11,3 +11,4 @@ export { Dashboard } from "./Dashboard/Components/Dashboard";
 export { Profile } from "./Dashboard/Components/Profile"
 export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
 export { PageNotFound } from "./PageNotFound";
+export { CreateChapter } from './CreateChapter';

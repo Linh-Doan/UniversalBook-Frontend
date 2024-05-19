@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import FeaturedSlider from "../components/FeaturedSlider";
-import { useParams } from 'react-router-dom'
 import Book4 from "../assets/book4.jpg";
 import Book5 from "../assets/book5.jpg";
 import Book6 from "../assets/book6.jpg";
@@ -90,11 +90,13 @@ export const BookDetails = () => {
                             >
                                 Share book
                             </button>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Create Chapter
-                            </button>
+                            <Link to={`/create-chapter`}>
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Create Chapter
+                                </button>
+                            </Link>
                             {/* Add more details as needed */}
                         </div>
                         <div className="checkboxes">
