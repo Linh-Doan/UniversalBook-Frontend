@@ -49,7 +49,7 @@ export const Dashboard = () => {
 			<div>
 				<div className="flex flex-row justify-between items-center">
 					<h2 className="px-3 py-4 text-xl" >Groups</h2>
-					<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Create group</Link>
+					<Link to="/creategroup" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Create group</Link>
 				</div>
 					{/* <FeaturedSlider SliderItems={books} /> */}
 			</div>

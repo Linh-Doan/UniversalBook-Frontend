@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, CreateGroup } from "../pages";
 
 export const AllRoutes = () => {
   return (
@@ -17,6 +17,7 @@ export const AllRoutes = () => {
               <Route path="profile" element={<Profile />} />
               <Route path="membership" element={<MembershipDetails />} />
               </Route>
+            <Route path ="/creategroup" element={<CreateGroup></CreateGroup>} />
             <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
     </main>
