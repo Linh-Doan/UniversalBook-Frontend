@@ -11,3 +11,4 @@ export { Profile } from "./Dashboard/Components/Profile"
 export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
 export { PageNotFound } from "./PageNotFound";
 export { CreateGroup } from "./CreateGroup"
+export { BookEditor} from "./Createbook/BookEditor";
