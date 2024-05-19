@@ -3,35 +3,39 @@
 }
 
 .bookeditor {
-  background-color: #F3F3F3;
+  background-color: #f0e4cc; 
   margin: 0;
-  background-image: url('../../assets/BookEditorBackground.png');
-  background-size: cover; 
-  background-position: center; 
+}
+
+.container {
+  height: 100vh; 
+  overflow: hidden; 
 }
 
 .container .ql-editor {
-  width: 8.5in;
-  min-height: 11in;
+  width: 100%; 
+  height: 100%; 
   padding: 1in;
-  margin: 1rem;
+  margin: 0; 
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
-  background-color: rgba(255, 255, 255, 0.8); 
+  background-color: #f0e4cc;
+  overflow-y: auto; 
 }
 
 .container .ql-container.ql-snow {
   border: none;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  height: 100%;
 }
 
 .container .ql-toolbar.ql-snow {
+  background-color: #f0e4cc;
   display: flex;
   justify-content: center;
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #F3F3F3;
   border: none;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, .5);
 }

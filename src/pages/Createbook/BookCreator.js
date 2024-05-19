@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import backgroundImage from '../../assets/BookEditorBackground2.png';
 import "./BookCreator.css"
 
@@ -10,6 +10,8 @@ export const BookCreator = () => {
     author: '',
     genres: [],
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +30,10 @@ export const BookCreator = () => {
       ...bookDetails,
       genres: bookDetails.genres.filter((genre) => genre !== genreToRemove),
     });
+  };
+
+  const handleSubmit = () => {
+    navigate('/bookeditor', { state: { bookDetails } });
   };
 
   return (
@@ -127,14 +133,15 @@ export const BookCreator = () => {
               ))}
             </div>
           </div>
-          <Link to="/bookeditor" className="flex justify-end">
+          <div className="flex justify-end">
             <button
               type="button"
               className="font-merriweather self-end w-40 py-2 px-4 text-md font-medium text-white bg-amber-800 hover:bg-amber-900 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-300 animate-bounce"
+              onClick={handleSubmit}
             >
               Get Started
             </button>
-          </Link>
+          </div>
         </form>
       </div>
     </div>
