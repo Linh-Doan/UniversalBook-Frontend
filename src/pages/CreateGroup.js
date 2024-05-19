@@ -39,16 +39,16 @@ export const CreateGroup = () => {
         const email = formData.curAddMemberEmail;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for email format
         const errors = {};
-        if (!emailRegex.test(formData.curAddMemberEmail)) {
+        if(!emailRegex.test(formData.curAddMemberEmail)) {
             errors.curAddMemberEmail = 'Invalid email format';
             setErrors(errors);
 
-        } else if (formData.groupMembers.includes(formData.curAddMemberEmail)) {
+        } else if(formData.groupMembers.includes(formData.curAddMemberEmail)) {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
             //TODO: add validation for email to exist in db
-            formData.groupMembers.push(email)
+            formData.groupMembers.push(email);
             setFormData({
                 ...formData
             });
@@ -82,7 +82,7 @@ export const CreateGroup = () => {
 
                     <div id="groupMembers">
                         {
-                            formData.groupMembers.map((email) => 
+                            formData.groupMembers.map((email) =>
                                 <div>
                                     {email}
                                 </div>
@@ -95,8 +95,8 @@ export const CreateGroup = () => {
                             Add New Member
                         </button>
                     }
-                    id="addMemberPopup"
-                    position={"right center"}
+                        id="addMemberPopup"
+                        position={"right center"}
                     >
                         <div>
                             <label htmlFor="memberEmail" className="block text-gray-700 text-sm font-bold mb-2">Member Email</label>
