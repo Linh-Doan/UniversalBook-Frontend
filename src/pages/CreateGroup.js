@@ -6,7 +6,8 @@ import Popup from 'reactjs-popup';
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
         groupName: '',
-        groupMembers: []
+        groupMembers: [],
+        curAddMemberEmail: ''
     });
     const [errors, setErrors] = useState({});
 
@@ -35,7 +36,23 @@ export const CreateGroup = () => {
     };
 
     const addMember = () => {
+        const email = formData.curAddMemberEmail;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for email format
+        const errors = {};
+        if (!emailRegex.test(formData.curAddMemberEmail)) {
+            errors.curAddMemberEmail = 'Invalid email format';
+            setErrors(errors);
 
+        } else if (formData.groupMembers.includes(formData.curAddMemberEmail)) {
+            errors.curAddMemberEmail = 'Member Already Added';
+            setErrors(errors);
+        } else {
+            //TODO: add validation for email to exist in db
+            formData.groupMembers.push(email)
+            setFormData({
+                ...formData
+            });
+        }
     };
 
     return (
@@ -59,20 +76,18 @@ export const CreateGroup = () => {
                         {errors.groupName && <p className="text-red-500 text-xs italic">{errors.groupName}</p>}
                     </div>
 
-                    <input
-                        id="groupMembers"
-                        type="hidden"
-                        name="groupMembers"
-                        value={formData.groupMembers}
-                        onChange={handleChange}
-                    />
-
                     <div className="block text-gray-700 text-sm font-bold mb-2">
                         Group Members:
                     </div>
 
                     <div id="groupMembers">
-
+                        {
+                            formData.groupMembers.map((email) => 
+                                <div>
+                                    {email}
+                                </div>
+                            )
+                        }
                     </div>
                     <Popup trigger={
                         <button
@@ -80,14 +95,20 @@ export const CreateGroup = () => {
                             Add New Member
                         </button>
                     }
+                    id="addMemberPopup"
                     position={"right center"}
                     >
                         <div>
                             <label htmlFor="memberEmail" className="block text-gray-700 text-sm font-bold mb-2">Member Email</label>
-                            <input type="text" id="memberEmail" className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}/>
+                            <input type="text" id="memberEmail" className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.curAddMemberEmail ? 'border-red-500' : ''}`}
+                                onChange={handleChange}
+                                name="curAddMemberEmail"
+                                value={formData.curAddMemberEmail}
+                            />
+                            {errors.curAddMemberEmail && <p className="text-red-500 text-xs italic">{errors.curAddMemberEmail}</p>}
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-4 rounded focus:outline-none focus:shadow-outline w-full"
-                                onClick={addMember()}
+                                onClick={addMember}
                             >
                                 Add
                             </button>
