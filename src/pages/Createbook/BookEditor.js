@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import "./BookEditor.css";
 import backgroundImage from '../../assets/bookeditorbackground3.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 const SAVE_INTERVAL_MS = 2000;
 const TOOLBAR_OPTIONS = [
@@ -19,6 +19,10 @@ const TOOLBAR_OPTIONS = [
   ["image", "blockquote", "code-block"],
   ["clean"],
 ];
+
+function publishBook() {
+  console.log("abc")
+}
 
 export const BookEditor = () => {
   const location = useLocation();
@@ -62,29 +66,37 @@ export const BookEditor = () => {
         }}
       >
         <FontAwesomeIcon
-            icon={faPencilAlt}
-            className="text-amber-800 cursor-pointer"
-            onClick={toggleSidebar}
-          />
-        {isExpanded && (
-          <div className="book-details sidebar w-5/12 p-6 rounded-lg shadow-md mr-4 bg-opacity-90"
+        icon={faBookOpen}
+        className="w-8 h-8 text-amber-800 cursor-pointer hover:text-orange-400"
+        onClick={toggleSidebar}
+      />
+      {isExpanded && (
+        <div className="book-details sidebar w-5/12 p-6 rounded-lg shadow-md mr-4 bg-opacity-90"
           style={{
             backgroundColor: 'rgba(255, 255, 255, 0.75)', // Semi-transparent background for readability
           }}
         >
-            <h2 className="text-2xl font-bold mb-4 font-merriweather text-gray-800">{bookDetails.name}</h2>
-            <p className="font-merriweather text-gray-800"><strong>Description:</strong> {bookDetails.description}</p>
-            <p className="font-merriweather text-gray-800"><strong>Author:</strong> {bookDetails.author}</p>
-            <p className="font-merriweather text-gray-800"><strong>Genres:</strong></p>
-            <div className="flex flex-wrap">
-              {bookDetails.genres?.map((genre, index) => (
-                <span key={index} className="m-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
-                  {genre}
-                </span>
-              ))}
-            </div>
+          <h2 className="text-2xl font-bold mb-4 font-merriweather text-gray-800">{bookDetails.name}</h2>
+          <p className="font-merriweather text-gray-800"><strong>Description:</strong> {bookDetails.description}</p>
+          <p className="font-merriweather text-gray-800"><strong>Author:</strong> {bookDetails.author}</p>
+          <p className="font-merriweather text-gray-800"><strong>Genres:</strong></p>
+          <div className="flex flex-wrap mb-4">
+            {bookDetails.genres?.map((genre, index) => (
+              <span key={index} className="m-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+                {genre}
+              </span>
+            ))}
           </div>
-        )}
+          <div className="flex justify-end">
+            <button
+              className="font-merriweather text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg px-4 py-2 transition duration-200 transform hover:scale-105"
+              onClick={publishBook}
+            >
+              Publish
+            </button>
+          </div>
+        </div>
+      )}
       </div>
       <div className="w-5/12 container" ref={wrapperRef}></div>
     </div>
