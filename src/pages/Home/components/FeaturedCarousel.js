@@ -7,8 +7,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { ImageCard } from "./ImageCard";
-import { Link } from 'react-router-dom';
-
 export const FeaturedCarousel = () => {
   var settings = {
     dots: true,
@@ -24,9 +22,7 @@ export const FeaturedCarousel = () => {
   const writerText = <div>
   <p className="text-7xl py-2 font-bold text-white drop-shadow-lg">Writers</p>
   <p className="text-4xl py-2 font-bold text-white drop-shadow-lg">Create your own books here</p>
-  <Link to="/bookeditor" className="my-5">
   <button type="button" className="my-5 py-4 px-5 me-2 mb-2 text-lg font-medium text-gray-900 focus:outline-none bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">GET STARTED</button>
-  </Link>
 </div>
   const readerText = <div>
   <p className="text-7xl py-2 font-bold text-white drop-shadow-lg">Readers</p>
