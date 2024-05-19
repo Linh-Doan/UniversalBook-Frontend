@@ -1,5 +1,5 @@
 import React from 'react';
-import background_img from '../assets/login_page.jpg';
+import background_img from '../assets/create_chapter_bg.jpeg';
 
 export const CreateChapter = () => {
   return (
