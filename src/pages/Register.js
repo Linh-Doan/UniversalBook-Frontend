@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import background_img from '../assets/login_page.jpg';
 import viewIcon from '../assets/view.png';  
 import hiddenIcon from '../assets/hidden.png';
@@ -12,7 +10,7 @@ export const Register = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        dateOfBirth: null,
+        dateOfBirth: '',
         religion: '' // New state variable for religion field
     });
 
@@ -24,13 +22,6 @@ export const Register = () => {
         setFormData({
             ...formData,
             [name]: value
-        });
-    };
-
-    const handleDateChange = (date) => {
-        setFormData({
-            ...formData,
-            dateOfBirth: date
         });
     };
 
@@ -72,15 +63,22 @@ export const Register = () => {
         }
         if (!formData.dateOfBirth) {
             errors.dateOfBirth = 'Date of birth is required';
-        } else {
+        }else {
             const today = new Date();
-            const selectedDate = formData.dateOfBirth;
+            const selectedDate = new Date(formData.dateOfBirth);
             if (selectedDate >= today) {
-                errors.dateOfBirth = 'You haven\'t born yet??';
+                errors.dateOfBirth = 'You haven\'t been born yet?';
             } else {
-                const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                if (selectedDate.getTime() === todayWithoutTime.getTime()) {
-                    errors.dateOfBirth = 'I think you are too young to use the internet!!';
+                const selectedYear = selectedDate.getFullYear();
+                const selectedMonth = selectedDate.getMonth();
+                const selectedDay = selectedDate.getDate();
+                
+                const todayYear = today.getFullYear();
+                const todayMonth = today.getMonth();
+                const todayDay = today.getDate();
+
+                if (selectedYear === todayYear && selectedMonth === todayMonth && selectedDay === todayDay) {
+                    errors.dateOfBirth = 'I think you are too young to use the internet!';
                 }
             }
         }
@@ -98,8 +96,8 @@ export const Register = () => {
 
     return (
         <main className="min-h-screen flex items-center justify-center bg-cover" style={{ backgroundImage: `url(${background_img})` }}>
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full md:w-auto mt-8"> {/* Add mt-8 class */}
-            <h2 className="text-2xl mb-4">Register</h2>
+            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full md:w-auto mt-8"> {/* Add mt-8 class */}
+                <h2 className="text-2xl mb-4">Register</h2>
                 <form onSubmit={handleSubmit} className="w-full">
                     <div className="mb-4 flex flex-col md:flex-row items-center md:space-x-4">
                         <div className="md:w-1/2">
@@ -206,16 +204,14 @@ export const Register = () => {
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dateOfBirth">
                             Date of Birth
                         </label>
-                        <DatePicker
+                        <input
                             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.dateOfBirth ? 'border-red-500' : ''}`}
-                            selected={formData.dateOfBirth}
-                            onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy"
-                            placeholderText="Select Date"
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
+                            id="dateOfBirth"
+                            type="date"
+                            placeholder="Date of Birth"
+                            name="dateOfBirth"
+                            value={formData.dateOfBirth}
+                            onChange={handleChange}
                         />
                         {errors.dateOfBirth && <p className="text-red-500 text-xs italic">{errors.dateOfBirth}</p>}
                     </div>
