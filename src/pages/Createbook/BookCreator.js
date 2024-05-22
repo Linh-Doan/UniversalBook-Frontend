@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../assets/BookEditorBackground2.png';
 import "./BookCreator.css"
 

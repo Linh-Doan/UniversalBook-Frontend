@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0add701a.css",
+    "main.js": "/static/js/main.9c21de24.js",
+    "static/media/BookEditorBackground2.png": "/static/media/BookEditorBackground2.51924d841c32c2c1d51b.png",
+    "static/media/bookeditorbackground3.png": "/static/media/bookeditorbackground3.554cf4fd6ae0079998da.png",
+    "static/media/login_page.jpg": "/static/media/login_page.e5e7a6dded52fe087db4.jpg",
+    "static/media/book3.jpeg": "/static/media/book3.b3972183307a732409e0.jpeg",
+    "static/media/book2.avif": "/static/media/book2.c850626ef3d30f0afb9c.avif",
+    "static/media/long_pic.jpg": "/static/media/long_pic.f2919ebd2c89d1c8aa89.jpg",
+    "static/media/book1.jpeg": "/static/media/book1.ab8dcf20873a10f8938e.jpeg",
+    "static/media/background-desktop-2500w.jpg": "/static/media/background-desktop-2500w.e50c735af43c3ef33a81.jpg",
+    "static/media/GroupImage.jpeg": "/static/media/GroupImage.e16ee1b10619ac2996eb.jpeg",
+    "static/media/book11.jpg": "/static/media/book11.5e4fa9e845136c7f9b64.jpg",
+    "static/media/book6.jpg": "/static/media/book6.3697e90677bda65555c8.jpg",
+    "static/media/book7.jpg": "/static/media/book7.d8e85d629172b2b88f17.jpg",
+    "static/media/book13.jpg": "/static/media/book13.b73b4ead8f96a9043604.jpg",
+    "static/media/book8.jpg": "/static/media/book8.5995cc817ba8a521643b.jpg",
+    "static/media/book10.jpg": "/static/media/book10.c23179fd02ee0171b680.jpg",
+    "static/media/book9.jpg": "/static/media/book9.f1e28c1c742dff11719e.jpg",
+    "static/media/book5.jpg": "/static/media/book5.8943bd5524ffe6955920.jpg",
+    "static/media/book4.jpg": "/static/media/book4.b8fc7b32cb4a66ef2b3e.jpg",
+    "static/media/userProfile.png": "/static/media/userProfile.21447f613b4d580bbb07.png",
+    "static/media/book12.jpg": "/static/media/book12.b149a8e943947db434b5.jpg",
+    "static/media/view.png": "/static/media/view.3a336b5e01063f1c3a58.png",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "main.0add701a.css.map": "/static/css/main.0add701a.css.map",
+    "main.9c21de24.js.map": "/static/js/main.9c21de24.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0add701a.css",
+    "static/js/main.9c21de24.js"
+  ]
+}
