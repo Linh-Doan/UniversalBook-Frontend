@@ -4,6 +4,7 @@ export { BookList } from "./BookList";
 export { ChapterList } from "./ChapterList";
 export { SearchResults } from "./SearchResults";
 export { Login } from "./Login";
+export { BookDetails } from "./BookDetails";
 export { Register } from "./Register";
 export { DashboardPage } from "./Dashboard/DashboardPage";
 export { Dashboard } from "./Dashboard/Components/Dashboard";
