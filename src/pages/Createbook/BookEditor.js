@@ -7,7 +7,6 @@ import backgroundImage from '../../assets/bookeditorbackground3.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
-const SAVE_INTERVAL_MS = 2000;
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
   [{ font: [] }],
