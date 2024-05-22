@@ -1,0 +1,5 @@
+.dashboard-outlet {
+    max-width: 80vw;
+    width: 80vw;
+    overflow: hidden;
+}

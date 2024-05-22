@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, BookEditor, BookCreator } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, BookEditor, BookCreator, GroupDashboard } from "../pages";
 
 export const AllRoutes = () => {
   return (
@@ -18,7 +18,8 @@ export const AllRoutes = () => {
               <Route index element={<Dashboard />} />
               <Route path="profile" element={<Profile />} />
               <Route path="membership" element={<MembershipDetails />} />
-              </Route>
+            </Route>
+            <Route path="group" element={<GroupDashboard />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
     </main>
