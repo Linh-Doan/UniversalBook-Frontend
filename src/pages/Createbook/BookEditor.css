@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-body {
+.bookeditor {
   background-color: #F3F3F3;
   margin: 0;
   background-image: url('../../assets/BookEditorBackground.png');
