@@ -12,3 +12,4 @@ export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
 export { GroupDashboard } from "./Group/GroupDashboard";
 export { PageNotFound } from "./PageNotFound";
 export { BookEditor} from "./Createbook/BookEditor";
+export { BookCreator} from "./Createbook/BookCreator";
