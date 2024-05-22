@@ -68,9 +68,13 @@ const FeaturedSlider = ({ SliderItems }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
+
         <Link to={`/bookdetails/${item.id}`}> 
         <SliderItem imageUrl={item.imageUrl} /> 
       </Link>
+
+        <SliderItem key={item.id} imageUrl={item.imageUrl} heading={item.heading}/> 
+
       ))}
     </Slider>
   );
@@ -80,6 +84,7 @@ FeaturedSlider.propTypes = {
   SliderItems: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     imageUrl: PropTypes.string.isRequired,
+    heading: PropTypes.string
   })).isRequired,
 };
 
