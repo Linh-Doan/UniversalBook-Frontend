@@ -104,16 +104,16 @@ export const Header = () => {
                         <span className="text-gray-700">Bonnie Green</span>
                         <img src={UserProfile} alt="User Profile" className="h-8 w-8 rounded-full" />
                       </div>
-                      <button onClick={() => navigate('/dashboard/profile')} className="text-blue-700 font-semibold mb-2 text-left">Profile</button>
-                      <button onClick={() => navigate('/dashboard')} className="text-blue-700 font-semibold mb-2 text-left">Dashboard</button>
-                      <button onClick={() => navigate('/dashboard/membership')} className="text-blue-700 font-semibold mb-2 text-left">Membership Details</button>
-                      <button onClick={handleLogout} className="text-blue-700 font-semibold text-left">Logout</button>
+                      <button onClick={() => navigate('/dashboard/profile')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Profile</button>
+                      <button onClick={() => navigate('/dashboard')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
+                      <button onClick={() => navigate('/dashboard/membership')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Membership Details</button>
+                      <button onClick={handleLogout} className="text-blue-700 font-semibold text-left hover:bg-gray-200">Logout</button>
                     </div>
                   ) : (
                     <div className="flex flex-col p-2 text-left">
                       <span className="text-gray-700 mb-2">Not logged in yet</span>
-                      <button onClick={() => navigate('/login')} className="text-blue-700 font-semibold mb-2 text-left">Login</button>
-                      <button onClick={() => navigate('/register')} className="text-blue-700 font-semibold text-left">New here?</button>
+                      <button onClick={() => navigate('/login')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Login</button>
+                      <button onClick={() => navigate('/register')} className="text-blue-700 font-semibold text-left hover:bg-gray-200">New here?</button>
                     </div>
                   )}
                 </div>
