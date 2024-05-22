@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, BookEditor } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, DashboardPage, Dashboard, Profile, MembershipDetails, BookEditor, BookCreator } from "../pages";
 
 export const AllRoutes = () => {
   return (
@@ -8,6 +8,7 @@ export const AllRoutes = () => {
             <Route path="/" element={<HomePage />}></Route>
             <Route path="genres" element={<GenreList />}></Route>
             <Route path="books" element={<BookList />}></Route>
+            <Route path="bookcreator" element={<BookCreator />}></Route>
             <Route path="bookeditor" element={<BookEditor />}></Route>
             <Route path="chapters" element={<ChapterList />}></Route>
             <Route path="login" element={<Login />}></Route>
