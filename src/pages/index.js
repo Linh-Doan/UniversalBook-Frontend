@@ -7,6 +7,7 @@ export { Login } from "./Login";
 export { BookDetails } from "./BookDetails";
 export { Register } from "./Register";
 export { DashboardPage } from "./Dashboard/DashboardPage";
+export { DashboardPublic } from "./Dashboard/DashboardPublic";
 export { Dashboard } from "./Dashboard/Components/Dashboard";
 export { Profile } from "./Dashboard/Components/Profile"
 export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
