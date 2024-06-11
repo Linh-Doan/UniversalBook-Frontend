@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 
 
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails ,DashboardPage, Dashboard, DashboardPublic, Profile, MembershipDetails, BookEditor, BookCreator, CreateGroup, GroupDashboard } from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, PublicProfile, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard } from "../pages";
 
 
 export const AllRoutes = () => {
@@ -19,12 +19,8 @@ export const AllRoutes = () => {
             <Route path="bookeditor" element={<BookEditor />}></Route>
             <Route path="bookdetails/:id" element={<BookDetails />} />
             <Route path="register" element={<Register />}></Route>
-            <Route path="dashboard" element={<DashboardPage />}>
-              <Route index element={<Dashboard />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="membership" element={<MembershipDetails />} />
-            </Route>
-            <Route path="user" element={<DashboardPublic />}></Route>
+            <Route path="profile/:id" element={<Profile />}/>
+            <Route path="user" element={<PublicProfile />}></Route>
             <Route path ="/creategroup" element={<CreateGroup></CreateGroup>} />
             <Route path="group" element={<GroupDashboard />}></Route>
 

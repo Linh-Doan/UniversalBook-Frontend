@@ -19,7 +19,7 @@ const books = [
 		imageUrl: Book6, 
 	}
 ];
-export const DashboardPublic = () => {
+export const PublicProfile = () => {
   return (
     <div className="p-4 w-full overflow-hidden">
 			<div className="bg-gray-100 border border-gray-200 rounded-lg">

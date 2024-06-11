@@ -62,6 +62,10 @@ export const Dashboard = () => {
 				<FeaturedSlider SliderItems={books} />
 			</div>
 			<div>
+				<h2 className="px-3 py-4 text-xl" >Drafts</h2>
+				<FeaturedSlider SliderItems={books} />
+			</div>
+			<div>
 				<h2 className="px-3 py-4 text-xl" >Following</h2>
 				<FeaturedSlider SliderItems={books} />
 			</div>
