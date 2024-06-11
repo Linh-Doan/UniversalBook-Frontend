@@ -42,7 +42,7 @@ export const PersonalProfile = () => {
                 </Link>
               </li>
               <li>
-                <Link onClick={() => setActiveTab(createBook)}  className={`flex items-center p-2 text-gray-900 hover:rounded-lg ${activeTab === createBook? '' : 'hover:'}bg-gray-100 group`}>
+                <Link to="/bookcreator" onClick={() => setActiveTab(createBook)}  className={`flex items-center p-2 text-gray-900 hover:rounded-lg ${activeTab === createBook? '' : 'hover:'}bg-gray-100 group`}>
                 <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
                 </svg>
