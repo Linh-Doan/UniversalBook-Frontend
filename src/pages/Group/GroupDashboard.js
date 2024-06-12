@@ -124,6 +124,10 @@ export const GroupDashboard = () => {
 				</div>
 				<FeaturedSlider SliderItems={books}/>
 			</div>
+			<div>
+				<h2 className="px-3 py-4 text-xl">Drafts</h2>
+				<FeaturedSlider SliderItems={books}/>
+			</div>
     </div>
   )
 }
