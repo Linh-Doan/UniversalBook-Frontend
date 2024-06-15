@@ -80,7 +80,6 @@ export const ViewChapter = () => {
                 </div>
             )}
             <div className="bg-white p-8 rounded shadow-lg max-w-4xl mx-auto prevent-screenshot">
-                <h1 className="text-3xl font-bold mb-4">View Chapter</h1>
                 {chapter ? (
                     <>
                         <img src={chapter.imageUrl} alt={`Chapter ${id}`} className="w-full h-auto object-cover mb-4 rounded" />
