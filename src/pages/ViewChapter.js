@@ -12,48 +12,43 @@ import Book12 from "../assets/book12.jpg";
 import Book13 from "../assets/book13.jpg";
 
 const Chapters = [
-    { id: 1, imageUrl: Book4, content: "Content of Chapter 1..." },
-    { id: 2, imageUrl: Book5, content: "Content of Chapter 2..." },
-    { id: 3, imageUrl: Book6, content: "Content of Chapter 3..." },
-    { id: 4, imageUrl: Book7, content: "Content of Chapter 4..." },
-    { id: 5, imageUrl: Book8, content: "Content of Chapter 5..." },
-    { id: 6, imageUrl: Book9, content: "Content of Chapter 6..." },
-    { id: 7, imageUrl: Book10, content: "Content of Chapter 7..." },
-    { id: 8, imageUrl: Book11, content: "Content of Chapter 8..." },
-    { id: 9, imageUrl: Book12, content: "Content of Chapter 9..." },
-    { id: 10, imageUrl: Book13, content: "Content of Chapter 10..." },
+    { id: 1, imageUrl: Book4, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 1 content goes here..." },
+    { id: 2, imageUrl: Book5, content: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Chapter 2 content goes here..." },
+    { id: 3, imageUrl: Book6, content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Chapter 3 content goes here..." },
+    { id: 4, imageUrl: Book7, content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Chapter 4 content goes here..." },
+    { id: 5, imageUrl: Book8, content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Chapter 5 content goes here..." },
+    { id: 6, imageUrl: Book9, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 6 content goes here..." },
+    { id: 7, imageUrl: Book10, content: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Chapter 7 content goes here..." },
+    { id: 8, imageUrl: Book11, content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Chapter 8 content goes here..." },
+    { id: 9, imageUrl: Book12, content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Chapter 9 content goes here..." },
+    { id: 10, imageUrl: Book13, content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Chapter 10 content goes here..." },
 ];
 
 export const ViewChapter = () => {
     const { id } = useParams();
     const chapter = Chapters.find(chapter => chapter.id === parseInt(id));
     const [showPopup, setShowPopup] = useState(false);
+    const [zoomLevel, setZoomLevel] = useState(1);
+    const [blueLightFilter, setBlueLightFilter] = useState(false);
 
     useEffect(() => {
-        // Disable right-click
         const handleContextMenu = (event) => {
             event.preventDefault();
         };
         document.addEventListener('contextmenu', handleContextMenu);
 
-        // Disable PrintScreen and screenshot shortcuts
         const handleKeyDown = (event) => {
-            if (event.key === 'PrintScreen' || (event.ctrlKey && event.shiftKey && event.key === 'S')) {
-                event.preventDefault();
-                showNotification();
-            }
-              if (event.key === 'PrintScreen' || (event.ctrlKey && event.shiftKey && event.key === 'S')) {
-                event.preventDefault();
-                showNotification();
-            }
-            if ((event.key === 'I' && event.ctrlKey && event.shiftKey) || event.key === 'F12') {
+            const winShiftS = event.key === 'S' && event.shiftKey && event.metaKey;
+            const prohibitedKeys = ['PrintScreen', 'I', 'F12'];
+            const ctrlShiftCombos = event.ctrlKey && event.shiftKey && (event.key === 'S' || event.key === 'I');
+
+            if (event.key === 'PrintScreen' || winShiftS || prohibitedKeys.includes(event.key) || ctrlShiftCombos) {
                 event.preventDefault();
                 showNotification();
             }
         };
         document.addEventListener('keydown', handleKeyDown);
 
-        // Repeatedly clear clipboard content
         const clipboardInterval = setInterval(() => {
             navigator.clipboard.writeText('').catch(err => console.error('Clipboard access error:', err));
         }, 300);
@@ -72,14 +67,30 @@ export const ViewChapter = () => {
         };
     }, []);
 
+    const handleZoomIn = () => {
+        setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 3));
+    };
+
+    const handleZoomOut = () => {
+        setZoomLevel(prevZoom => Math.max(prevZoom - 0.1, 0.5));
+    };
+
+    const handleResetZoom = () => {
+        setZoomLevel(1);
+    };
+
+    const toggleBlueLightFilter = () => {
+        setBlueLightFilter(prevState => !prevState);
+    };
+
     return (
-        <div className="min-h-screen bg-gray-100 p-8" style={{ backgroundColor: '#555555' }}>
+        <div className="min-h-screen p-8" style={{ backgroundColor: '#555555' }}>
             {showPopup && (
                 <div className="popup-notification">
                     <p>No screenshots allowed!</p>
                 </div>
             )}
-            <div className="bg-white p-8 rounded shadow-lg max-w-4xl mx-auto prevent-screenshot">
+            <div className={`bg-white p-8 rounded shadow-lg max-w-4xl mx-auto prevent-screenshot ${blueLightFilter ? 'blue-light-filter' : ''}`} style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}>
                 {chapter ? (
                     <>
                         <img src={chapter.imageUrl} alt={`Chapter ${id}`} className="w-full h-auto object-cover mb-4 rounded" />
@@ -89,11 +100,17 @@ export const ViewChapter = () => {
                     <p>Chapter content not found.</p>
                 )}
             </div>
+            <div className="zoom-buttons">
+                <button onClick={handleZoomIn} className="zoom-button">+</button>
+                <button onClick={handleZoomOut} className="zoom-button">-</button>
+                <button onClick={handleResetZoom} className="zoom-button reset-button">Reset Zoom</button>
+                <button onClick={toggleBlueLightFilter} className="zoom-button blue-light-button">Blue Light Filter</button>
+            </div>
         </div>
     );
 };
 
-// CSS for the popup notification
+// CSS for the popup notification, zoom buttons, and blue light filter
 const popupStyle = document.createElement('style');
 popupStyle.innerHTML = `
 .popup-notification {
@@ -106,6 +123,48 @@ popupStyle.innerHTML = `
     border-radius: 5px;
     z-index: 1000;
     font-size: 16px;
+}
+
+.zoom-buttons {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.zoom-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px; /* Increase font size for + and - signs */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.zoom-button.reset-button {
+    font-size: 14px; /* Smaller font size for Reset Zoom button */
+}
+
+.zoom-button.blue-light-button {
+    font-size: 14px; /* Smaller font size for Blue Light Filter button */
+    background-color: #007bff; /* Different color for Blue Light Filter button */
+}
+
+.zoom-button:hover {
+    background-color: #0056b3;
+}
+.blue-light-filter {
+    filter: sepia(0.1) brightness(1.1) contrast(0.9);
 }
 `;
 document.head.appendChild(popupStyle);
