@@ -10,6 +10,9 @@ import Book10 from "../assets/book10.jpg";
 import Book11 from "../assets/book11.jpg";
 import Book12 from "../assets/book12.jpg";
 import Book13 from "../assets/book13.jpg";
+import ZoomInIcon from "../assets/zoom-in.png"; // Import your custom zoom-in icon
+import ZoomOutIcon from "../assets/zoom-out.png"; // Import your custom zoom-out icon
+import BlueLightIcon from "../assets/lightbulb.png"; // Import your custom blue light filter icon
 
 const Chapters = [
     { id: 1, imageUrl: Book4, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 1 content goes here..." },
@@ -30,6 +33,7 @@ export const ViewChapter = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [zoomLevel, setZoomLevel] = useState(1);
     const [blueLightFilter, setBlueLightFilter] = useState(false);
+    const [firstZoomDone, setFirstZoomDone] = useState(false);
 
     useEffect(() => {
         const handleContextMenu = (event) => {
@@ -68,15 +72,22 @@ export const ViewChapter = () => {
     }, []);
 
     const handleZoomIn = () => {
-        setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 3));
+        if (!firstZoomDone) {
+            setZoomLevel(prevZoom => Math.min(prevZoom + 0.7, 3)); // Increase by 0.7 for the first click
+            setFirstZoomDone(true); // Mark that the significant zoom has occurred
+        } else {
+            setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 3)); // Normal zoom increment for subsequent clicks
+        }
     };
 
     const handleZoomOut = () => {
         setZoomLevel(prevZoom => Math.max(prevZoom - 0.1, 0.5));
+        setFirstZoomDone(true); // Allow normal increments on zoom out as well
     };
 
     const handleResetZoom = () => {
         setZoomLevel(1);
+        setFirstZoomDone(false); // Reset zoom to initial state
     };
 
     const toggleBlueLightFilter = () => {
@@ -101,10 +112,16 @@ export const ViewChapter = () => {
                 )}
             </div>
             <div className="zoom-buttons">
-                <button onClick={handleZoomIn} className="zoom-button">+</button>
-                <button onClick={handleZoomOut} className="zoom-button">-</button>
+                <button onClick={handleZoomIn} className="zoom-button" title="Zoom In">
+                    <img src={ZoomInIcon} alt="Zoom In" className="zoom-icon" />
+                </button>
+                <button onClick={handleZoomOut} className="zoom-button" title="Zoom Out">
+                    <img src={ZoomOutIcon} alt="Zoom Out" className="zoom-icon" />
+                </button>
                 <button onClick={handleResetZoom} className="zoom-button reset-button">Reset Zoom</button>
-                <button onClick={toggleBlueLightFilter} className="zoom-button blue-light-button">Blue Light Filter</button>
+                <button onClick={toggleBlueLightFilter} className="zoom-button blue-light-button" title="Blue Light Filter">
+                    <img src={BlueLightIcon} alt="Blue Light Filter" className="zoom-icon" />
+                </button>
             </div>
         </div>
     );
@@ -151,6 +168,11 @@ popupStyle.innerHTML = `
     text-align: center;
 }
 
+.zoom-icon {
+    width: 24px; /* Adjust icon size */
+    height: 24px; /* Adjust icon size */
+}
+
 .zoom-button.reset-button {
     font-size: 14px; /* Smaller font size for Reset Zoom button */
 }
@@ -163,8 +185,9 @@ popupStyle.innerHTML = `
 .zoom-button:hover {
     background-color: #0056b3;
 }
+
 .blue-light-filter {
-    filter: sepia(0.1) brightness(1.1) contrast(0.9);
+    filter: sepia(1) brightness(1) contrast(1);
 }
 `;
 document.head.appendChild(popupStyle);
