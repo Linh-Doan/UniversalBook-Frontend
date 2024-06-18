@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import UserProfile from "../assets/userProfile.png"; // Adjust the import path as needed
 
 export const Header = () => {
@@ -8,6 +8,7 @@ export const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Replace with actual login state
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const activeClass = "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0";
   const inActiveClass = "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0";
@@ -45,6 +46,15 @@ export const Header = () => {
   const cancelLogout = () => {
     setShowConfirmLogout(false);
   };
+
+  const handleNavigation = (path) => {
+    setDropdownVisible(false);
+    navigate(path);
+  };
+
+  useEffect(() => {
+    setDropdownVisible(false);
+  }, [location]);
 
   return (
     <header>
@@ -104,16 +114,16 @@ export const Header = () => {
                         <span className="text-gray-700">Bonnie Green</span>
                         <img src={UserProfile} alt="User Profile" className="h-8 w-8 rounded-full" />
                       </div>
-                      <button onClick={() => navigate('/dashboard/profile')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Profile</button>
-                      <button onClick={() => navigate('/dashboard')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
-                      <button onClick={() => navigate('/dashboard/membership')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Membership Details</button>
+                      <button onClick={() => handleNavigation('/dashboard/profile')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Profile</button>
+                      <button onClick={() => handleNavigation('/dashboard')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
+                      <button onClick={() => handleNavigation('/dashboard/membership')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Membership Details</button>
                       <button onClick={handleLogout} className="text-blue-700 font-semibold text-left hover:bg-gray-200">Logout</button>
                     </div>
                   ) : (
                     <div className="flex flex-col p-2 text-left">
                       <span className="text-gray-700 mb-2">Not logged in yet</span>
-                      <button onClick={() => navigate('/login')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Login</button>
-                      <button onClick={() => navigate('/register')} className="text-blue-700 font-semibold text-left hover:bg-gray-200">New here?</button>
+                      <button onClick={() => handleNavigation('/login')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Login</button>
+                      <button onClick={() => handleNavigation('/register')} className="text-blue-700 font-semibold text-left hover:bg-gray-200">New here?</button>
                     </div>
                   )}
                 </div>
