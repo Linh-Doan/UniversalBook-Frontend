@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import background_img from '../assets/login_page.jpg';
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
+import {UserDataRow} from '../components/UserDataRow';
 
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
@@ -83,9 +84,7 @@ export const CreateGroup = () => {
                     <div id="groupMembers">
                         {
                             formData.groupMembers.map((email) =>
-                                <div>
-                                    {email}
-                                </div>
+                                <UserDataRow userName={"Bonnie Green"} email={email}></UserDataRow>
                             )
                         }
                     </div>
