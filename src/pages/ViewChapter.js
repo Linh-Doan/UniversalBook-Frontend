@@ -10,9 +10,10 @@ import Book10 from "../assets/book10.jpg";
 import Book11 from "../assets/book11.jpg";
 import Book12 from "../assets/book12.jpg";
 import Book13 from "../assets/book13.jpg";
-import ZoomInIcon from "../assets/zoom-in.png"; // Import your custom zoom-in icon
-import ZoomOutIcon from "../assets/zoom-out.png"; // Import your custom zoom-out icon
-import BlueLightIcon from "../assets/lightbulb.png"; // Import your custom blue light filter icon
+import ZoomInIcon from "../assets/zoom-in.png";
+import ZoomOutIcon from "../assets/zoom-out.png";
+import BlueLightIcon from "../assets/lightbulb.png";
+import FullscreenIcon from "../assets/fullscreen.png";
 
 const Chapters = [
     { id: 1, imageUrl: Book4, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 1 content goes here..." },
@@ -73,26 +74,61 @@ export const ViewChapter = () => {
 
     const handleZoomIn = () => {
         if (!firstZoomDone) {
-            setZoomLevel(prevZoom => Math.min(prevZoom + 0.7, 3)); // Increase by 0.7 for the first click
-            setFirstZoomDone(true); // Mark that the significant zoom has occurred
+            setZoomLevel(prevZoom => Math.min(prevZoom + 0.7, 3));
+            setFirstZoomDone(true);
         } else {
-            setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 3)); // Normal zoom increment for subsequent clicks
+            setZoomLevel(prevZoom => Math.min(prevZoom + 0.1, 3));
         }
     };
 
     const handleZoomOut = () => {
         setZoomLevel(prevZoom => Math.max(prevZoom - 0.1, 0.5));
-        setFirstZoomDone(true); // Allow normal increments on zoom out as well
+        setFirstZoomDone(true);
     };
 
     const handleResetZoom = () => {
         setZoomLevel(1);
-        setFirstZoomDone(false); // Reset zoom to initial state
+        setFirstZoomDone(false);
     };
 
     const toggleBlueLightFilter = () => {
         setBlueLightFilter(prevState => !prevState);
     };
+
+    const handleFullscreen = () => {
+        const elem = document.querySelector('.prevent-screenshot');
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+            elem.msRequestFullscreen();
+        }
+    };
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+                document.querySelector('.prevent-screenshot').classList.add('fullscreen');
+            } else {
+                document.querySelector('.prevent-screenshot').classList.remove('fullscreen');
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+        };
+    }, []);
 
     return (
         <div className="min-h-screen p-8" style={{ backgroundColor: '#555555' }}>
@@ -122,12 +158,15 @@ export const ViewChapter = () => {
                 <button onClick={toggleBlueLightFilter} className="zoom-button blue-light-button" title="Blue Light Filter">
                     <img src={BlueLightIcon} alt="Blue Light Filter" className="zoom-icon" />
                 </button>
+                <button onClick={handleFullscreen} className="zoom-button fullscreen-button" title="Fullscreen">
+                    <img src={FullscreenIcon} alt="Fullscreen" className="zoom-icon" />
+                </button>
             </div>
         </div>
     );
 };
 
-// CSS for the popup notification, zoom buttons, and blue light filter
+// CSS for the popup notification, zoom buttons, blue light filter, and fullscreen button
 const popupStyle = document.createElement('style');
 popupStyle.innerHTML = `
 .popup-notification {
@@ -159,7 +198,7 @@ popupStyle.innerHTML = `
     padding: 10px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 24px; /* Increase font size for + and - signs */
+    font-size: 24px;
     width: 60px;
     height: 60px;
     display: flex;
@@ -169,17 +208,22 @@ popupStyle.innerHTML = `
 }
 
 .zoom-icon {
-    width: 24px; /* Adjust icon size */
-    height: 24px; /* Adjust icon size */
+    width: 24px;
+    height: 24px;
 }
 
 .zoom-button.reset-button {
-    font-size: 14px; /* Smaller font size for Reset Zoom button */
+    font-size: 14px;
 }
 
 .zoom-button.blue-light-button {
-    font-size: 14px; /* Smaller font size for Blue Light Filter button */
-    background-color: #007bff; /* Different color for Blue Light Filter button */
+    font-size: 14px;
+    background-color: #007bff;
+}
+
+.zoom-button.fullscreen-button {
+    font-size: 14px;
+    background-color: #007bff;
 }
 
 .zoom-button:hover {
@@ -188,6 +232,15 @@ popupStyle.innerHTML = `
 
 .blue-light-filter {
     filter: sepia(1) brightness(1) contrast(1);
+}
+
+.prevent-screenshot {
+    overflow: hidden;
+}
+
+.prevent-screenshot.fullscreen {
+    overflow-y: auto;
+    max-height: 100vh;
 }
 `;
 document.head.appendChild(popupStyle);
