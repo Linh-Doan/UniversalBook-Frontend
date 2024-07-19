@@ -14,6 +14,7 @@ export { MembershipDetails } from "./Profile/Components/MembershipDetails";
 export { Profile } from "./Profile/Profile";
 export { GroupDashboard } from "./Group/GroupDashboard";
 export { PageNotFound } from "./PageNotFound";
-export { CreateGroup } from "./CreateGroup"
-export { BookEditor} from "./Createbook/BookEditor";
-export { BookCreator} from "./Createbook/BookCreator";
+export { CreateGroup } from "./CreateGroup";
+export { BookEditor } from "./Createbook/BookEditor";
+export { BookCreator } from "./Createbook/BookCreator";
+export { ViewChapter } from "./ViewChapter";
