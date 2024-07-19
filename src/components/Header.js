@@ -114,9 +114,7 @@ export const Header = () => {
                         <span className="text-gray-700">Bonnie Green</span>
                         <img src={UserProfile} alt="User Profile" className="h-8 w-8 rounded-full" />
                       </div>
-                      <button onClick={() => handleNavigation('/dashboard/profile')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Profile</button>
-                      <button onClick={() => handleNavigation('/dashboard')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
-                      <button onClick={() => handleNavigation('/dashboard/membership')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Membership Details</button>
+                      <button onClick={() => handleNavigation('/profile/1')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
                       <button onClick={handleLogout} className="text-blue-700 font-semibold text-left hover:bg-gray-200">Logout</button>
                     </div>
                   ) : (
