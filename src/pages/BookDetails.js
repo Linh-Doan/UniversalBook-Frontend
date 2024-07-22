@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import FeaturedSlider from "../components/FeaturedSlider";
-import { useParams } from 'react-router-dom';
 import Book4 from "../assets/book4.jpg";
 import Book5 from "../assets/book5.jpg";
 import Book6 from "../assets/book6.jpg";
@@ -28,6 +28,7 @@ const Chapters = [
 
 export const BookDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const chapter = Chapters.find(chapter => chapter.id === parseInt(id));
     const [comment, setComment] = useState('');
     const [commentsList, setCommentsList] = useState([]);
@@ -41,6 +42,10 @@ export const BookDetails = () => {
             setCommentsList([...commentsList, comment]);
             setComment('');
         }
+    };
+
+    const handleViewContent = () => {
+        navigate(`/viewchapter/${id}`);
     };
 
     return (
@@ -66,31 +71,26 @@ export const BookDetails = () => {
                                 </button>
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                                    onClick={handleViewContent}
                                 >
                                     View Book
                                 </button>
                             </div>
                             <div className="flex flex-col space-y-4">
                                 <button
-                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${
-                                        liked ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'
-                                    }`}
+                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${liked ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
                                     onClick={() => setLiked(!liked)}
                                 >
                                     {liked ? 'Liked' : 'Like Book'}
                                 </button>
                                 <button
-                                    className={`py-2 px-4 rounded text-white  font-bold transition duration-300 ${
-                                        followedBook ? 'bg-red-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'
-                                    }`}
+                                    className={`py-2 px-4 rounded text-white  font-bold transition duration-300 ${followedBook ? 'bg-red-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
                                     onClick={() => setFollowedBook(!followedBook)}
                                 >
                                     {followedBook ? 'Following Book' : 'Follow Book'}
                                 </button>
                                 <button
-                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${
-                                        followedAuthor ? 'bg-yellow-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'
-                                    }`}
+                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${followedAuthor ? 'bg-yellow-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
                                     onClick={() => setFollowedAuthor(!followedAuthor)}
                                 >
                                     {followedAuthor ? 'Following Author' : 'Follow Author'}
@@ -103,24 +103,24 @@ export const BookDetails = () => {
                 </div>
 
                 {/* Summary and Author Information Section */}
-<div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
-    <div className="mb-8 w-full text-center">
-        <p className="text-gray-800 text-2xl font-semibold">
-            Book Summary:
-        </p>
-        <p className="text-gray-700">
-            The Summary goes here...
-        </p>
-    </div>
-    <div className="w-full text-center">
-        <p className="text-gray-800 text-2xl font-semibold">
-            Author Information:
-        </p>
-        <p className="text-gray-700">
-            Author details go here...
-        </p>
-    </div>
-</div>
+                <div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
+                    <div className="mb-8 w-full text-center">
+                        <p className="text-gray-800 text-2xl font-semibold">
+                            Book Summary:
+                        </p>
+                        <p className="text-gray-700">
+                            The Summary goes here...
+                        </p>
+                    </div>
+                    <div className="w-full text-center">
+                        <p className="text-gray-800 text-2xl font-semibold">
+                            Author Information:
+                        </p>
+                        <p className="text-gray-700">
+                            Author details go here...
+                        </p>
+                    </div>
+                </div>
 
                 {/* Comments Section */}
                 <div className="w-1/4 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
