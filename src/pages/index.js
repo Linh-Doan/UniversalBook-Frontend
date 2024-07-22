@@ -6,12 +6,15 @@ export { SearchResults } from "./SearchResults";
 export { Login } from "./Login";
 export { BookDetails } from "./BookDetails";
 export { Register } from "./Register";
-export { DashboardPage } from "./Dashboard/DashboardPage";
-export { Dashboard } from "./Dashboard/Components/Dashboard";
-export { Profile } from "./Dashboard/Components/Profile"
-export { MembershipDetails } from "./Dashboard/Components/MembershipDetails";
+export { PersonalProfile } from "./Profile/PersonalProfile";
+export { PublicProfile } from "./Profile/PublicProfile";
+export { Dashboard } from "./Profile/Components/Dashboard";
+export { PersonalDetails } from "./Profile/Components/PersonalDetails"
+export { MembershipDetails } from "./Profile/Components/MembershipDetails";
+export { Profile } from "./Profile/Profile";
 export { GroupDashboard } from "./Group/GroupDashboard";
 export { PageNotFound } from "./PageNotFound";
-export { CreateGroup } from "./CreateGroup"
-export { BookEditor} from "./Createbook/BookEditor";
-export { BookCreator} from "./Createbook/BookCreator";
+export { CreateGroup } from "./CreateGroup";
+export { BookEditor } from "./Createbook/BookEditor";
+export { BookCreator } from "./Createbook/BookCreator";
+export { ViewChapter } from "./ViewChapter";
