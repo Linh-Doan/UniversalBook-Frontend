@@ -68,20 +68,20 @@ const FeaturedSlider = ({ SliderItems }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
-        <Link to={`/bookdetails/${item.id}`}> 
-        <SliderItem imageUrl={item.imageUrl} /> 
-      </Link>
+        <Link to={`/bookdetails/${item.book_id}`}> 
+          <SliderItem imageUrl={item.book_image_url} /> 
+        </Link>
       ))}
     </Slider>
   );
 }
 
-FeaturedSlider.propTypes = {
-  SliderItems: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    heading: PropTypes.string
-  })).isRequired,
-};
+// FeaturedSlider.propTypes = {
+//   SliderItems: PropTypes.arrayOf(PropTypes.shape({
+//     book_id: PropTypes..isRequired,
+//     book_image_url: PropTypes.string.isRequired,
+//     heading: PropTypes.string
+//   })).isRequired,
+// };
 
 export default FeaturedSlider;
