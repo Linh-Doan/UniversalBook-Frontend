@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export const Profile = () => {
+export const PersonalDetails = () => {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState({});
   const [cachedProfile, setCachedProfile] = useState({})
@@ -42,8 +42,7 @@ export const Profile = () => {
 
   return (
     <div className="px-48">
-      <h1 className="py-4 text-3xl font-bold">Profile</h1>
-      <h2 className="py-4 text-large">Personal information</h2>
+      <h1 className="py-4 text-3xl font-bold">Personal details</h1>
       {editing ? (
         <form className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow">
           <div className="relative z-0 mb-5 group">
