@@ -49,10 +49,23 @@ export const CreateGroup = () => {
             setErrors(errors);
         } else {
             //TODO: add validation for email to exist in db
-            formData.groupMembers.push(email);
-            setFormData({
-                ...formData
-            });
+            fetch("http://localhost:8080/api/v1/users/" + email).then(
+                async response => {
+                    const jsonResponse = await response.json()
+                    if(!response.ok) {
+                        errors.curAddMemberEmail = 'Failure to check if account exists';
+                        setErrors(errors);
+                    } else if (jsonResponse.data.user == null) {
+                        errors.curAddMemberEmail = 'User Account Not Found';
+                        setErrors(errors);
+                    } else {
+                        formData.groupMembers.push(email);
+                        setFormData({
+                            ...formData
+                        });
+                    }
+                }
+            );
         }
     };
 
@@ -81,13 +94,15 @@ export const CreateGroup = () => {
                         Group Members:
                     </div>
 
-                    <div id="groupMembers">
+                    <ul id="groupMembers">
                         {
                             formData.groupMembers.map((email) =>
-                                <UserDataRow userName={"Bonnie Green"} email={email}></UserDataRow>
+                                <li>
+                                    <UserDataRow userName={"Bonnie Green"} email={email}></UserDataRow>
+                                </li>
                             )
                         }
-                    </div>
+                    </ul>
                     <Popup trigger={
                         <button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2">
