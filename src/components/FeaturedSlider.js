@@ -76,12 +76,12 @@ const FeaturedSlider = ({ SliderItems }) => {
   );
 }
 
-// FeaturedSlider.propTypes = {
-//   SliderItems: PropTypes.arrayOf(PropTypes.shape({
-//     book_id: PropTypes..isRequired,
-//     book_image_url: PropTypes.string.isRequired,
-//     heading: PropTypes.string
-//   })).isRequired,
-// };
+FeaturedSlider.propTypes = {
+  SliderItems: PropTypes.arrayOf(PropTypes.shape({
+    book_id: PropTypes.string.isRequired,
+    book_image_url: PropTypes.string.isRequired,
+    heading: PropTypes.string
+  })).isRequired,
+};
 
 export default FeaturedSlider;
