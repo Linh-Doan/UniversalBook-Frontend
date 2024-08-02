@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FeaturedCarousel } from "./components/FeaturedCarousel"
 import FeaturedSlider from "../../components/FeaturedSlider";
+import { apiBaseUrl, endpoints } from '../../config.js';
 
 export const HomePage = () => {
   const [books, setBooks] = useState([]);
   useEffect(() =>{
     async function fetchBooks() {
-      const response = await fetch("http://localhost:8080/api/v1/books");
+      const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}`);
       const data = await response.json();
       setBooks(data.data.books)
     }

@@ -68,7 +68,7 @@ const FeaturedSlider = ({ SliderItems }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
-        <Link to={`/bookdetails/${item.book_id}`}> 
+        <Link to={`/bookdetails/${item.book_id}`} key={item.book_id}> 
           <SliderItem imageUrl={item.book_image_url} /> 
         </Link>
       ))}
