@@ -70,7 +70,7 @@ export const CreateGroup = () => {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
-            fetch("http://localhost:8080/api/v1/users/" + email).then(
+            fetch("http://localhost:8080/api/v1/users?email=" + email).then(
                 async response => {
                     const jsonResponse = await response.json();
                     if(!response.ok) {
