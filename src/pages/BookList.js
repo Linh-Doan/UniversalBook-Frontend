@@ -1,8 +1,4 @@
 import FeaturedSlider from "../components/FeaturedSlider";
-import Book1 from "../assets/book1.jpeg";
-import Book2 from "../assets/book2.avif";
-import Book3 from "../assets/book3.jpeg";
-import { apiBaseUrl, endpoints } from '../config.js';
 
 const books = [
     {
