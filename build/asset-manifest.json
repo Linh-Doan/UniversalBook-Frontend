@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.0add701a.css",
-    "main.js": "/static/js/main.9c21de24.js",
+    "main.css": "/static/css/main.bd13f213.css",
+    "main.js": "/static/js/main.db5f325e.js",
     "static/media/BookEditorBackground2.png": "/static/media/BookEditorBackground2.51924d841c32c2c1d51b.png",
     "static/media/bookeditorbackground3.png": "/static/media/bookeditorbackground3.554cf4fd6ae0079998da.png",
     "static/media/login_page.jpg": "/static/media/login_page.e5e7a6dded52fe087db4.jpg",
@@ -19,8 +19,11 @@
     "static/media/book10.jpg": "/static/media/book10.c23179fd02ee0171b680.jpg",
     "static/media/book9.jpg": "/static/media/book9.f1e28c1c742dff11719e.jpg",
     "static/media/book5.jpg": "/static/media/book5.8943bd5524ffe6955920.jpg",
+    "static/media/zoom-in.png": "/static/media/zoom-in.fed9e3b77b02627a8a99.png",
+    "static/media/zoom-out.png": "/static/media/zoom-out.41739c080946c13cc3aa.png",
     "static/media/book4.jpg": "/static/media/book4.b8fc7b32cb4a66ef2b3e.jpg",
     "static/media/userProfile.png": "/static/media/userProfile.21447f613b4d580bbb07.png",
+    "static/media/lightbulb.png": "/static/media/lightbulb.70aa0ac4e1b9379bacc8.png",
     "static/media/book12.jpg": "/static/media/book12.b149a8e943947db434b5.jpg",
     "static/media/view.png": "/static/media/view.3a336b5e01063f1c3a58.png",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
@@ -28,11 +31,11 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.0add701a.css.map": "/static/css/main.0add701a.css.map",
-    "main.9c21de24.js.map": "/static/js/main.9c21de24.js.map"
+    "main.bd13f213.css.map": "/static/css/main.bd13f213.css.map",
+    "main.db5f325e.js.map": "/static/js/main.db5f325e.js.map"
   },
   "entrypoints": [
-    "static/css/main.0add701a.css",
-    "static/js/main.9c21de24.js"
+    "static/css/main.bd13f213.css",
+    "static/js/main.db5f325e.js"
   ]
 }

@@ -1,38 +1,35 @@
 import FeaturedSlider from "../components/FeaturedSlider";
-import Book1 from "../assets/book1.jpeg";
-import Book2 from "../assets/book2.avif";
-import Book3 from "../assets/book3.jpeg";
 
 const books = [
     {
-        id: 1,
+        book_id: "1",
         heading: "Book 1",
-        imageUrl: Book1,
+        book_image_url: "/img/book1.jpeg",
     },
     {
-        id: 2,
+        book_id: "2",
         heading: "Book 2",
-        imageUrl: Book2,
+        book_image_url: "/img/book2.jpeg",
     },
     {
-        id: 3,
+        book_id: "3",
         heading: "Book 3",
-        imageUrl: Book3,
+        book_image_url: "/img/book3.jpeg",
     },
     {
-        id: 4,
+        book_id: "4",
         heading: "Book 4",
-        imageUrl: Book1,
+        book_image_url: "/img/book4.jpeg",
     },
     {
-        id: 5,
+        book_id: "5",
         heading: "Book 5",
-        imageUrl: Book2,
+        book_image_url: "/img/book5.jpeg",
     },
     {
-        id: 6,
+        book_id: "6",
         heading: "Book 6",
-        imageUrl: Book3,
+        book_image_url: "/img/book6.jpeg",
     },
 ];
 
