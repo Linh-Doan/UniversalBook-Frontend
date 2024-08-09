@@ -22,7 +22,15 @@ export const HomePage = () => {
         </p>
       </div>
       <div className="px-16">
-        <FeaturedSlider SliderItems={books} />
+        <FeaturedSlider 
+          SliderItems={books.map(book => {
+            return {
+              id: book.book_id,
+              imageUrl: book.book_image_url,
+            }
+          })}
+          itemType="book"
+        />
       </div>
     </main>
   );
