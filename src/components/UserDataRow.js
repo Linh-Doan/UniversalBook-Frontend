@@ -1,4 +1,3 @@
-import {Link} from "react-router-dom";
 import UserProfile from "../assets/userProfile.png";
 export const UserDataRow = ({userName, email}) => {
     return (
