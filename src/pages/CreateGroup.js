@@ -3,7 +3,7 @@ import background_img from '../assets/login_page.jpg';
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
 import {UserDataRow} from '../components/UserDataRow';
-import {endpoints} from '../config';
+import {apiBaseUrl, endpoints} from '../config';
 
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
@@ -42,13 +42,13 @@ export const CreateGroup = () => {
                 }
             });
             // Submit logic goes here
-            fetch(REACT_APP_API_BASE_URL + endpoints.authorGroup, {
+            fetch(apiBaseUrl + endpoints.authorGroup, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: body
             }).then((response) => {
                 if(response.ok) {
-                    window.location.href = "/dashboard"
+                    window.location.href = "/profile/1" //TODO: go to actual dashboard page of correct user
                 } else {
                     alert("Creation Failure");
                 }
@@ -70,7 +70,7 @@ export const CreateGroup = () => {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
-            fetch(REACT_APP_API_BASE_URL + endpoints.getUsers + "?email=" + email).then(
+            fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email).then(
                 async response => {
                     const jsonResponse = await response.json();
                     if(!response.ok) {
