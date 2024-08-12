@@ -47,28 +47,6 @@ export const BookDetails = () => {
                 {/* Book Details Section */}
                 <div className="flex flex-col items-center bg-white bg-opacity-80 p-8 rounded-lg shadow-lg w-1/4">
                     <>
-                        
-                        <div className="w-full text-center">
-                            <p className="text-gray-800 text-2xl font-semibold">
-                                Author:
-                            </p>
-                            <p className="text-gray-700">
-                                {book.author_group.author_group_name}
-                            </p>
-                        </div>
-                        <button
-                            className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${followedAuthor ? 'bg-yellow-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
-                            onClick={() => setFollowedAuthor(!followedAuthor)}
-                        >
-                            {followedAuthor ? 'Following Author' : 'Follow Author'}
-                        </button>
-                    </>
-                    
-                </div>
-
-                {/* Summary and Author Information Section */}
-                <div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
-                    <div className="mb-8 w-full text-center">
                         <img
                             src={`${image}`}
                             alt={`Book ${book.book_id}`}
@@ -100,16 +78,29 @@ export const BookDetails = () => {
                             >
                                 {followedBook ? 'Following Book' : 'Follow Book'}
                             </button>
-                            
+                            <button
+                                className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${followedAuthor ? 'bg-yellow-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
+                                onClick={() => setFollowedAuthor(!followedAuthor)}
+                            >
+                                {followedAuthor ? 'Following Author' : 'Follow Author'}
+                            </button>
                         </div>
-                        <p className="text-gray-800 text-2xl font-semibold">
-                            Summary:
+                    </>
+                </div>
+
+                {/* Summary and Author Information Section */}
+                <div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
+                    <div className="mb-8 w-full">
+                        <h2 className="text-gray-800 text-3xl font-bold mb-4">
+                            {book.book_name}
+                        </h2>
+                        <p className="text-gray-800 text-xl mb-4">
+                            {book.author_group? book.author_group.author_group_name : ''}
                         </p>
                         <p className="text-gray-700">
                             {book.summary_text}
                         </p>
                     </div>
-                    
                 </div>
 
                 {/* Comments Section */}
