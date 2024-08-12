@@ -3,6 +3,7 @@ import background_img from '../assets/login_page.jpg';
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
 import {UserDataRow} from '../components/UserDataRow';
+import {endpoints} from '../config';
 
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
@@ -41,13 +42,13 @@ export const CreateGroup = () => {
                 }
             });
             // Submit logic goes here
-            fetch("http://localhost:8080/api/v1/authorgroup/", {
+            fetch(REACT_APP_API_BASE_URL + endpoints.authorGroup, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: body
             }).then((response) => {
                 if(response.ok) {
-                    alert("Group Created");
+                    window.location.href = "/dashboard"
                 } else {
                     alert("Creation Failure");
                 }
@@ -69,7 +70,7 @@ export const CreateGroup = () => {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
-            fetch("http://localhost:8080/api/v1/users?email=" + email).then(
+            fetch(REACT_APP_API_BASE_URL + endpoints.getUsers + "?email=" + email).then(
                 async response => {
                     const jsonResponse = await response.json();
                     if(!response.ok) {
