@@ -33,7 +33,6 @@ export const CreateGroup = () => {
         if(Object.keys(errors).length === 0) {
 
             const body = JSON.stringify({
-                author_group_id: crypto.randomUUID().toString(),
                 author_group_name: formData.groupName,
                 account_author_group_member: {
                     create: formData.groupMembers.map((user) => {
