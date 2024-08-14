@@ -3,7 +3,8 @@ const apiBaseUrlRoot = process.env.REACT_APP_API_BASE_URL_ROOT;
 const endpoints = {
   getBooks: '/books',
   getTopRatedBooks: '/books/top-rated',
-  getNewBooks: '/books/latest'
+  getNewBooks: '/books/latest',
+  followBook: '/follow/book'
   // add more endpoints here
 };
 
