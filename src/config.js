@@ -4,7 +4,8 @@ const endpoints = {
   getBooks: '/books',
   getTopRatedBooks: '/books/top-rated',
   getNewBooks: '/books/latest',
-  followBook: '/follow/book'
+  followBook: '/follow/book',
+  bookComments: '/comment/book'
   // add more endpoints here
 };
 
