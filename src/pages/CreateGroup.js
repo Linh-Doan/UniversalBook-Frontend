@@ -3,6 +3,7 @@ import background_img from '../assets/login_page.jpg';
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
 import {UserDataRow} from '../components/UserDataRow';
+import {apiBaseUrl, endpoints} from '../config';
 
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
@@ -33,7 +34,6 @@ export const CreateGroup = () => {
         if(Object.keys(errors).length === 0) {
 
             const body = JSON.stringify({
-                author_group_id: crypto.randomUUID().toString(),
                 author_group_name: formData.groupName,
                 account_author_group_member: {
                     create: formData.groupMembers.map((user) => {
@@ -42,13 +42,13 @@ export const CreateGroup = () => {
                 }
             });
             // Submit logic goes here
-            fetch("http://localhost:8080/api/v1/authorgroup/", {
+            fetch(apiBaseUrl + endpoints.authorGroup, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: body
             }).then((response) => {
                 if(response.ok) {
-                    alert("Group Created");
+                    window.location.href = "/profile/1" //TODO: go to actual dashboard page of correct user
                 } else {
                     alert("Creation Failure");
                 }
@@ -70,7 +70,7 @@ export const CreateGroup = () => {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
-            fetch("http://localhost:8080/api/v1/users?email=" + email).then(
+            fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email).then(
                 async response => {
                     const jsonResponse = await response.json();
                     if(!response.ok) {
