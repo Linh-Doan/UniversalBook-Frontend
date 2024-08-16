@@ -8,7 +8,7 @@ export const SliderItem = ({ imageUrl, onClickUrl, heading }) => {
       <Link to={onClickUrl}>
         <img src={image} alt="Item cover" className="w-40 h-60 rounded-lg" />
           {heading != null &&
-              <h2 className="my-4 text-white" style={{flexBasis: "100%"}}>{heading}</h2>
+              <h2 className="my-4 text-white text-center" style={{flexBasis: "100%"}}>{heading}</h2>
           }
       </Link>
     </div>

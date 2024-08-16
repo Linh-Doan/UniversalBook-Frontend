@@ -72,7 +72,7 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
-        <SliderItem key={item.id} imageUrl={item.imageUrl} onClickUrl={getItemUrl(itemType, item.id)}/> 
+        <SliderItem key={item.id} imageUrl={item.imageUrl} onClickUrl={getItemUrl(itemType, item.id)} heading={item.heading}/> 
       ))}
     </Slider>
   );
