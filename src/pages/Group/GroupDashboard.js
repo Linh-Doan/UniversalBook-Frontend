@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import FeaturedSlider from "../../components/FeaturedSlider";
 import Book4 from "../../assets/book4.jpg";
 import Book5 from "../../assets/book5.jpg";
 import Book6 from "../../assets/book6.jpg";
 import GroupImg from "../../assets/GroupImage.jpeg"
+import {apiBaseUrl, endpoints} from '../../config';
+
 const books = [
 	{
 		id: 1,
@@ -19,7 +21,14 @@ const books = [
 		imageUrl: Book6, 
 	}
 ];
+
+
 export const GroupDashboard = () => {
+    const [authorGroupData, setAuthorGroupData] = useState({
+        name: "Loading",
+        membersCount: 0,
+        books: []
+    });
 	const [isMember, setIsMember] = useState(true);
 	const [following, setFollowing] = useState(false);
 	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
@@ -32,14 +41,29 @@ export const GroupDashboard = () => {
 		setIsMember(false)
 		setFollowing(false)
 	}
-  return (
+
+    const { id } = useParams();
+
+    
+    useEffect(()=>{
+        fetch(apiBaseUrl + endpoints.authorGroup + '/' + id).then((response)=>response.json()).then((data) => {
+            setAuthorGroupData({
+                name: data.data.authorGroup.author_group_name,
+                membersCount: data.data.authorGroup.account_author_group_member.length,
+                books: data.data.authorGroup.book.map(book => {return {heading: book.book_name, imageUrl: book.book_image_url}})
+            })
+        });
+        return () => {};
+    }, [])
+
+    return (
     <div className="mx-auto px-8">
 			<div className="border border-gray-200 h-[65vh] overflow-visible rounded-lg w-full">
 				<img className="object-cover w-full h-[50vh]" src={GroupImg} alt="Group Cover"></img>
 				<div className="flex flex-row justify-between items-start py-6 px-16 mx-auto">
 					<div className="flex flex-col">
-						<h5 className="text-xl font-medium text-gray-900">Scribble Squad</h5>
-						<span className="text-sm text-gray-500">1234 members</span>
+						<h5 className="text-xl font-medium text-gray-900">{authorGroupData.name}</h5>
+						<span className="text-sm text-gray-500">{authorGroupData.membersCount} members</span>
 					</div>
 					<div className="flex flex-row items-start">
 						{!isMember &&
@@ -122,7 +146,7 @@ export const GroupDashboard = () => {
 					</Link>
 					}
 				</div>
-				<FeaturedSlider SliderItems={books}/>
+				<FeaturedSlider SliderItems={authorGroupData.books}/>
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl">Drafts</h2>

@@ -40,7 +40,7 @@ export const Modal = ({onClose, onAddComment, isLoading}) => {
                             />
                             {ratingMissing && (
                                 <div className="flex justify-center">
-                                    <p class="text-base leading-relaxed text-red-500">
+                                    <p className="text-base leading-relaxed text-red-500">
                                         Missing rating
                                     </p>
                                 </div>

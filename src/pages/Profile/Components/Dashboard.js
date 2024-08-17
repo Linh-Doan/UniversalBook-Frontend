@@ -4,6 +4,7 @@ import FeaturedSlider from "../../../components/FeaturedSlider";
 import Book4 from "../../../assets/book4.jpg";
 import Book5 from "../../../assets/book5.jpg";
 import Book6 from "../../../assets/book6.jpg";
+import {apiBaseUrl, endpoints} from '../../../config';
 import './Dashboard.css'
 const books = [
 	{
@@ -19,6 +20,25 @@ const books = [
 		imageUrl: Book6, 
 	}
 ];
+
+
+
+const email = 'test1@gmail.com' //TODO: change to code to get email from cookie
+
+let curUserRes = await fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email);
+
+let curUser = await curUserRes.json();
+
+let userAuthorgroups = curUser.data.user.account_author_group_member
+
+const mappedAuthorGroups = userAuthorgroups.map((authorGroup) => {
+    return {
+        id: authorGroup.author_group.author_group_id,
+        imageUrl: Book4,
+        heading: authorGroup.author_group.author_group_name
+    }
+})
+
 export const Dashboard = () => {
   return (
     <div className="dashboard-outlet">
@@ -59,7 +79,7 @@ export const Dashboard = () => {
 						Add group
 					</Link>
 				</div>
-				<FeaturedSlider SliderItems={books} />
+				<FeaturedSlider SliderItems={mappedAuthorGroups} />
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl" >Drafts</h2>
