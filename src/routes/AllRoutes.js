@@ -2,8 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 
 
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard } from "../pages";
-
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard, ChapterCreator } from "../pages";
 
 export const AllRoutes = () => {
   return (
@@ -17,6 +16,7 @@ export const AllRoutes = () => {
             <Route path="search" element={<SearchResults />}></Route>
             <Route path="bookcreator" element={<BookCreator />}></Route>
             <Route path="bookeditor" element={<BookEditor />}></Route>
+            <Route path="chaptercreator" element={<ChapterCreator />}></Route>
             <Route path="bookdetails/:id" element={<BookDetails />} />
             <Route path="viewchapter/:id" element={<ViewChapter />} />
             <Route path="register" element={<Register />}></Route>

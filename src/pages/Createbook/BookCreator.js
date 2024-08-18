@@ -33,7 +33,7 @@ export const BookCreator = () => {
   };
 
   const handleSubmit = () => {
-    navigate('/bookeditor', { state: { bookDetails } });
+    navigate('/chaptercreator', { state: { bookDetails } });
   };
 
   return (
