@@ -5,7 +5,10 @@ const endpoints = {
   getUsers: '/users',
   authorGroup: '/authorgroup',
   getTopRatedBooks: '/books/top-rated',
-  getNewBooks: '/books/latest'
+  getNewBooks: '/books/latest',
+  followBook: '/follow/book',
+  bookComments: '/comment/book',
+  genres: '/genres'
   // add more endpoints here
 };
 
