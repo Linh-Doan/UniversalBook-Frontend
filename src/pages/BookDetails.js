@@ -1,164 +1,215 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import FeaturedSlider from "../components/FeaturedSlider";
-import Book4 from "../assets/book4.jpg";
-import Book5 from "../assets/book5.jpg";
-import Book6 from "../assets/book6.jpg";
-import Book7 from "../assets/book7.jpg";
-import Book8 from "../assets/book8.jpg";
-import Book9 from "../assets/book9.jpg";
-import Book10 from "../assets/book10.jpg";
-import Book11 from "../assets/book11.jpg";
-import Book12 from "../assets/book12.jpg";
-import Book13 from "../assets/book13.jpg";
+import { apiBaseUrl, apiBaseUrlRoot, endpoints } from '../config.js';
+import { PageNotFound } from './PageNotFound.js';
+import { Comment, Modal } from '../components/';
+// import FeaturedSlider from "../components/FeaturedSlider";
 import background_img from '../assets/login_page.jpg';
 
-const Chapters = [
-    { id: 1, imageUrl: Book4 },
-    { id: 2, imageUrl: Book5 },
-    { id: 3, imageUrl: Book6 },
-    { id: 4, imageUrl: Book7 },
-    { id: 5, imageUrl: Book8 },
-    { id: 6, imageUrl: Book9 },
-    { id: 7, imageUrl: Book10 },
-    { id: 8, imageUrl: Book11 },
-    { id: 9, imageUrl: Book12 },
-    { id: 10, imageUrl: Book13 },
-];
 
 export const BookDetails = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
-    const chapter = Chapters.find(chapter => chapter.id === parseInt(id));
-    const [comment, setComment] = useState('');
-    const [commentsList, setCommentsList] = useState([]);
-    const [liked, setLiked] = useState(false);
+    const [book, setBook] = useState(null);
     const [followedBook, setFollowedBook] = useState(false);
-    const [followedAuthor, setFollowedAuthor] = useState(false);
-
-    const handleCommentChange = (event) => setComment(event.target.value);
-    const handleAddComment = () => {
-        if (comment.trim() !== '') {
-            setCommentsList([...commentsList, comment]);
-            setComment('');
+    const [commentList, setCommentsList] = useState([]);
+    const [showAddComment, setShowAddComment] = useState(false);
+    const [isAddingComment, setIsAddingComment] = useState(false);
+    const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74"
+   
+    useEffect(() => {
+        async function fetchBook(){
+            const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}/${id}`);
+                if (response.ok) {
+                    const json = await response.json()
+                    setBook(json.data.book);
+                }
         }
-    };
+        fetchBook();
+    }, [id]);
+    useEffect(() => {
+        async function checkFollowingBook(){
+            const response = await fetch(`${apiBaseUrl}${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
+            if (response.ok) {
+                const json = await response.json()
+                setFollowedBook(json.data.relationship ? true : false)
+            }
+        }
+        checkFollowingBook();
+    }, [accountId, id]);
+    useEffect(() => {
+        async function fetchComments(){
+            const response = await fetch(`${apiBaseUrl}${endpoints.bookComments}?book_id=${id}`);
+            if (response.ok) {
+                const json = await response.json()
+                setCommentsList(json.data.comments)
+            }
+        }
+        fetchComments();
+    }, [accountId, id]);
+
+    const image = book ? `${apiBaseUrlRoot}${book.book_image_url}`: '';
+    const navigate = useNavigate();
+    
+    const handleFollow = async () => {
+        await fetch(`${apiBaseUrl}${endpoints.followBook}`, {
+            method: "POST",
+            body: JSON.stringify({
+                account_id: accountId,
+                book_id: id
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => {
+            if (response.ok) {
+                setFollowedBook(true)
+            } else {
+                console.log(response)
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+
+    const handleUnfollow = async () => {
+        await fetch(`${apiBaseUrl}${endpoints.followBook}?account_id=${accountId}&book_id=${id}`, {
+            method: "DELETE"
+        })
+        .then((response) => {
+            if (response.ok) {
+                setFollowedBook(false)
+            } else {
+                console.log(response)
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+
+    const handleAddComment = async (newComment) => {
+        try {
+            setIsAddingComment(true);
+            const response = await fetch(`${apiBaseUrl}${endpoints.bookComments}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    account_id: accountId,
+                    book_id: id,
+                    book_rating: newComment.rating,
+                    book_comment_text: newComment.text
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            const json = await response.json()
+            setCommentsList([...commentList, json.data.comment])
+        } catch (error) {
+            console.log(error)
+            alert("Error adding comment, please try again later")
+        } finally {
+            setIsAddingComment(false);
+            setShowAddComment(false);
+        }
+    }
 
     const handleViewContent = () => {
         navigate(`/viewchapter/${id}`);
     };
 
     return (
-        <main
-            className="relative bg-cover bg-center min-h-screen p-8"
-            style={{ backgroundImage: `url(${background_img})` }}
-        >
-            <div className="flex h-full">
-                {/* Book Details Section */}
-                <div className="flex flex-col items-center bg-white bg-opacity-80 p-8 rounded-lg shadow-lg w-1/4">
-                    {chapter ? (
+        <main>
+            {book ? 
+            <div className="relative bg-cover bg-center min-h-screen p-8" style={{ backgroundImage: `url(${background_img})` }}>
+                <div className="flex h-full">
+                    {/* Book Details Section */}
+                    <div className="flex flex-col items-center bg-white bg-opacity-80 p-8 rounded-lg shadow-lg w-1/4">
                         <>
                             <img
-                                src={chapter.imageUrl}
-                                alt={`Book ${id}`}
+                                src={`${image}`}
+                                alt={`Book ${book.book_id}`}
                                 className="w-96 h-96 object-cover mb-4 rounded"
                             />
-                            <div className="flex space-x-4 mb-4">
-                                <button
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-                                >
-                                    Share book
-                                </button>
+                            <div className="flex flex-col space-y-4 w-full">
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
                                     onClick={handleViewContent}
                                 >
                                     View Book
                                 </button>
-                            </div>
-                            <div className="flex flex-col space-y-4">
                                 <button
-                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${liked ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
-                                    onClick={() => setLiked(!liked)}
-                                >
-                                    {liked ? 'Liked' : 'Like Book'}
-                                </button>
-                                <button
-                                    className={`py-2 px-4 rounded text-white  font-bold transition duration-300 ${followedBook ? 'bg-red-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
-                                    onClick={() => setFollowedBook(!followedBook)}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                                    onClick={followedBook ? handleUnfollow : handleFollow}
                                 >
                                     {followedBook ? 'Following Book' : 'Follow Book'}
                                 </button>
-                                <button
-                                    className={`py-2 px-4 rounded text-white font-bold transition duration-300 ${followedAuthor ? 'bg-yellow-500 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-700'}`}
-                                    onClick={() => setFollowedAuthor(!followedAuthor)}
-                                >
-                                    {followedAuthor ? 'Following Author' : 'Follow Author'}
-                                </button>
                             </div>
                         </>
-                    ) : (
-                        <p className="text-white text-xl">Book details page</p>
-                    )}
-                </div>
-
-                {/* Summary and Author Information Section */}
-                <div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
-                    <div className="mb-8 w-full text-center">
-                        <p className="text-gray-800 text-2xl font-semibold">
-                            Book Summary:
-                        </p>
-                        <p className="text-gray-700">
-                            The Summary goes here...
-                        </p>
                     </div>
-                    <div className="w-full text-center">
-                        <p className="text-gray-800 text-2xl font-semibold">
-                            Author Information:
-                        </p>
-                        <p className="text-gray-700">
-                            Author details go here...
-                        </p>
+    
+                    {/* Summary and Author Information Section */}
+                    <div className="flex-grow flex flex-col justify-start items-center mx-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
+                        <div className="mb-8 w-full">
+                            <h2 className="text-gray-800 text-3xl font-bold mb-4">
+                                {book.book_name}
+                            </h2>
+                            <p className="text-gray-800 text-xl mb-4">
+                                {book.author_group? book.author_group.author_group_name : ''}
+                            </p>
+                            <p className="text-gray-700 mb-4">
+                                {book.summary_text}
+                            </p>
+                            <p className="my-7 flex flex-wrap gap-2">
+                                {book.genres ? book.genres.map(genre => {
+                                    return <span className="mr-2 border border-gray-400 rounded p-2" key={genre.genre_id}>{genre.genre_name}</span>
+                                }) : ''}
+                            </p>
+                            <div className="flex items-center">
+                                <svg aria-hidden="true" className="w-5 h-5 text-grey-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Rating star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <p className="ml-2 text-gray-900">{book.rating}/5</p>
+                                <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full"></span>
+                                <span className="text-gray-900">{book.rating_count} reviews</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                {/* Comments Section */}
-                <div className="w-1/4 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
-                    <h2 className="text-gray-800 text-xl font-semibold mb-4">Comments:</h2>
-                    <div className="mb-4">
-                        <input
-                            type="text"
-                            value={comment}
-                            onChange={handleCommentChange}
-                            placeholder="Write your comment"
-                            className="border border-gray-400 p-2 w-full rounded"
-                        />
+    
+                    {/* Comments Section */}
+                    <div className="w-1/4 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
+                        <h2 className="text-gray-800 text-xl font-semibold mb-4">Comments:</h2>
                         <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 w-full transition duration-300"
-                            onClick={handleAddComment}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-2 w-full transition duration-300"
+                            onClick={() => setShowAddComment(true)}
                         >
                             Add Comment
                         </button>
+                        {showAddComment && (
+                            <Modal onClose={() => setShowAddComment(false)} onAddComment={handleAddComment} isLoading={isAddingComment}/>
+                        )}
+                        <ul className="space-y-2">
+                            {commentList.map((comment, index) => (
+                                <li key={index}>
+                                    <Comment userName={'Janet Smith'} commentText={comment.book_comment_text} rating={comment.book_rating}/>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                    <ul className="space-y-2">
-                        {commentsList.map((comment, index) => (
-                            <li key={index} className="text-gray-800 bg-gray-200 p-2 rounded">
-                                {comment}
-                            </li>
-                        ))}
-                    </ul>
                 </div>
-            </div>
-
-            <div className="flex justify-center items-center my-8">
-                <p className="text-white text-2xl font-semibold">
-                    Chapter List
-                </p>
-            </div>
-
-            <div className="px-16 mb-8">
-                <FeaturedSlider SliderItems={Chapters} />
-            </div>
+    
+                <div className="flex justify-center items-center my-8">
+                    <p className="text-white text-2xl font-semibold">
+                        Chapter List
+                    </p>
+                </div>
+    
+                {/* <div className="px-16 mb-8">
+                    <FeaturedSlider SliderItems={Chapters} />
+                </div> */}
+            </div> : 
+            <PageNotFound/>}
         </main>
+        
     );
+    
 };
