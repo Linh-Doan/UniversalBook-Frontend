@@ -3,16 +3,17 @@ import { apiBaseUrl, endpoints } from '../config.js';
 import FeaturedSlider from "../components/FeaturedSlider";
 
 const chaptersToSliderItems = (chapters) => {
-    let newList = []
+    let newList = [];
     for (let i = 0; i < chapters.length; i++) {
         newList.push({
             id: chapters[i].chapter_id,
             imageUrl: chapters[i].chapter_image_url,
             heading: `Chapter ${chapters[i].chapter_sequence}: ${chapters[i].book_name || 'Untitled'}`
-        })
+        });
     }
-    return newList
-}
+    return newList;
+};
+
 
 export const ChapterList = () => {
     const [topRatedChapters, setTopRatedChapters] = useState([]);
@@ -20,30 +21,20 @@ export const ChapterList = () => {
     const [discoverChapters, setDiscoverChapters] = useState([]);
 
     useEffect(() => {
-        async function fetchTopRatedChapters() {
-            const response = await fetch(`${apiBaseUrl}${endpoints.getTopRatedChapters}`);
-            const data = await response.json();
-            setTopRatedChapters(data.data.chapters);
-        }
-        fetchTopRatedChapters();
-    }, []);
+        const fetchChapters = async (endpoint, setChapters) => {
+            try {
+                const response = await fetch(`${apiBaseUrl}${endpoint}`);
+                const data = await response.json();
+                console.log(data);
+                setChapters(data.data.chapters);
+            } catch (error) {
+                console.error('Failed to fetch chapters:', error);
+            }
+        };
 
-    useEffect(() => {
-        async function fetchNewChapters() {
-            const response = await fetch(`${apiBaseUrl}${endpoints.getNewChapters}`);
-            const data = await response.json();
-            setNewChapters(data.data.chapters);
-        }
-        fetchNewChapters();
-    }, []);
-
-    useEffect(() => {
-        async function fetchDiscoverChapters() {
-            const response = await fetch(`${apiBaseUrl}${endpoints.getChapters}`);
-            const data = await response.json();
-            setDiscoverChapters(data.data.chapters);
-        }
-        fetchDiscoverChapters();
+       fetchChapters(endpoints.getTopRatedChapters, setTopRatedChapters);
+       fetchChapters(endpoints.getNewChapters, setNewChapters);
+       fetchChapters(endpoints.getChapters, setDiscoverChapters);
     }, []);
 
     return (
