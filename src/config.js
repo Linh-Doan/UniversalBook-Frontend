@@ -5,9 +5,9 @@ const endpoints = {
   getBooks: '/books',
   getTopRatedBooks: '/books/top-rated',
   getNewBooks: '/books/latest',
-  getChapters: '/chapters',  // New endpoint for fetching all chapters
-  getTopRatedChapters: '/chapters/top-rated',  // New endpoint for top-rated chapters
-  getNewChapters: '/chapters/latest'  // New endpoint for latest chapters
+  getChapters: '/chapters',  
+  getTopRatedChapters: '/chapters/top-rated', 
+  getNewChapters: '/chapters/latest'  
 };
 
 export { apiBaseUrl, apiBaseUrlRoot, endpoints };
