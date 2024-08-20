@@ -1,32 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Book4 from "../assets/book4.jpg";
-import Book5 from "../assets/book5.jpg";
-import Book6 from "../assets/book6.jpg";
-import Book7 from "../assets/book7.jpg";
-import Book8 from "../assets/book8.jpg";
-import Book9 from "../assets/book9.jpg";
-import Book10 from "../assets/book10.jpg";
-import Book11 from "../assets/book11.jpg";
-import Book12 from "../assets/book12.jpg";
-import Book13 from "../assets/book13.jpg";
 import ZoomInIcon from "../assets/zoom-in.png";
 import ZoomOutIcon from "../assets/zoom-out.png";
 import BlueLightIcon from "../assets/lightbulb.png";
 import FullscreenIcon from "../assets/fullscreen.png";
-
-const Chapters = [
-    { id: 1, imageUrl: Book4, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 1 content goes here..." },
-    { id: 2, imageUrl: Book5, content: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Chapter 2 content goes here..." },
-    { id: 3, imageUrl: Book6, content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Chapter 3 content goes here..." },
-    { id: 4, imageUrl: Book7, content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Chapter 4 content goes here..." },
-    { id: 5, imageUrl: Book8, content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Chapter 5 content goes here..." },
-    { id: 6, imageUrl: Book9, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Chapter 6 content goes here..." },
-    { id: 7, imageUrl: Book10, content: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Chapter 7 content goes here..." },
-    { id: 8, imageUrl: Book11, content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Chapter 8 content goes here..." },
-    { id: 9, imageUrl: Book12, content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Chapter 9 content goes here..." },
-    { id: 10, imageUrl: Book13, content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Chapter 10 content goes here..." },
-];
+import { apiBaseUrl, endpoints } from '../config.js';
 
 const fetchWordDetails = async (word) => {
     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -45,8 +23,8 @@ const fetchTranslation = async (word) => {
 };
 
 export const ViewChapter = () => {
-    const { id } = useParams();
-    const chapter = Chapters.find(chapter => chapter.id === parseInt(id));
+    const { id } = useParams(); // `id` is the chapter ID from the URL
+    const [chapter, setChapter] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [zoomLevel, setZoomLevel] = useState(1);
     const [blueLightFilter, setBlueLightFilter] = useState(false);
@@ -59,6 +37,37 @@ export const ViewChapter = () => {
     const [showTranslatePopup, setShowTranslatePopup] = useState(false);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const fetchChapter = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}${endpoints.getChapters}/${id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setChapter(data.data.chapter);
+                } else {
+                    console.error('Failed to fetch chapter:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching chapter:', error);
+            }
+        };
+
+        fetchChapter();
+    }, [id]);
+
+    const processChapter = (chapter) => {
+        if (!chapter) return null;
+
+        return {
+            id: chapter.chapter_id,
+            imageUrl: chapter.chapter_image_url.startsWith('http') ? chapter.chapter_image_url : `${apiBaseUrl}${chapter.chapter_image_url}`,
+            heading: `Chapter ${chapter.chapter_sequence}: ${chapter.chapter_name || 'Untitled'}`,
+            content: chapter.chapter_content,
+        };
+    };
+
+    const processedChapter = processChapter(chapter);
 
     useEffect(() => {
         const handleContextMenu = (event) => {
@@ -249,13 +258,15 @@ export const ViewChapter = () => {
                 </div>
             )}
             <div className={`bg-white p-8 rounded shadow-lg max-w-4xl mx-auto prevent-screenshot ${blueLightFilter ? 'blue-light-filter' : ''}`} style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}>
-                {chapter ? (
+                {processedChapter ? (
                     <>
-                        <img src={chapter.imageUrl} alt={`Chapter ${id}`} className="w-full h-auto object-cover mb-4 rounded" />
-                        <p>{chapter.content}</p>
+                        {processedChapter.imageUrl && (
+                            <img src={processedChapter.imageUrl} alt={processedChapter.heading} className="w-full h-auto object-cover mb-4 rounded" />
+                        )}
+                        <p>{processedChapter.content}</p>
                     </>
                 ) : (
-                    <p>Chapter content not found.</p>
+                    <p>Loading chapter content...</p>
                 )}
             </div>
             <div className="zoom-buttons">
