@@ -1,0 +1,33 @@
+.chaptercreator {
+  background-image: url('../../assets/ChapterCreatorBackground.png');
+  background-size: cover;
+  background-position: center;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideIn {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 1s ease-in-out;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
