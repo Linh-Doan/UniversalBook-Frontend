@@ -2,8 +2,6 @@ import React from "react";
 import Slider from "react-slick";
 import PropTypes from 'prop-types';
 import SliderItem from "./SliderItem"; // Renamed the import
-
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import "./FeaturedSlider.css";
 
 const SampleNextArrow = (props) => {
@@ -28,7 +26,13 @@ const SamplePrevArrow = (props) => {
   );
 }
 
-const FeaturedSlider = ({ SliderItems }) => {
+const getItemUrl = (itemType, id) => {
+  if (itemType === 'book') {
+    return `/books/${id}`;
+  } 
+}
+
+const FeaturedSlider = ({ SliderItems, itemType }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -68,9 +72,7 @@ const FeaturedSlider = ({ SliderItems }) => {
   return (
     <Slider {...settings}>
       {SliderItems.map((item) => ( 
-        <Link to={`/bookdetails/${item.id}`}> 
-        <SliderItem imageUrl={item.imageUrl} /> 
-      </Link>
+        <SliderItem key={item.id} imageUrl={item.imageUrl} onClickUrl={getItemUrl(itemType, item.id)} heading={item.heading}/> 
       ))}
     </Slider>
   );
@@ -78,7 +80,7 @@ const FeaturedSlider = ({ SliderItems }) => {
 
 FeaturedSlider.propTypes = {
   SliderItems: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     heading: PropTypes.string
   })).isRequired,

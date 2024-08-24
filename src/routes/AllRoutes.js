@@ -17,7 +17,7 @@ export const AllRoutes = () => {
             <Route path="bookcreator" element={<BookCreator />}></Route>
             <Route path="bookeditor" element={<BookEditor />}></Route>
             <Route path="chaptercreator" element={<ChapterCreator />}></Route>
-            <Route path="bookdetails/:id" element={<BookDetails />} />
+            <Route path="books/:id" element={<BookDetails />} />
             <Route path="viewchapter/:id" element={<ViewChapter />} />
             <Route path="register" element={<Register />}></Route>
             <Route path="profile/:id" element={<Profile />}/>

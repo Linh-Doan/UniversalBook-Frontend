@@ -1,75 +1,72 @@
+import { useEffect, useState } from "react";
+import { apiBaseUrl, endpoints } from '../config.js';
 import FeaturedSlider from "../components/FeaturedSlider";
-import Book1 from "../assets/book1.jpeg";
-import Book2 from "../assets/book2.avif";
-import Book3 from "../assets/book3.jpeg";
 
-const books = [
-    {
-        id: 1,
-        heading: "Book 1",
-        imageUrl: Book1,
-    },
-    {
-        id: 2,
-        heading: "Book 2",
-        imageUrl: Book2,
-    },
-    {
-        id: 3,
-        heading: "Book 3",
-        imageUrl: Book3,
-    },
-    {
-        id: 4,
-        heading: "Book 4",
-        imageUrl: Book1,
-    },
-    {
-        id: 5,
-        heading: "Book 5",
-        imageUrl: Book2,
-    },
-    {
-        id: 6,
-        heading: "Book 6",
-        imageUrl: Book3,
-    },
-];
+const booksToSliderItems = (books) => {
+    let newList = []
+    for (let i = 0; i < books.length; i++) {
+        newList.push({
+            id: books[i].book_id,
+            imageUrl: books[i].book_image_url,
+            heading: books[i].book_name
+        })
+    }
+    return newList
+}
 
 export const BookList = () => {
+    const [topRatedBook, setTopRatedBooks] = useState([]);
+    const [newBooks, setNewBooks] = useState([]);
+    const [discoverBooks, setDiscoverBooks] = useState([]);
+    useEffect(() =>{
+        async function fetchTopRatedBooks() {
+            const response = await fetch(`${apiBaseUrl}${endpoints.getTopRatedBooks}`);
+            const data = await response.json();
+            setTopRatedBooks(data.data.books)
+        }
+        fetchTopRatedBooks();
+    }, [])
+    useEffect(() =>{
+        async function fetchTopRatedBooks() {
+            const response = await fetch(`${apiBaseUrl}${endpoints.getNewBooks}`);
+            const data = await response.json();
+            setNewBooks(data.data.books)
+        }
+        fetchTopRatedBooks();
+    }, [])
+    useEffect(() =>{
+        async function fetchTopRatedBooks() {
+            const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}`);
+            const data = await response.json();
+            setDiscoverBooks(data.data.books)
+        }
+        fetchTopRatedBooks();
+    }, [])
     return (
         <main>
             <section className="bg-[#969fac] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Trending Books
+                        Top Rated Books
                     </p>
                 </div>
-                <FeaturedSlider SliderItems={books} />
+                <FeaturedSlider SliderItems={booksToSliderItems(topRatedBook)} itemType='book'/>
             </section>
             <section className="bg-[#6f7588] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Top Books
+                        New Books
                     </p>
                 </div>
-                <FeaturedSlider SliderItems={books} />
+                <FeaturedSlider SliderItems={booksToSliderItems(newBooks)} itemType='book' />
             </section>
             <section className="bg-[#5c5d72] pb-8">
                 <div className="flex justify-center items-center py-4" >
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        New Books
+                    Discover Books
                     </p>
                 </div>
-                <FeaturedSlider SliderItems={books} />
-            </section>
-            <section className="bg-[#6781a1] pb-8">
-                <div className="flex justify-center items-center py-4">
-                    <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-                        Discover Books
-                    </p>
-                </div>
-                <FeaturedSlider SliderItems={books} />
+                <FeaturedSlider SliderItems={booksToSliderItems(discoverBooks)} itemType='book' />
             </section>
         </main>
     );

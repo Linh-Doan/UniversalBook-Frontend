@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import background_img from '../assets/login_page.jpg';
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
+import {UserDataRow} from '../components/UserDataRow';
+import {apiBaseUrl, endpoints} from '../config';
 
 export const CreateGroup = () => {
     const [formData, setFormData] = useState({
@@ -30,7 +32,28 @@ export const CreateGroup = () => {
         setErrors(errors);
         // Submit if no errors
         if(Object.keys(errors).length === 0) {
+
+            const body = JSON.stringify({
+                author_group_name: formData.groupName,
+                account_author_group_member: {
+                    create: formData.groupMembers.map((user) => {
+                        return {account: {connect: {account_id: user.account_id}}};
+                    })
+                }
+            });
             // Submit logic goes here
+            fetch(apiBaseUrl + endpoints.authorGroup, {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: body
+            }).then((response) => {
+                if(response.ok) {
+                    window.location.href = "/profile/1" //TODO: go to actual dashboard page of correct user
+                } else {
+                    alert("Creation Failure");
+                }
+            });
+
             console.log('Form submitted:', formData);
         }
     };
@@ -47,11 +70,23 @@ export const CreateGroup = () => {
             errors.curAddMemberEmail = 'Member Already Added';
             setErrors(errors);
         } else {
-            //TODO: add validation for email to exist in db
-            formData.groupMembers.push(email);
-            setFormData({
-                ...formData
-            });
+            fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email).then(
+                async response => {
+                    const jsonResponse = await response.json();
+                    if(!response.ok) {
+                        errors.curAddMemberEmail = 'Failure to check if account exists';
+                        setErrors(errors);
+                    } else if(jsonResponse.data.user == null) {
+                        errors.curAddMemberEmail = 'User Account Not Found';
+                        setErrors(errors);
+                    } else {
+                        formData.groupMembers.push(jsonResponse.data.user);
+                        setFormData({
+                            ...formData
+                        });
+                    }
+                }
+            );
         }
     };
 
@@ -80,17 +115,18 @@ export const CreateGroup = () => {
                         Group Members:
                     </div>
 
-                    <div id="groupMembers">
+                    <ul id="groupMembers">
                         {
-                            formData.groupMembers.map((email) =>
-                                <div>
-                                    {email}
-                                </div>
+                            formData.groupMembers.map((user) =>
+                                <li>
+                                    <UserDataRow userName={user.account_name} email={user.email}></UserDataRow>
+                                </li>
                             )
                         }
-                    </div>
+                    </ul>
                     <Popup trigger={
                         <button
+                            type="button"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2">
                             Add New Member
                         </button>
