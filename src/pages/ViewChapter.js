@@ -58,10 +58,9 @@ export const ViewChapter = () => {
 
     const processChapter = (chapter) => {
         if (!chapter) return null;
-
         return {
             id: chapter.chapter_id,
-            imageUrl: chapter.chapter_image_url.startsWith('http') ? chapter.chapter_image_url : `${apiBaseUrl}${chapter.chapter_image_url}`,
+            imageUrl: chapter.chapter_image_url.startsWith('http') ? chapter.chapter_image_url : `${process.env.REACT_APP_API_BASE_URL_ROOT}${chapter.chapter_image_url}`,
             heading: `Chapter ${chapter.chapter_sequence}: ${chapter.chapter_name || 'Untitled'}`,
             content: chapter.chapter_content,
         };
