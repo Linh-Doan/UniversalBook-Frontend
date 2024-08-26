@@ -33,6 +33,10 @@ const getItemUrl = (itemType, id) => {
   if (itemType === 'genre') {
     return `/genres/${id}`;
   } 
+
+  if (itemType === 'chapter'){
+    return `/viewchapter/${id}`;
+  }
 }
 
 const FeaturedSlider = ({ SliderItems, itemType }) => {
