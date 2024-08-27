@@ -10,7 +10,6 @@ export const SearchResults = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [resultCounts, setResultCounts] = useState({ books: 0, chapters: 0, genres: 0, people: 0 });
 
     const tabs = [
         {
@@ -27,7 +26,7 @@ export const SearchResults = () => {
         },
         {
             tabDisplay: 'People',
-            category: 'people',
+            category: 'people',  // Only if implemented on the backend
         },
     ];
 
@@ -47,10 +46,6 @@ export const SearchResults = () => {
                 const data = await response.json();
                 console.log('Search Results:', data.results);
                 setResults(data.results || []);
-                setResultCounts((prevCounts) => ({
-                    ...prevCounts,
-                    [category]: data.results.length,
-                }));
             } catch (error) {
                 console.error('Failed to fetch search results:', error);
                 setError('Failed to fetch search results.');
@@ -95,7 +90,7 @@ export const SearchResults = () => {
                                 className={index === activeTab ? activeClass : inactiveClass}
                                 onClick={() => setActiveTab(index)}
                             >
-                                {item.tabDisplay} ({resultCounts[item.category]})
+                                {item.tabDisplay}
                             </button>
                         </li>
                     ))}
