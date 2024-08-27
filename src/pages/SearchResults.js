@@ -3,6 +3,25 @@ import { useSearchParams } from 'react-router-dom';
 import { SliderItem } from '../components';
 import { apiBaseUrl, endpoints } from '../config.js';
 
+const tabs = [
+    {
+        tabDisplay: 'Books',
+        category: 'books',
+    },
+    {
+        tabDisplay: 'Chapters',
+        category: 'chapters',
+    },
+    {
+        tabDisplay: 'Genres',
+        category: 'genres',
+    },
+    {
+        tabDisplay: 'People',
+        category: 'people', // Only if implemented on the backend
+    },
+];
+
 export const SearchResults = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [searchParams] = useSearchParams();
@@ -10,25 +29,6 @@ export const SearchResults = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const tabs = [
-        {
-            tabDisplay: 'Books',
-            category: 'books',
-        },
-        {
-            tabDisplay: 'Chapters',
-            category: 'chapters',
-        },
-        {
-            tabDisplay: 'Genres',
-            category: 'genres',
-        },
-        {
-            tabDisplay: 'People',
-            category: 'people',  // Only if implemented on the backend
-        },
-    ];
 
     const inactiveClass = "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300";
     const activeClass = "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active";
