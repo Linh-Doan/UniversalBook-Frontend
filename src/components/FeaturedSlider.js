@@ -29,7 +29,14 @@ const SamplePrevArrow = (props) => {
 const getItemUrl = (itemType, id) => {
   if (itemType === 'book') {
     return `/books/${id}`;
+  }
+  if (itemType === 'genre') {
+    return `/genres/${id}`;
   } 
+
+  if (itemType === 'chapter'){
+    return `/viewchapter/${id}`;
+  }
 }
 
 const FeaturedSlider = ({ SliderItems, itemType }) => {
