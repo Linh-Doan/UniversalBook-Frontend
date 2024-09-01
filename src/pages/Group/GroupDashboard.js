@@ -22,6 +22,7 @@ const books = [
 	}
 ];
 
+const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie
 
 export const GroupDashboard = () => {
     const [authorGroupData, setAuthorGroupData] = useState({
@@ -34,12 +35,60 @@ export const GroupDashboard = () => {
 	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
 	const [followClicked, setFollowClicked] = useState(false);
 	const joinGroup = () => {
-		setIsMember(true)
-		setFollowing(true)
+        const body = JSON.stringify({
+            account_author_group_member: {
+                create: {
+                    account: {
+                        connect: {
+                            account_id: accountId
+                        }
+                    }
+                }
+            }
+        });
+        fetch(apiBaseUrl + endpoints.authorGroup + '/' + id, {
+            method: "PATCH",
+            headers: {'Content-Type': 'application/json'},
+            body: body
+        })
+        .then((response)=>(response.ok)? response : alert("Joining group failed!"))
+        .then((response)=>response.json()).then((data) => {
+            setAuthorGroupData({
+				...authorGroupData,
+                name: data.data.updatedAuthorGroup.author_group_name,
+                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length,
+				
+            })
+            setIsMember(true)
+		    setFollowing(true)
+        });
+		
 	}
 	const leaveGroup = () => {
-		setIsMember(false)
-		setFollowing(false)
+        const body = JSON.stringify({
+            account_author_group_member: {
+                delete: {
+                    account: {
+                        account_id: accountId
+                    }
+                }
+            }
+        });
+        fetch(apiBaseUrl + endpoints.authorGroup + '/' + id, {
+            method: "PATCH",
+            headers: {'Content-Type': 'application/json'},
+            body: body
+        })
+        .then((response)=>(response.ok)? response : alert("Leaving group failed!"))
+        .then((response)=>response.json()).then((data) => {
+            setAuthorGroupData({
+				...authorGroupData,
+                name: data.data.updatedAuthorGroup.author_group_name,
+                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length
+            })
+            setIsMember(false)
+		    setFollowing(false)
+        });
 	}
 
     const { id } = useParams();
@@ -51,7 +100,15 @@ export const GroupDashboard = () => {
                 name: data.data.authorGroup.author_group_name,
                 membersCount: data.data.authorGroup.account_author_group_member.length,
                 books: data.data.authorGroup.book.map(book => {return {heading: book.book_name, imageUrl: book.book_image_url}})
-            })
+            });
+
+            if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(accountId)) {
+                setIsMember(true);
+                setFollowing(true);
+            } else {
+                setIsMember(false);
+                setFollowing(false);
+            }
         });
         return () => {};
     }, [])
