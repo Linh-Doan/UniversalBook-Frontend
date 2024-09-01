@@ -49,6 +49,7 @@ export async function logout(){
 export async function getCurrentUser() {
     try {
         const response = await axiosInstance.get(`${endpoints.currentUser}`);
+        console.log(response)
         return response.data.data.user
     } catch (err) {
         return null;
