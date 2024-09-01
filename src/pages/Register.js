@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import background_img from '../assets/login_page.jpg';
 import viewIcon from '../assets/view.png';  
 import hiddenIcon from '../assets/hidden.png';
+import { apiBaseUrl, endpoints } from '../config';
+// import Cookies from 'js-cookie';
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -9,13 +12,12 @@ export const Register = () => {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        dateOfBirth: '',
-        religion: '' // New state variable for religion field
+        confirmPassword: ''
     });
 
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,16 +31,35 @@ export const Register = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleLocationChange = (e) => {
-        setFormData({
-            ...formData,
-            location: e.target.value
-        });
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Validation
+        if (validInputs()) {
+            const authDetails = {
+                account_name: `${formData.firstName} ${formData.lastName}`,
+                email: formData.email,
+                account_password: formData.password
+            }
+            try {
+                const response = await fetch(`${apiBaseUrl}${endpoints.signup}`, {
+                    method: "POST",
+                    body: JSON.stringify(authDetails),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                const data = await response.json();
+                if (response.ok) {
+                    navigate('/');
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Something is wrong, try again later');
+            }
+        }
+        
+    };
+    const validInputs = () => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for email format
 
@@ -61,38 +82,11 @@ export const Register = () => {
         } else if (formData.confirmPassword.trim() !== formData.password.trim()) {
             errors.confirmPassword = 'Passwords do not match';
         }
-        if (!formData.dateOfBirth) {
-            errors.dateOfBirth = 'Date of birth is required';
-        }else {
-            const today = new Date();
-            const selectedDate = new Date(formData.dateOfBirth);
-            if (selectedDate >= today) {
-                errors.dateOfBirth = 'You haven\'t been born yet?';
-            } else {
-                const selectedYear = selectedDate.getFullYear();
-                const selectedMonth = selectedDate.getMonth();
-                const selectedDay = selectedDate.getDate();
-                
-                const todayYear = today.getFullYear();
-                const todayMonth = today.getMonth();
-                const todayDay = today.getDate();
-
-                if (selectedYear === todayYear && selectedMonth === todayMonth && selectedDay === todayDay) {
-                    errors.dateOfBirth = 'I think you are too young to use the internet!';
-                }
-            }
-        }
-        if (!formData.location || !formData.location.trim()) {
-            errors.location = 'Location field is needed';
-        }
         // Set errors
         setErrors(errors);
         // Submit if no errors
-        if (Object.keys(errors).length === 0) {
-            // Submit logic goes here
-            console.log('Form submitted:', formData);
-        }
-    };
+        return Object.keys(errors).length === 0;
+    }
 
     return (
         <main className="min-h-screen flex items-center justify-center bg-cover" style={{ backgroundImage: `url(${background_img})` }}>
@@ -200,77 +194,6 @@ export const Register = () => {
                         </button>
                         {errors.confirmPassword && <p className="text-red-500 text-xs italic">{errors.confirmPassword}</p>}
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dateOfBirth">
-                            Date of Birth
-                        </label>
-                        <input
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.dateOfBirth ? 'border-red-500' : ''}`}
-                            id="dateOfBirth"
-                            type="date"
-                            placeholder="Date of Birth"
-                            name="dateOfBirth"
-                            value={formData.dateOfBirth}
-                            onChange={handleChange}
-                        />
-                        {errors.dateOfBirth && <p className="text-red-500 text-xs italic">{errors.dateOfBirth}</p>}
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="religion">
-                            Religion (Optional)
-                        </label>
-                        <select
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.religion ? 'border-red-500' : ''}`}
-                            id="religion"
-                            name="religion"
-                            value={formData.religion}
-                            onChange={handleChange}
-                        >
-                            <option value="">Select Religion</option>
-                            <option value="Christianity">Christianity</option>
-                            <option value="Islam">Islam</option>
-                            <option value="Irreligion">Irreligion</option>
-                            <option value="Hinduism">Hinduism</option>
-                            <option value="Buddhism">Buddhism</option>
-                            <option value="Folk religions">Folk religions</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        {errors.religion && <p className="text-red-500 text-xs italic">{errors.religion}</p>}
-                    </div>
-                    {formData.religion === 'Other' && (
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherReligion">
-                                Other Religion
-                            </label>
-                            <input
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.otherReligion ? 'border-red-500' : ''}`}
-                                id="otherReligion"
-                                type="text"
-                                placeholder="Enter Other Religion"
-                                name="otherReligion"
-                                value={formData.otherReligion}
-                                onChange={handleChange}
-                            />
-                            {errors.otherReligion && <p className="text-red-500 text-xs italic">{errors.otherReligion}</p>}
-                        </div>
-                    )}
-
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
-                            Location
-                        </label>
-                        <input
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                            id="location"
-                            type="text"
-                            placeholder="Enter Location"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleLocationChange}
-                        />
-                        {errors.location && <p className="text-red-500 text-xs italic">{errors.location}</p>}
-                    </div>
-
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { apiBaseUrl, apiBaseUrlRoot, endpoints } from '../config.js';
+import { apiBaseUrlRoot, endpoints } from '../config.js';
 import { PageNotFound } from './PageNotFound.js';
 import { Comment, Modal } from '../components/';
+import axiosInstance from '../api/axiosInstance.js';
 // import FeaturedSlider from "../components/FeaturedSlider";
 import background_img from '../assets/login_page.jpg';
 
@@ -18,31 +19,25 @@ export const BookDetails = () => {
    
     useEffect(() => {
         async function fetchBook(){
-            const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}/${id}`);
-                if (response.ok) {
-                    const json = await response.json()
-                    setBook(json.data.book);
-                }
+            try{
+                const response = await axiosInstance.get(`${endpoints.getBooks}/${id}`);
+                setBook(response.data.data.book);
+            } catch (err) {
+            }
         }
         fetchBook();
     }, [id]);
     useEffect(() => {
         async function checkFollowingBook(){
-            const response = await fetch(`${apiBaseUrl}${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
-            if (response.ok) {
-                const json = await response.json()
-                setFollowedBook(json.data.relationship ? true : false)
-            }
+            const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
+            setFollowedBook(response.data.data.relationship ? true : false)
         }
         checkFollowingBook();
     }, [accountId, id]);
     useEffect(() => {
         async function fetchComments(){
-            const response = await fetch(`${apiBaseUrl}${endpoints.bookComments}?book_id=${id}`);
-            if (response.ok) {
-                const json = await response.json()
-                setCommentsList(json.data.comments)
-            }
+            const response = await axiosInstance.get(`${endpoints.bookComments}?book_id=${id}`);
+            setCommentsList(response.data.data.comments)
         }
         fetchComments();
     }, [accountId, id]);
@@ -51,61 +46,41 @@ export const BookDetails = () => {
     const navigate = useNavigate();
     
     const handleFollow = async () => {
-        await fetch(`${apiBaseUrl}${endpoints.followBook}`, {
-            method: "POST",
-            body: JSON.stringify({
+        await axiosInstance.post(`${endpoints.followBook}`, 
+            {
                 account_id: accountId,
                 book_id: id
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
+            },
+            {
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
             }
-        })
-        .then((response) => {
-            if (response.ok) {
-                setFollowedBook(true)
-            } else {
-                console.log(response)
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+        )
+        setFollowedBook(true);
     }
 
     const handleUnfollow = async () => {
-        await fetch(`${apiBaseUrl}${endpoints.followBook}?account_id=${accountId}&book_id=${id}`, {
-            method: "DELETE"
-        })
-        .then((response) => {
-            if (response.ok) {
-                setFollowedBook(false)
-            } else {
-                console.log(response)
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+        await axiosInstance.delete(`${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
+        setFollowedBook(false);
     }
 
     const handleAddComment = async (newComment) => {
         try {
             setIsAddingComment(true);
-            const response = await fetch(`${apiBaseUrl}${endpoints.bookComments}`, {
-                method: "POST",
-                body: JSON.stringify({
-                    account_id: accountId,
-                    book_id: id,
-                    book_rating: newComment.rating,
-                    book_comment_text: newComment.text
-                }),
+            const response = await axiosInstance.post(`${endpoints.bookComments}`, 
+            {
+                account_id: accountId,
+                book_id: id,
+                book_rating: newComment.rating,
+                book_comment_text: newComment.text
+            },
+            {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-            const json = await response.json()
-            setCommentsList([...commentList, json.data.comment])
+            setCommentsList([...commentList, response.data.data.comment])
         } catch (error) {
             console.log(error)
             alert("Error adding comment, please try again later")

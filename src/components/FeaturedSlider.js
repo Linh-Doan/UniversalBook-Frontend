@@ -1,6 +1,5 @@
 import React from "react";
 import Slider from "react-slick";
-import PropTypes from 'prop-types';
 import SliderItem from "./SliderItem"; // Renamed the import
 import "./FeaturedSlider.css";
 
@@ -85,12 +84,5 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
   );
 }
 
-FeaturedSlider.propTypes = {
-  SliderItems: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    heading: PropTypes.string
-  })).isRequired,
-};
 
 export default FeaturedSlider;
