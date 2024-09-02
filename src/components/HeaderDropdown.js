@@ -1,23 +1,13 @@
-import { useEffect, useState } from 'react';
-import { getCurrentUser } from '../services/authService';
 import { DropdownLoggedIn } from './DropdownLoggedIn';
 import { DropdownLoggedOut } from './DropdownLoggedOut';
 import { Loading } from './Loading';
+import { useUser } from '../hooks/useUser';
 
 export const HeaderDropdown = ({setDropdownVisible}) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        async function fetchUser(){
-            const data = await getCurrentUser();
-            setLoading(false);
-            setUser(data);
-        }
-        fetchUser();
-    }, []);
+    const {isLoading, user} = useUser();
   return (
     <div>
-        { loading? (
+        { isLoading? (
             <Loading/>
         ) : user ? (
             <DropdownLoggedIn 
