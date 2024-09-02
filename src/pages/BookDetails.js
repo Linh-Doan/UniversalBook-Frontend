@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiBaseUrlRoot, endpoints } from '../config.js';
 import { PageNotFound } from './PageNotFound.js';
-import { Comment, Modal } from '../components/';
+import { Comment, Modal, Loading } from '../components/';
 import axiosInstance from '../api/axiosInstance.js';
 // import FeaturedSlider from "../components/FeaturedSlider";
 import background_img from '../assets/login_page.jpg';
@@ -11,6 +11,7 @@ import background_img from '../assets/login_page.jpg';
 export const BookDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState(null);
+    const [loadingBook, setLoadingBooking] = useState(true);
     const [followedBook, setFollowedBook] = useState(false);
     const [commentList, setCommentsList] = useState([]);
     const [showAddComment, setShowAddComment] = useState(false);
@@ -22,7 +23,9 @@ export const BookDetails = () => {
             try{
                 const response = await axiosInstance.get(`${endpoints.getBooks}/${id}`);
                 setBook(response.data.data.book);
+                setLoadingBooking(false);
             } catch (err) {
+                setLoadingBooking(false);
             }
         }
         fetchBook();
@@ -96,7 +99,7 @@ export const BookDetails = () => {
 
     return (
         <main>
-            {book ? 
+            {loadingBook? <Loading/> : book ? 
             <div className="relative bg-cover bg-center min-h-screen p-8" style={{ backgroundImage: `url(${background_img})` }}>
                 <div className="flex h-full">
                     {/* Book Details Section */}
