@@ -22,7 +22,7 @@ const books = [
 	}
 ];
 
-const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie
+const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie or session storage
 
 export const GroupDashboard = () => {
     const [authorGroupData, setAuthorGroupData] = useState({
@@ -183,14 +183,14 @@ export const GroupDashboard = () => {
 					
 				</div>
 			</div>
-			<div className="border border-gray-200 rounded-lg w-full my-8">
+			{/* <div className="border border-gray-200 rounded-lg w-full my-8">
 				<div className="flex flex-row justify-between items-end py-6 px-16 mx-auto">
 					<div className="flex flex-col">
 						<h5 className="text-xl font-medium text-gray-900">About</h5>
 						<span className="text-sm text-gray-500">We're a vibrant online community of writers, bound together by our love for storytelling and collaborative creativity. Whether you're a seasoned wordsmith or just starting out, you'll find a warm welcome here. Join us in exploring the endless possibilities of the written word!</span>
 					</div>
 				</div>
-			</div>
+			</div> */}
 			<div>
 				<div className="flex flex-row justify-between items-center">
 					<h2 className="px-3 py-4 text-xl">Books</h2>
@@ -203,11 +203,11 @@ export const GroupDashboard = () => {
 					</Link>
 					}
 				</div>
-				<FeaturedSlider SliderItems={authorGroupData.books}/>
+				<FeaturedSlider SliderItems={authorGroupData.books.filter((book)=>book.is_published)}/>
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl">Drafts</h2>
-				<FeaturedSlider SliderItems={books}/>
+				<FeaturedSlider SliderItems={authorGroupData.books.filter((book)=>!book.is_published)}/>
 			</div>
     </div>
   )
