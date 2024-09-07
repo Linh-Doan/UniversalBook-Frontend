@@ -6,24 +6,27 @@ import backgroundImage from '../../assets/BookEditorBackground2.png';
 import "./BookCreator.css"
 
 export const BookCreator = () => {
+  const [bookCreated, setBookCreated] = useState({});
   const [bookDetails, setBookDetails] = useState({
     name: '',
     description: '',
-    authorGroup: '',
+    authorGroup: { id: '', name: '' }, // Update structure to store both ID and name
     genres: [],
   });
-  const [authorGroups, setAuthorGroups] = useState([])
-  const [genres, setGenres] = useState([])
-  const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74"
+  const [authorGroups, setAuthorGroups] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74";
+
   useEffect(() => {
-    async function fetchAuthorGroups(){
+    async function fetchAuthorGroups() {
       const response = await axiosInstance.get(`${endpoints.authorGroup}?account_id=${accountId}`);
       setAuthorGroups(response.data.data.authorGroups);
     }
     fetchAuthorGroups();
   }, [accountId]);
+
   useEffect(() => {
-    async function fetchGenres(){
+    async function fetchGenres() {
       const response = await axiosInstance.get(`${endpoints.genres}`);
       setGenres(response.data.data.genres);
     }
@@ -35,6 +38,15 @@ export const BookCreator = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBookDetails({ ...bookDetails, [name]: value });
+  };
+
+  const handleAuthorGroupChange = (e) => {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const authorGroup = {
+      id: selectedOption.value,
+      name: selectedOption.textContent,
+    };
+    setBookDetails({ ...bookDetails, authorGroup });
   };
 
   const handleGenreChange = (e) => {
@@ -53,21 +65,31 @@ export const BookCreator = () => {
   };
 
   const handleSubmit = async () => {
-    try{
-      await axiosInstance.post(`${endpoints.getBooks}`,
-      {
-        book_name: bookDetails.name,
-        author_group_id: bookDetails.authorGroup,
-        summary_text: bookDetails.description,
-        genres: bookDetails.genres.map(genre => genre[0])
-      }, 
-      {
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
+    try {
+      const res = await axiosInstance.post(
+        `${endpoints.getBooks}`,
+        {
+          book_name: bookDetails.name,
+          author_group_id: bookDetails.authorGroup.id,
+          summary_text: bookDetails.description,
+          genres: bookDetails.genres.map(genre => genre[0]),
+        },
+        {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          }
         }
+      );
+      const createdBook = res.data.data.book;
+      setBookCreated(createdBook);
+      navigate('/chaptercreator', {
+        state: {
+          bookCreated: createdBook,
+          authorGroupName: bookDetails.authorGroup.name, // Pass the name directly
+        },
       });
-      navigate('/bookeditor', { state: { bookDetails } });
     } catch (err) {
+      console.error("Error creating book:", err);
       alert("Error creating book, try again later");
     }
   };
@@ -123,11 +145,18 @@ export const BookCreator = () => {
             <select
               id="authorGroup"
               name="authorGroup"
-              onChange={handleChange}
+              onChange={handleAuthorGroupChange}
               className="font-merriweather mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
             >
               <option value="">Select author group</option>
-              {authorGroups.map(authorGroup => <option key={authorGroup.author_group_id} value={authorGroup.author_group_id}>{authorGroup.author_group_name}</option>)}
+              {authorGroups.map(authorGroup => (
+                <option
+                  key={authorGroup.author_group_id}
+                  value={authorGroup.author_group_id}
+                >
+                  {authorGroup.author_group_name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="relative">
