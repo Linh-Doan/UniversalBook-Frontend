@@ -25,7 +25,8 @@ function publishBook() {
 
 export const BookEditor = () => {
   const location = useLocation();
-  const { bookDetails } = location.state || { bookDetails: {} };
+  const { bookCreated } = location.state || { bookCreated: {} };
+  const { authorGroupName } = location.state || { authorGroupName: {}};
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
@@ -45,14 +46,14 @@ export const BookEditor = () => {
   quill.clipboard.dangerouslyPasteHTML(0, `
     <div style="text-align: center; margin-bottom: 20px;">
       <h1 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 2.5em; margin-bottom: 0.5em;">
-        ${bookDetails.name}
+        ${bookCreated.book_name}
       </h1>
       <h3 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 1.5em;">
-        Author: ${bookDetails.author}
+        Author: ${authorGroupName}
       </h3>
     </div>
   `);
-  }, [bookDetails]);
+  }, [bookCreated]);
 
   return (
     <div
@@ -92,19 +93,19 @@ export const BookEditor = () => {
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
           >
             <h2 className="text-2xl font-bold mb-4 font-merriweather text-gray-800">
-              {bookDetails.name}
+              {bookCreated.name}
             </h2>
             <p className="font-merriweather text-gray-800">
-              <strong>Description:</strong> {bookDetails.description}
+              <strong>Description:</strong> {bookCreated.description}
             </p>
             <p className="font-merriweather text-gray-800">
-              <strong>Author:</strong> {bookDetails.author}
+              <strong>Author:</strong> {bookCreated.author}
             </p>
             <p className="font-merriweather text-gray-800">
               <strong>Genres:</strong>
             </p>
             <div className="flex flex-wrap mb-4">
-              {bookDetails.genres?.map((genre, index) => (
+              {bookCreated.genres?.map((genre, index) => (
                 <span
                   key={index}
                   className="m-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full"
