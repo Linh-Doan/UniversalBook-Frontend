@@ -18,7 +18,11 @@ const endpoints = {
     isUserFollowingGenre: '/genres/is-following', // Endpoint to check if a user is following a specific genre
     getChapters: '/chapters',  
     getTopRatedChapters: '/chapters/top-rated', 
-    getNewChapters: '/chapters/latest'  
+    getNewChapters: '/chapters/latest',
+    login: '/users/login',
+    signup: '/users/signup',
+    logout: '/users/logout',
+    currentUser: '/users/me'
 };
 
 export { apiBaseUrl, apiBaseUrlRoot, endpoints };

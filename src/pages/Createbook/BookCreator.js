@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiBaseUrl, endpoints } from '../../config';
+import { endpoints } from '../../config';
+import axiosInstance from '../../api/axiosInstance';
 import backgroundImage from '../../assets/BookEditorBackground2.png';
 import "./BookCreator.css"
 
@@ -16,18 +17,15 @@ export const BookCreator = () => {
   const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74"
   useEffect(() => {
     async function fetchAuthorGroups(){
-      const response = await fetch(`${apiBaseUrl}${endpoints.authorGroup}?account_id=${accountId}`);
-      const json = await response.json()
-      setAuthorGroups(json.data.authorGroups)
+      const response = await axiosInstance.get(`${endpoints.authorGroup}?account_id=${accountId}`);
+      setAuthorGroups(response.data.data.authorGroups);
     }
     fetchAuthorGroups();
   }, [accountId]);
   useEffect(() => {
     async function fetchGenres(){
-      const response = await fetch(`${apiBaseUrl}${endpoints.genres}`);
-      const json = await response.json()
-      console.log(json)
-      setGenres(json.data.genres)
+      const response = await axiosInstance.get(`${endpoints.genres}`);
+      setGenres(response.data.data.genres);
     }
     fetchGenres();
   }, [accountId]);
@@ -56,23 +54,19 @@ export const BookCreator = () => {
 
   const handleSubmit = async () => {
     try{
-      const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}`, {
-        method: "POST",
-        body: JSON.stringify({
-          book_name: bookDetails.name,
-          author_group_id: bookDetails.authorGroup,
-          summary_text: bookDetails.description,
-          genres: bookDetails.genres.map(genre => genre[0])
-        }),
+      await axiosInstance.post(`${endpoints.getBooks}`,
+      {
+        book_name: bookDetails.name,
+        author_group_id: bookDetails.authorGroup,
+        summary_text: bookDetails.description,
+        genres: bookDetails.genres.map(genre => genre[0])
+      }, 
+      {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-      })
-      if (response.ok) {
-        navigate('/bookeditor', { state: { bookDetails } });
-      } else {
-        alert("Error creating book, try again later");
-      }
+      });
+      navigate('/bookeditor', { state: { bookDetails } });
     } catch (err) {
       alert("Error creating book, try again later");
     }

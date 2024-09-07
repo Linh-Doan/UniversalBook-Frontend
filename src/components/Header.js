@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
-import UserProfile from "../assets/userProfile.png"; // Adjust the import path as needed
+import { HeaderDropdown } from "./HeaderDropdown";
 
 export const Header = () => {
   const [hidden, setHidden] = useState(true);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Replace with actual login state
-  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,26 +28,6 @@ export const Header = () => {
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
-  };
-
-  const handleLogout = () => {
-    setShowConfirmLogout(true);
-  };
-
-  const confirmLogout = () => {
-    // Add logout logic here
-    setIsLoggedIn(false);
-    setShowConfirmLogout(false);
-    navigate('/'); // Redirect to home or login page after logout
-  };
-
-  const cancelLogout = () => {
-    setShowConfirmLogout(false);
-  };
-
-  const handleNavigation = (path) => {
-    setDropdownVisible(false);
-    navigate(path);
   };
 
   useEffect(() => {
@@ -108,22 +86,7 @@ export const Header = () => {
               <button onClick={toggleDropdown} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 px-3"></button>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                  {isLoggedIn ? (
-                    <div className="flex flex-col p-2 text-left">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-gray-700">Bonnie Green</span>
-                        <img src={UserProfile} alt="User Profile" className="h-8 w-8 rounded-full" />
-                      </div>
-                      <button onClick={() => handleNavigation('/profile/1')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</button>
-                      <button onClick={handleLogout} className="text-blue-700 font-semibold text-left hover:bg-gray-200">Logout</button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col p-2 text-left">
-                      <span className="text-gray-700 mb-2">Not logged in yet</span>
-                      <button onClick={() => handleNavigation('/login')} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Login</button>
-                      <button onClick={() => handleNavigation('/register')} className="text-blue-700 font-semibold text-left hover:bg-gray-200">New here?</button>
-                    </div>
-                  )}
+                  <HeaderDropdown setDropdownVisible={setDropdownVisible}/>
                 </div>
               )}
             </div>
@@ -144,7 +107,7 @@ export const Header = () => {
                 </svg>
               </div>
               <form onSubmit={handleSubmitChangeState}>
-                <input type="text" name="search" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search..." />
+                <input type="text" name="search" id="search-navbar-small" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search..." />
               </form>
             </div>
             <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-200 rtl:space-x-reverse">
@@ -164,18 +127,6 @@ export const Header = () => {
           </div>
         </div>
       </nav>
-      {/* Confirmation Dialog */}
-      {showConfirmLogout && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg text-center z-60">
-            <p className="mb-4">Are you sure you want to logout?</p>
-            <div className="flex justify-around">
-              <button onClick={confirmLogout} className="bg-red-500 text-white px-4 py-2 rounded">Yes</button>
-              <button onClick={cancelLogout} className="bg-gray-300 text-black px-4 py-2 rounded">No</button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
