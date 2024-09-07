@@ -24,6 +24,7 @@ export const AllRoutes = () => {
             <Route path="profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
             <Route path ="/creategroup" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>} />
             <Route path="group" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>}></Route>
+            <Route path="group/:id" element={<GroupDashboard />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
     </main>
