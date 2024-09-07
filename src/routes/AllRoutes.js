@@ -22,7 +22,7 @@ export const AllRoutes = () => {
             <Route path="register" element={<Register />}></Route>
             <Route path="profile/:id" element={<Profile />}/>
             <Route path ="/creategroup" element={<CreateGroup></CreateGroup>} />
-            <Route path="group" element={<GroupDashboard />}></Route>
+            <Route path="group/:id" element={<GroupDashboard />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
     </main>

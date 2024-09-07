@@ -52,7 +52,6 @@ export const BookCreator = () => {
     });
   };
 
-
   const handleSubmit = async () => {
     try{
       await axiosInstance.post(`${endpoints.getBooks}`,
