@@ -22,7 +22,7 @@ export const ChapterCreator = () => {
   };
 
   const startWriting = (chapter , index) => {
-    navigate('/bookeditor', { state: { bookCreated, chapter, authorGroupName } });
+    navigate('/bookeditor', { state: { bookCreated, chapter, index, authorGroupName } });
     console.log(chapter);
     console.log(index);
   };
