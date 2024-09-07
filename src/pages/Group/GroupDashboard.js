@@ -1,26 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import FeaturedSlider from "../../components/FeaturedSlider";
-import Book4 from "../../assets/book4.jpg";
-import Book5 from "../../assets/book5.jpg";
-import Book6 from "../../assets/book6.jpg";
 import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
-
-const books = [
-	{
-		id: 1,
-		imageUrl: Book4, 
-	},
-	{
-		id: 2,
-		imageUrl: Book5, 
-	},
-	{
-		id: 3,
-		imageUrl: Book6, 
-	}
-];
 
 const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie or session storage
 
@@ -111,7 +93,7 @@ export const GroupDashboard = () => {
             }
         });
         return () => {};
-    }, [])
+    }, [id])
 
     return (
     <div className="mx-auto px-8">

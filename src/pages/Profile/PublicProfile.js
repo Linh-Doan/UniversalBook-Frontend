@@ -2,24 +2,7 @@ import {  Link } from "react-router-dom";
 import UserProfile from "../../assets/userProfile.png"
 import FeaturedSlider from "../../components/FeaturedSlider";
 import Book4 from "../../assets/book1.jpeg";
-import Book5 from "../../assets/book5.jpg";
-import Book6 from "../../assets/book6.jpg";
 import {apiBaseUrl, endpoints} from '../../config';
-
-const books = [
-	{
-		id: 1,
-		imageUrl: Book4, 
-	},
-	{
-		id: 2,
-		imageUrl: Book5, 
-	},
-	{
-		id: 3,
-		imageUrl: Book6, 
-	}
-];
 
 const email = 'test1@gmail.com' //TODO: change to code to get email from cookie
 

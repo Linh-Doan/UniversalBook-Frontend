@@ -6,6 +6,7 @@ import { Comment, Modal } from '../components/';
 import axiosInstance from '../api/axiosInstance.js';
 // import FeaturedSlider from "../components/FeaturedSlider";
 import background_img from '../assets/login_page.jpg';
+import { useUser } from '../hooks/useUser.js';
 
 
 export const BookDetails = () => {
@@ -15,8 +16,7 @@ export const BookDetails = () => {
     const [commentList, setCommentsList] = useState([]);
     const [showAddComment, setShowAddComment] = useState(false);
     const [isAddingComment, setIsAddingComment] = useState(false);
-    const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74"
-   
+    const { user, userId } = useUser();
     useEffect(() => {
         async function fetchBook(){
             try{
@@ -29,40 +29,46 @@ export const BookDetails = () => {
     }, [id]);
     useEffect(() => {
         async function checkFollowingBook(){
-            const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
-            setFollowedBook(response.data.data.relationship ? true : false)
+            if (userId) {
+                const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${userId}&book_id=${id}`);
+                setFollowedBook(response.data.data.relationship ? true : false)
+            }
         }
         checkFollowingBook();
-    }, [accountId, id]);
+    }, [id, userId]); 
     useEffect(() => {
         async function fetchComments(){
             const response = await axiosInstance.get(`${endpoints.bookComments}?book_id=${id}`);
             setCommentsList(response.data.data.comments)
         }
         fetchComments();
-    }, [accountId, id]);
+    }, [id]);
 
     const image = book ? `${apiBaseUrlRoot}${book.book_image_url}`: '';
     const navigate = useNavigate();
     
     const handleFollow = async () => {
-        await axiosInstance.post(`${endpoints.followBook}`, 
-            {
-                account_id: accountId,
-                book_id: id
-            },
-            {
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
+        if (userId) {
+            await axiosInstance.post(`${endpoints.followBook}`, 
+                {
+                    account_id: userId,
+                    book_id: id
+                },
+                {
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
                 }
-            }
-        )
-        setFollowedBook(true);
+            )
+            setFollowedBook(true);
+        }
     }
 
     const handleUnfollow = async () => {
-        await axiosInstance.delete(`${endpoints.followBook}?account_id=${accountId}&book_id=${id}`);
-        setFollowedBook(false);
+        if (userId) {
+            await axiosInstance.delete(`${endpoints.followBook}?account_id=${userId}&book_id=${id}`);
+            setFollowedBook(false);
+        }
     }
 
     const handleAddComment = async (newComment) => {
@@ -70,7 +76,7 @@ export const BookDetails = () => {
             setIsAddingComment(true);
             const response = await axiosInstance.post(`${endpoints.bookComments}`, 
             {
-                account_id: accountId,
+                account_id: user.account_id,
                 book_id: id,
                 book_rating: newComment.rating,
                 book_comment_text: newComment.text
@@ -80,9 +86,9 @@ export const BookDetails = () => {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-            setCommentsList([...commentList, response.data.data.comment])
+            let createdComment = {...response.data.data.comment, account: {account_name: user.account_name}}
+            setCommentsList([...commentList, createdComment])
         } catch (error) {
-            console.log(error)
             alert("Error adding comment, please try again later")
         } finally {
             setIsAddingComment(false);
@@ -165,7 +171,7 @@ export const BookDetails = () => {
                         <ul className="space-y-2">
                             {commentList.map((comment, index) => (
                                 <li key={index}>
-                                    <Comment userName={'Janet Smith'} commentText={comment.book_comment_text} rating={comment.book_rating}/>
+                                    <Comment userName={comment.account.account_name} commentText={comment.book_comment_text} rating={comment.book_rating}/>
                                 </li>
                             ))}
                         </ul>
