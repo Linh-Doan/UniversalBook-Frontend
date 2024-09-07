@@ -157,7 +157,6 @@ export const BookDetails = () => {
                     </div>
     
                     {/* Comments Section */}
-                    {console.log(commentList)}
                     <div className="w-1/4 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
                         <h2 className="text-gray-800 text-xl font-semibold mb-4">Comments:</h2>
                         <button
