@@ -66,7 +66,7 @@ export const BookCreator = () => {
             "Content-type": "application/json; charset=UTF-8"
         }
       });
-      navigate('/bookeditor', { state: { bookDetails } });
+      navigate('/chaptercreator', { state: { bookDetails } });
     } catch (err) {
       alert("Error creating book, try again later");
     }

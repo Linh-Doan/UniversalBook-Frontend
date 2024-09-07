@@ -34,7 +34,7 @@ export const ChapterCreator = () => {
         backgroundPosition: 'center',
       }}
     >
-      <h1 className="text-4xl font-bold mb-4 mt-14 text-white animate-fadeIn">Create Chapters</h1>
+      <h1 className="text-4xl font-bold mb-4 mt-14 text-white animate-fadeIn">Create chapters for {bookDetails.name}</h1>
       <div className="w-full max-w-2xl bg-white/[.75] p-6 rounded-lg shadow-md animate-slideIn">
         <p className="text-lg font-medium text-gray-800 mb-4">Add chapters for your book:</p>
         <div className="flex mb-4">
