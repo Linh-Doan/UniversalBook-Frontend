@@ -31,13 +31,37 @@ let curUser = await curUserRes.json();
 
 let userAuthorgroups = curUser.data.user.account_author_group_member
 
-const mappedAuthorGroups = userAuthorgroups.map((authorGroup) => {
+const mappedAuthorGroups = userAuthorgroups
+.filter(
+    (authorGroup) => !authorGroup.author_group.author_group_is_single
+)
+.map((authorGroup) => {
     return {
         id: authorGroup.author_group.author_group_id,
         imageUrl: Book4,
         heading: authorGroup.author_group.author_group_name
     }
 })
+
+const personalAuthorGroup = userAuthorgroups.filter(
+    (authorGroup) => authorGroup.author_group.author_group_is_single
+)
+
+let personalBooks = []
+
+if (personalAuthorGroup.length > 0) {
+    const personalAuthorGroupData = await (await fetch(apiBaseUrl + endpoints.authorGroup + '/' + personalAuthorGroup[0].author_group.author_group_id)).json();
+
+    for (let i = 0; i < personalAuthorGroupData.data.authorGroup.book.length; i++) {
+        let book = personalAuthorGroupData.data.authorGroup.book[i];
+        personalBooks.push({
+            id: i,
+            imageUrl: book.book_image_url,
+            heading: book.book_name,
+            isPublished: book.is_published
+        })
+    }
+}
 
 export const Dashboard = () => {
   return (
@@ -56,20 +80,7 @@ export const Dashboard = () => {
 					</div>
 			</div>
 			</div>
-			<div>
-				<div className="flex flex-row justify-between items-center">
-					<h2 className="px-3 py-4 text-xl">Books</h2>
-					<Link to="/bookcreator" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-						<svg className="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
-						</svg>
-						Add book
-					</Link>
-				</div>
-				<FeaturedSlider SliderItems={books} />
-			</div>
-
-			<div>
+            <div>
 				<div className="flex flex-row justify-between items-center">
 					<h2 className="px-3 py-4 text-xl" >Groups</h2>
 					<Link to="/creategroup" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
@@ -82,8 +93,20 @@ export const Dashboard = () => {
 				<FeaturedSlider SliderItems={mappedAuthorGroups} />
 			</div>
 			<div>
+				<div className="flex flex-row justify-between items-center">
+					<h2 className="px-3 py-4 text-xl">Books</h2>
+					<Link to="/bookcreator" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+						<svg className="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
+						</svg>
+						Add book
+					</Link>
+				</div>
+				<FeaturedSlider SliderItems={personalBooks.filter((book)=>book.isPublished)} />
+			</div>
+			<div>
 				<h2 className="px-3 py-4 text-xl" >Drafts</h2>
-				<FeaturedSlider SliderItems={books} />
+				<FeaturedSlider SliderItems={personalBooks.filter((book)=>!book.isPublished)} />
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl" >Following</h2>
