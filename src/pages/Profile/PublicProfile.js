@@ -1,24 +1,25 @@
 import {  Link } from "react-router-dom";
 import UserProfile from "../../assets/userProfile.png"
 import FeaturedSlider from "../../components/FeaturedSlider";
-import Book4 from "../../assets/book4.jpg";
-import Book5 from "../../assets/book5.jpg";
-import Book6 from "../../assets/book6.jpg";
+import Book4 from "../../assets/book1.jpeg";
+import {apiBaseUrl, endpoints} from '../../config';
 
-const books = [
-	{
-		id: 1,
-		imageUrl: Book4, 
-	},
-	{
-		id: 2,
-		imageUrl: Book5, 
-	},
-	{
-		id: 3,
-		imageUrl: Book6, 
-	}
-];
+const email = 'test1@gmail.com' //TODO: change to code to get email from cookie
+
+let curUserRes = await fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email);
+
+let curUser = await curUserRes.json();
+
+let userAuthorgroups = curUser.data.user.account_author_group_member
+
+const mappedAuthorGroups = userAuthorgroups.map((authorGroup) => {
+    return {
+        id: authorGroup.author_group.author_group_id,
+        imageUrl: Book4,
+        heading: authorGroup.author_group.author_group_name
+    }
+})
+
 export const PublicProfile = () => {
   return (
     <div className="p-4 w-full overflow-hidden">
@@ -37,20 +38,20 @@ export const PublicProfile = () => {
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl">Books</h2>
-				<FeaturedSlider SliderItems={books} />
+				<FeaturedSlider />
 			</div>
 
 			<div>
 				<h2 className="px-3 py-4 text-xl" >Groups</h2>
-				<FeaturedSlider SliderItems={books} />
+				<FeaturedSlider SliderItems={mappedAuthorGroups} itemType={"AuthorGroup"}/>
 			</div>
 			<div>
 					<h2 className="px-3 py-4 text-xl" >Following</h2>
-					<FeaturedSlider SliderItems={books} />
+					<FeaturedSlider />
 			</div>
 			<div className="box-sizing: border-box">
 					<h2 className="px-3 py-4 text-xl" >Followers</h2>
-					<FeaturedSlider SliderItems={books} />
+					<FeaturedSlider  />
 			</div>
 		</div>
   )

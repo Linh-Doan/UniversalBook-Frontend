@@ -5,3 +5,4 @@ export { Rating } from "./Rating";
 export { Comment } from "./Comment";
 export { UserDataRow } from "./UserDataRow";
 export { Modal } from "./Modal";
+export { Loading } from "./Loading";

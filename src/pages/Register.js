@@ -4,6 +4,7 @@ import background_img from '../assets/login_page.jpg';
 import viewIcon from '../assets/view.png';  
 import hiddenIcon from '../assets/hidden.png';
 import { apiBaseUrl, endpoints } from '../config';
+import axiosInstance from '../api/axiosInstance';
 // import Cookies from 'js-cookie';
 
 export const Register = () => {
@@ -40,21 +41,20 @@ export const Register = () => {
                 account_password: formData.password
             }
             try {
-                const response = await fetch(`${apiBaseUrl}${endpoints.signup}`, {
-                    method: "POST",
-                    body: JSON.stringify(authDetails),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
+                await axiosInstance.post(
+                    `${apiBaseUrl}${endpoints.signup}`,
+                    authDetails, 
+                    {
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
                     }
-                })
-                const data = await response.json();
-                if (response.ok) {
-                    navigate('/');
-                } else {
-                    alert(data.message);
-                }
+                )
+                navigate('/');
             } catch (err) {
-                alert('Something is wrong, try again later');
+                if (err.name === "AxiosError"){
+                    alert(err.response.data.message);
+                }
             }
         }
         

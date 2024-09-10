@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 
 import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard, ChapterCreator } from "../pages";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AllRoutes = () => {
   return (
@@ -13,16 +14,17 @@ export const AllRoutes = () => {
             <Route path="books" element={<BookList />}></Route>
             <Route path="chapters" element={<ChapterList />}></Route>
             <Route path="login" element={<Login />}></Route>
-            <Route path="search" element={<SearchResults />}></Route>
-            <Route path="bookcreator" element={<BookCreator />}></Route>
-            <Route path="bookeditor" element={<BookEditor />}></Route>
-            <Route path="chaptercreator" element={<ChapterCreator />}></Route>
-            <Route path="books/:id" element={<BookDetails />} />
-            <Route path="viewchapter/:id" element={<ViewChapter />} />
             <Route path="register" element={<Register />}></Route>
-            <Route path="profile/:id" element={<Profile />}/>
-            <Route path ="/creategroup" element={<CreateGroup></CreateGroup>} />
-            <Route path="group" element={<GroupDashboard />}></Route>
+            <Route path="search" element={<ProtectedRoute><SearchResults /></ProtectedRoute>}></Route>
+            <Route path="bookcreator" element={<ProtectedRoute><BookCreator /></ProtectedRoute>}></Route>
+            <Route path="bookeditor" element={<ProtectedRoute><BookEditor /></ProtectedRoute>}></Route>
+            <Route path="chaptercreator" element={<ProtectedRoute><ChapterCreator /></ProtectedRoute>}></Route>
+            <Route path="books/:id" element={<ProtectedRoute><BookDetails /></ProtectedRoute>} />
+            <Route path="viewchapter/:id" element={<ProtectedRoute><ViewChapter /></ProtectedRoute>} />
+            <Route path="profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
+            <Route path ="/creategroup" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>} />
+            <Route path="group" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>}></Route>
+            <Route path="group/:id" element={<GroupDashboard />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
     </main>

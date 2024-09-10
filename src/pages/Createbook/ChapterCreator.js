@@ -8,8 +8,8 @@ export const ChapterCreator = () => {
   const [chapters, setChapters] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { bookDetails } = location.state || { bookDetails: {} };
-
+  const { bookCreated } = location.state || { bookCreated: {} };
+  const { authorGroupName } = location.state || { authorGroupName: ""};
   const handleChapterNameChange = (e) => {
     setChapterName(e.target.value);
   };
@@ -21,8 +21,10 @@ export const ChapterCreator = () => {
     }
   };
 
-  const startWriting = (chapter) => {
-    navigate('/bookeditor', { state: { bookDetails, chapter } });
+  const startWriting = (chapter , index) => {
+    navigate('/bookeditor', { state: { bookCreated, chapter, index, authorGroupName } });
+    console.log(chapter);
+    console.log(index);
   };
 
   return (
@@ -34,7 +36,7 @@ export const ChapterCreator = () => {
         backgroundPosition: 'center',
       }}
     >
-      <h1 className="text-4xl font-bold mb-4 mt-14 text-white animate-fadeIn">Create Chapters</h1>
+      <h1 className="text-4xl font-bold mb-4 mt-14 text-white animate-fadeIn">Create chapters for {bookCreated.book_name}</h1>
       <div className="w-full max-w-2xl bg-white/[.75] p-6 rounded-lg shadow-md animate-slideIn">
         <p className="text-lg font-medium text-gray-800 mb-4">Add chapters for your book:</p>
         <div className="flex mb-4">
@@ -60,7 +62,7 @@ export const ChapterCreator = () => {
               <button
                 type="button"
                 className="ml-4 py-1 px-3 text-md font-medium text-white bg-blue-600 hover:bg-blue-800 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-300"
-                onClick={() => startWriting(chapter)}
+                onClick={() => startWriting(chapter, index)}
               >
                 Start Writing
               </button>
