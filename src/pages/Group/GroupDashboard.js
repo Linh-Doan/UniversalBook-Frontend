@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FeaturedSlider from "../../components/FeaturedSlider";
 import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
@@ -74,10 +74,15 @@ export const GroupDashboard = () => {
 	}
 
     const { id } = useParams();
-
+    const navigate = useNavigate();
     
     useEffect(()=>{
         fetch(apiBaseUrl + endpoints.authorGroup + '/' + id).then((response)=>response.json()).then((data) => {
+
+            if (data.data.authorGroup.author_group_is_single) {
+                navigate("/profile/" + data.data.authorGroup.account_author_group_member[0].account.account_id)
+            }
+
             setAuthorGroupData({
                 name: data.data.authorGroup.author_group_name,
                 membersCount: data.data.authorGroup.account_author_group_member.length,
