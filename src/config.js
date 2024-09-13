@@ -22,7 +22,8 @@ const endpoints = {
     login: '/users/login',
     signup: '/users/signup',
     logout: '/users/logout',
-    currentUser: '/users/me'
+    currentUser: '/users/me',
+    search: '/search',
 };
 
 export { apiBaseUrl, apiBaseUrlRoot, endpoints };
