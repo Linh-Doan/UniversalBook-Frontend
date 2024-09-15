@@ -5,6 +5,7 @@ import ZoomOutIcon from "../assets/zoom-out.png";
 import BlueLightIcon from "../assets/lightbulb.png";
 import FullscreenIcon from "../assets/fullscreen.png";
 import { apiBaseUrl, endpoints } from '../config.js';
+import axiosInstance from '../api/axiosInstance.js';
 
 const fetchWordDetails = async (word) => {
     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -27,7 +28,10 @@ export const ViewChapterDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { bookCreated } = location.state || { bookCreated: {} };
-    const { chapter } = location.state || { chapter: {} };
+
+    const { chapter: initialChapter } = location.state || { chapter: {} };
+
+    const [chapter, setChapter] = useState(initialChapter); // Set initial state from location state
 
     const [showPopup, setShowPopup] = useState(false);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -42,15 +46,43 @@ export const ViewChapterDetails = () => {
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
 
+    const [isChapterFetched, setIsChapterFetched] = useState(
+        initialChapter && Object.keys(initialChapter).length > 0
+    );
+
+
+    // Function to fetch chapter data if it's not available
+    const fetchChapterData = async () => {
+        try {
+            const response = await axiosInstance.get(`${endpoints.getChapters}/chapter/${id}`);
+            setChapter(response.data.data.chapter);
+            setIsChapterFetched(true); 
+        } catch (err) {
+            console.error("Error fetching chapter:", err);
+        }
+    };
+
+    useEffect(() => {
+        // Run fetch only if the chapter hasn't been fetched yet
+        if (!isChapterFetched) {
+            fetchChapterData();
+        }
+    }, []); 
+    
+
     const processChapter = (chapter) => {
         if (!chapter) return null;
         return {
             id: chapter.chapter_id,
-            imageUrl: chapter.chapter_image_url.startsWith('http') ? chapter.chapter_image_url : `${process.env.REACT_APP_API_BASE_URL_ROOT}${chapter.chapter_image_url}`,
+            // Ensure chapter_image_url exists and is a string before calling startsWith
+            imageUrl: chapter.chapter_image_url && typeof chapter.chapter_image_url === 'string' && chapter.chapter_image_url.startsWith('http') 
+                ? chapter.chapter_image_url 
+                : `${process.env.REACT_APP_API_BASE_URL_ROOT}${chapter.chapter_image_url || ''}`,
             heading: `Chapter ${chapter.chapter_sequence}: ${chapter.chapter_name || 'Untitled'}`,
             content: chapter.chapter_content,
         };
     };
+
 
     const processedChapter = processChapter(chapter);
 
