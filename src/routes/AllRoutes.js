@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard, ChapterCreator } from "../pages";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ViewChapterDetails } from "../pages/ViewChapterDetails";
 
 export const AllRoutes = () => {
   return (
@@ -21,6 +22,7 @@ export const AllRoutes = () => {
             <Route path="chaptercreator" element={<ProtectedRoute><ChapterCreator /></ProtectedRoute>}></Route>
             <Route path="books/:id" element={<ProtectedRoute><BookDetails /></ProtectedRoute>} />
             <Route path="viewchapter/:id" element={<ProtectedRoute><ViewChapter /></ProtectedRoute>} />
+            <Route path="viewchapterdetails/:id" element={<ProtectedRoute><ViewChapterDetails /></ProtectedRoute>} />
             <Route path="profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
             <Route path ="/creategroup" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>} />
             <Route path="group" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>}></Route>
