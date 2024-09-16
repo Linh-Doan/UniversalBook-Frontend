@@ -8,7 +8,7 @@ const tabs = [
   { tabDisplay: 'Books', category: 'books' },
   { tabDisplay: 'Chapters', category: 'chapters' },
   { tabDisplay: 'Genres', category: 'genres' },
-  { tabDisplay: 'People', category: 'people' }, // Only if implemented on the backend
+  { tabDisplay: 'Groups', category: 'people' },
 ];
 
 export const SearchResults = () => {
@@ -66,7 +66,7 @@ export const SearchResults = () => {
     } else if (tabs[activeTab].category === 'genres') {
       return item.genre_name && item.genre_image_url;
     } else if (tabs[activeTab].category === 'people') {
-      return item.person_name && item.person_image_url;
+      return item.author_group_name; // Adjusted to display groups under People tab
     }
     return false;
   });
@@ -110,6 +110,19 @@ export const SearchResults = () => {
             <p className="text-large text-red-500">{error}</p>
           ) : filteredResults.length === 0 ? (
             <p className="text-large text-gray-700">{`No ${tabs[activeTab].tabDisplay.toLowerCase()} results found`}</p>
+          ) : activeTab === 3 ? ( // Check if the active tab is "People"
+            <ol className="list-decimal list-inside">
+              {filteredResults.map((item, index) => (
+                <li key={item.author_group_id}>
+                  <a
+                    href={`/group/${item.author_group_id}`}
+                    className="text-blue-600 hover:underline"
+                  >
+                    {item.author_group_name}
+                  </a>
+                </li>
+              ))}
+            </ol>
           ) : (
             filteredResults.map((item) => {
               // Generate the correct onClickUrl based on the type of item
@@ -118,7 +131,7 @@ export const SearchResults = () => {
                 onClickUrl = `/books/${item.book_id}`; // Link to book details page
                 console.log(`Generated link for book: ${onClickUrl}`);
               } else if (tabs[activeTab].category === 'chapters') {
-                onClickUrl = `/viewchapter/${item.chapter_id}`; // Link to chapter reading page
+                onClickUrl = `/viewchapterdetails/${item.chapter_id}`; // Link to chapter reading page
                 console.log(`Generated link for chapter: ${onClickUrl}`);
               } else if (tabs[activeTab].category === 'genres') {
                 onClickUrl = `/genres/${item.genre_id}`; // Link to genre details page
@@ -127,14 +140,14 @@ export const SearchResults = () => {
 
               return (
                 <SliderItem
-                  key={item.book_id || item.chapter_id || item.genre_id || item.person_id}
+                  key={item.book_id || item.chapter_id || item.genre_id || item.author_group_id}
                   imageUrl={
                     item.book_image_url ||
                     item.chapter_image_url ||
                     item.genre_image_url ||
-                    item.person_image_url
+                    item.author_group_image_url // Assuming groups might have images too
                   }
-                  heading={item.book_name || item.chapter_name || item.genre_name || item.person_name}
+                  heading={item.book_name || item.chapter_name || item.genre_name || item.author_group_name}
                   onClickUrl={onClickUrl} // Passes the correct link to navigate to the appropriate page
                 />
               );
