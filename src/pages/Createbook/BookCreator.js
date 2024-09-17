@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { endpoints } from '../../config';
 import axiosInstance from '../../api/axiosInstance';
 import backgroundImage from '../../assets/BookEditorBackground2.png';
-import "./BookCreator.css"
+import { useUser } from '../../hooks/useUser';
+import "./BookCreator.css";
 
 export const BookCreator = () => {
   // const [bookCreated, setBookCreated] = useState({});
@@ -15,15 +16,17 @@ export const BookCreator = () => {
   });
   const [authorGroups, setAuthorGroups] = useState([]);
   const [genres, setGenres] = useState([]);
-  const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74";
+  const { userId } = useUser();
 
   useEffect(() => {
     async function fetchAuthorGroups() {
-      const response = await axiosInstance.get(`${endpoints.authorGroup}?account_id=${accountId}`);
-      setAuthorGroups(response.data.data.authorGroups);
+      if (userId) {
+        const response = await axiosInstance.get(`${endpoints.authorGroup}?account_id=${userId}`);
+        setAuthorGroups(response.data.data.authorGroups);
+      }
     }
     fetchAuthorGroups();
-  }, [accountId]);
+  }, [userId]);
 
   useEffect(() => {
     async function fetchGenres() {
@@ -31,7 +34,7 @@ export const BookCreator = () => {
       setGenres(response.data.data.genres);
     }
     fetchGenres();
-  }, [accountId]);
+  }, []);
 
   const navigate = useNavigate();
 
