@@ -70,14 +70,14 @@ export const Dashboard = () => {
 	const { userId } = useUser();
 	const [booksFollowing, setBooksFollowing] = useState([]);
 	useEffect(() => {
-		async function fetchAuthorGroups() {
+		async function fetchBooksFollowing() {
 			if (userId) {
 				const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${userId}`);
-				const booksFollowing = response.data.data.relationships.map(relationship => relationship.book);
-				setBooksFollowing(booksFollowing);
+				const books = response.data.data.relationships.map(relationship => relationship.book);
+				setBooksFollowing(books);
 			}
 		}
-		fetchAuthorGroups();
+		fetchBooksFollowing();
 	}, [userId]);
   return (
     <div className="dashboard-outlet">
@@ -131,7 +131,9 @@ export const Dashboard = () => {
 						imageUrl: book.book_image_url,
 						heading: book.book_name,
 					}
-				})} />
+				})}
+				itemType="book"
+				/>
 			</div>
 			<div className="box-sizing: border-box">
 				<h2 className="px-3 py-4 text-xl" >Followers</h2>
