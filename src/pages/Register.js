@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { register } from '../services/authService';
 import background_img from '../assets/login_page.jpg';
 import viewIcon from '../assets/view.png';  
 import hiddenIcon from '../assets/hidden.png';
-import { apiBaseUrl, endpoints } from '../config';
-import axiosInstance from '../api/axiosInstance';
-// import Cookies from 'js-cookie';
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -41,15 +39,7 @@ export const Register = () => {
                 account_password: formData.password
             }
             try {
-                await axiosInstance.post(
-                    `${apiBaseUrl}${endpoints.signup}`,
-                    authDetails, 
-                    {
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8"
-                        }
-                    }
-                )
+                register(authDetails);
                 navigate('/');
             } catch (err) {
                 if (err.name === "AxiosError"){
