@@ -5,6 +5,9 @@ import Book4 from "../../../assets/book4.jpg";
 import Book5 from "../../../assets/book5.jpg";
 import Book6 from "../../../assets/book6.jpg";
 import {apiBaseUrl, endpoints} from '../../../config';
+import { useUser } from '../../../hooks/useUser';
+import { useEffect, useState } from "react";
+import axiosInstance from "../../../api/axiosInstance";
 import './Dashboard.css'
 const books = [
 	{
@@ -64,6 +67,18 @@ if (personalAuthorGroup.length > 0) {
 }
 
 export const Dashboard = () => {
+	const { userId } = useUser();
+	const [booksFollowing, setBooksFollowing] = useState([]);
+	useEffect(() => {
+		async function fetchBooksFollowing() {
+			if (userId) {
+				const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${userId}`);
+				const books = response.data.data.relationships.map(relationship => relationship.book);
+				setBooksFollowing(books);
+			}
+		}
+		fetchBooksFollowing();
+	}, [userId]);
   return (
     <div className="dashboard-outlet">
 			<div className="bg-gray-100 border border-gray-200 rounded-lg">
@@ -110,7 +125,15 @@ export const Dashboard = () => {
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl" >Following</h2>
-				<FeaturedSlider SliderItems={books} />
+				<FeaturedSlider SliderItems={booksFollowing.map(book => {
+					return {
+						id: book.book_id,
+						imageUrl: book.book_image_url,
+						heading: book.book_name,
+					}
+				})}
+				itemType="book"
+				/>
 			</div>
 			<div className="box-sizing: border-box">
 				<h2 className="px-3 py-4 text-xl" >Followers</h2>

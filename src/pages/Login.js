@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import viewIcon from '../assets/view.png'; // Import the view icon image
 import hiddenIcon from '../assets/hidden.png'; // Import the hidden icon image
 import background_img from '../assets/login_page.jpg';
-import { apiBaseUrl, endpoints } from '../config';
-import axiosInstance from '../api/axiosInstance';
+import { login } from '../services/authService';
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,13 +23,7 @@ export const Login = () => {
       account_password: formData.password
     }
     try {
-      await axiosInstance.post(`${apiBaseUrl}${endpoints.login}`, 
-      loginDetails,
-      {
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-      });
+      login(loginDetails);
       navigate('/');
     } catch (err) {
       if (err.name === "AxiosError"){

@@ -109,7 +109,7 @@ export const GroupDashboard = () => {
             }
         });
         return () => {};
-    }, [id])
+    }, [id]) // eslint-disable-line
 
     return (
     <div className="mx-auto px-8">
