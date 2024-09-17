@@ -14,7 +14,7 @@ export const ViewChapter = () => {
   useEffect(() => {
     const fetchChapter = async () => {
         try{
-            const response = await axiosInstance.get(`${endpoints.getChapters}/${id}`);
+            const response = await axiosInstance.get(`${endpoints.getBooks}/${id}/chapters`);
             setChapters(response.data.data.chapter);
         } catch (err) {
         }
@@ -36,7 +36,7 @@ export const ViewChapter = () => {
     }, [id]);
 
     const startViewing = (chapter , index) => {
-        navigate(`/viewchapterdetails/${chapter.chapter_id}`, { state: { bookCreated, chapter } });
+        navigate(`/chapters/${chapter.chapter_id}`, { state: { bookCreated, chapter } });
     };
 
 

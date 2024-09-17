@@ -96,7 +96,7 @@ export const BookDetails = () => {
     }
 
     const handleViewContent = () => {
-        navigate(`/viewchapter/${id}`);
+        navigate(`/books/${id}/chapters`);
     };
 
     return (

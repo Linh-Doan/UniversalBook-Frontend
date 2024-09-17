@@ -34,7 +34,7 @@ const getItemUrl = (itemType, id) => {
   } 
 
   if (itemType === 'chapter'){
-    return `/viewchapterdetails/${id}`;
+    return `/chapters/${id}`;
   }
 }
 
