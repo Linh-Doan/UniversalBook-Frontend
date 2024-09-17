@@ -54,7 +54,7 @@ export const ViewChapterDetails = () => {
         // Function to fetch chapter data if it's not available
         const fetchChapterData = async () => {
             try {
-                const response = await axiosInstance.get(`${endpoints.getChapters}/chapter/${id}`);
+                const response = await axiosInstance.get(`${endpoints.getChapters}/${id}`);
                 setChapter(response.data.data.chapter);
                 setIsChapterFetched(true); 
             } catch (err) {
