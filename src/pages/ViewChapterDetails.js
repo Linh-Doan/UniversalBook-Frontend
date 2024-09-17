@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import ZoomInIcon from "../assets/zoom-in.png";
 import ZoomOutIcon from "../assets/zoom-out.png";
 import BlueLightIcon from "../assets/lightbulb.png";
 import FullscreenIcon from "../assets/fullscreen.png";
-import { apiBaseUrl, endpoints } from '../config.js';
+import { endpoints } from '../config.js';
 import axiosInstance from '../api/axiosInstance.js';
 
 const fetchWordDetails = async (word) => {
@@ -25,9 +25,9 @@ const fetchTranslation = async (word) => {
 
 export const ViewChapterDetails = () => {
     const { id } = useParams(); // `id` is the chapter ID from the URL
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const location = useLocation();
-    const { bookCreated } = location.state || { bookCreated: {} };
+    // const { bookCreated } = location.state || { bookCreated: {} };
 
     const { chapter: initialChapter } = location.state || { chapter: {} };
 
@@ -50,24 +50,22 @@ export const ViewChapterDetails = () => {
         initialChapter && Object.keys(initialChapter).length > 0
     );
 
-
-    // Function to fetch chapter data if it's not available
-    const fetchChapterData = async () => {
-        try {
-            const response = await axiosInstance.get(`${endpoints.getChapters}/chapter/${id}`);
-            setChapter(response.data.data.chapter);
-            setIsChapterFetched(true); 
-        } catch (err) {
-            console.error("Error fetching chapter:", err);
-        }
-    };
-
     useEffect(() => {
+        // Function to fetch chapter data if it's not available
+        const fetchChapterData = async () => {
+            try {
+                const response = await axiosInstance.get(`${endpoints.getChapters}/chapter/${id}`);
+                setChapter(response.data.data.chapter);
+                setIsChapterFetched(true); 
+            } catch (err) {
+                console.error("Error fetching chapter:", err);
+            }
+        };
         // Run fetch only if the chapter hasn't been fetched yet
         if (!isChapterFetched) {
             fetchChapterData();
         }
-    }, []); 
+    }, [id, isChapterFetched]); 
     
 
     const processChapter = (chapter) => {

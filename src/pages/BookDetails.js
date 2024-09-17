@@ -4,7 +4,6 @@ import { apiBaseUrlRoot, endpoints } from '../config.js';
 import { PageNotFound } from './PageNotFound.js';
 import { Comment, Modal } from '../components/';
 import axiosInstance from '../api/axiosInstance.js';
-// import FeaturedSlider from "../components/FeaturedSlider";
 import background_img from '../assets/login_page.jpg';
 import { useUser } from '../hooks/useUser.js';
 
@@ -177,16 +176,6 @@ export const BookDetails = () => {
                         </ul>
                     </div>
                 </div>
-    
-                <div className="flex justify-center items-center my-8">
-                    <p className="text-white text-2xl font-semibold">
-                        Chapter List
-                    </p>
-                </div>
-    
-                {/* <div className="px-16 mb-8">
-                    <FeaturedSlider SliderItems={Chapters} />
-                </div> */}
             </div> : 
             <PageNotFound/>}
         </main>

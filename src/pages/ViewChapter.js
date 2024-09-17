@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../assets/ChapterCreatorBackground.png';
 import "./Createbook/ChapterCreator.css";
-import { apiBaseUrl, endpoints } from '../config.js';
+import { endpoints } from '../config.js';
 import axiosInstance from '../api/axiosInstance.js';
 
 export const ViewChapter = () => {

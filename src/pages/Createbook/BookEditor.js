@@ -58,7 +58,7 @@ export const BookEditor = () => {
     quill.on('text-change', () => {
       setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
     });
-  }, [chapter]);
+  }, [chapter, authorGroupName]);
 
   // Function to handle publishing a new chapter
   const publishBook = async () => {

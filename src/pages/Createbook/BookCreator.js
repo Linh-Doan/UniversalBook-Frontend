@@ -6,7 +6,7 @@ import backgroundImage from '../../assets/BookEditorBackground2.png';
 import "./BookCreator.css"
 
 export const BookCreator = () => {
-  const [bookCreated, setBookCreated] = useState({});
+  // const [bookCreated, setBookCreated] = useState({});
   const [bookDetails, setBookDetails] = useState({
     name: '',
     description: '',
@@ -81,7 +81,7 @@ export const BookCreator = () => {
         }
       );
       const createdBook = res.data.data.book;
-      setBookCreated(createdBook);
+      // setBookCreated(createdBook);
       navigate('/chaptercreator', {
         state: {
           bookCreated: createdBook,
