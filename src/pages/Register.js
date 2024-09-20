@@ -39,12 +39,10 @@ export const Register = () => {
                 account_password: formData.password
             }
             try {
-                register(authDetails);
+                await register(authDetails);
                 navigate('/');
             } catch (err) {
-                if (err.name === "AxiosError"){
-                    alert(err.response.data.message);
-                }
+                alert ('Server error while creating account');
             }
         }
         

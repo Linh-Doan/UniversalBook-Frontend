@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import viewIcon from '../assets/view.png'; // Import the view icon image
 import hiddenIcon from '../assets/hidden.png'; // Import the hidden icon image
 import background_img from '../assets/login_page.jpg';
-import { login } from '../services/authService';
+import { AuthError, login } from '../services/authService';
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ export const Login = () => {
     password: ''
 });
   const [showPassword, setShowPassword] = useState(false);
+  const [invalidCreds, setInvalidCreds] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -23,11 +24,13 @@ export const Login = () => {
       account_password: formData.password
     }
     try {
-      login(loginDetails);
+      await login(loginDetails);
       navigate('/');
     } catch (err) {
-      if (err.name === "AxiosError"){
-        alert(err.response.data.message);
+      if (err instanceof AuthError){
+        setInvalidCreds(true);
+      } else {
+        console.log(err);
       }
     }
 
@@ -89,6 +92,13 @@ export const Login = () => {
                 </button>
               </div>
             </div>
+            {invalidCreds && (
+              <div className="flex justify-center">
+                <p className="text-base leading-relaxed text-red-500">
+                    Invalid email or password
+                </p>
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

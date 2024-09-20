@@ -7,14 +7,14 @@ export const DropdownLoggedIn = ({setDropdownVisible, currentUser}) => {
     const [showConfirmLogout, setShowConfirmLogout] = useState(false);
     const navigate = useNavigate();
 
-    const logoutNavigate = () => {
-        logout();
+    const logoutNavigate = async () => {
+        await logout();
         navigate('/');
     }
 
-    const confirmLogout = () => {
+    const confirmLogout = async () => {
         setShowConfirmLogout(false);
-        logoutNavigate();
+        await logoutNavigate();
         
     };
     return (
