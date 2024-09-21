@@ -5,6 +5,17 @@ import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
 
 const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie or session storage
+const booksToSliderItems = (books) => {
+    let newList = []
+    for (let i = 0; i < books.length; i++) {
+        newList.push({
+            id: books[i].book_id,
+            imageUrl: books[i].book_image_url,
+            heading: books[i].book_name
+        })
+    }
+    return newList
+}
 
 export const GroupDashboard = () => {
     const [authorGroupData, setAuthorGroupData] = useState({
@@ -86,7 +97,7 @@ export const GroupDashboard = () => {
             setAuthorGroupData({
                 name: data.data.authorGroup.author_group_name,
                 membersCount: data.data.authorGroup.account_author_group_member.length,
-                books: data.data.authorGroup.book.map(book => {return {heading: book.book_name, imageUrl: book.book_image_url}})
+                books: data.data.authorGroup.book
             });
 
             if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(accountId)) {
@@ -98,7 +109,7 @@ export const GroupDashboard = () => {
             }
         });
         return () => {};
-    }, [id])
+    }, [id]) // eslint-disable-line
 
     return (
     <div className="mx-auto px-8">
@@ -190,11 +201,11 @@ export const GroupDashboard = () => {
 					</Link>
 					}
 				</div>
-				<FeaturedSlider SliderItems={authorGroupData.books.filter((book)=>book.is_published)}/>
+				<FeaturedSlider SliderItems={booksToSliderItems(authorGroupData.books.filter((book)=>book.is_published))} itemType='book'/>
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl">Drafts</h2>
-				<FeaturedSlider SliderItems={authorGroupData.books.filter((book)=>!book.is_published)}/>
+				<FeaturedSlider SliderItems={booksToSliderItems(authorGroupData.books.filter((book)=>!book.is_published))} itemType='book'/>
 			</div>
     </div>
   )

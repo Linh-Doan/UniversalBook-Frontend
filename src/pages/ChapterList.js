@@ -25,7 +25,6 @@ export const ChapterList = () => {
             try {
                 const response = await fetch(`${apiBaseUrl}${endpoint}`);
                 const data = await response.json();
-                console.log(data);
                 setChapters(data.data.chapters);
             } catch (error) {
                 console.error('Failed to fetch chapters:', error);

@@ -5,7 +5,10 @@ import Book4 from "../../../assets/book4.jpg";
 import Book5 from "../../../assets/book5.jpg";
 import Book6 from "../../../assets/book6.jpg";
 import {apiBaseUrl, endpoints} from '../../../config';
-import './Dashboard.css';
+import { useUser } from '../../../hooks/useUser';
+import { useEffect, useState } from "react";
+import axiosInstance from "../../../api/axiosInstance";
+import './Dashboard.css'
 const books = [
     {
         id: 1,
@@ -22,19 +25,20 @@ const books = [
 ];
 
 
-
-const email = 'test1@gmail.com'; //TODO: change to code to get email from cookie
-
-
-
 export const Dashboard = async () => {
-
-
-    let curUserRes = await fetch(apiBaseUrl + endpoints.getUsers + "?email=" + email, {credentials: "include"});
-
-    let curUser = await curUserRes.json();
-
-    let userAuthorgroups = curUser.data.user.account_author_group_member;
+    const { user, userId } = useUser();
+	const [booksFollowing, setBooksFollowing] = useState([]);
+	useEffect(() => {
+		async function fetchBooksFollowing() {
+			if (userId) {
+				const response = await axiosInstance.get(`${endpoints.followBook}?account_id=${userId}`);
+				const books = response.data.data.relationships.map(relationship => relationship.book);
+				setBooksFollowing(books);
+			}
+		}
+		fetchBooksFollowing();
+	}, [userId]);
+    let userAuthorgroups = user.account_author_group_member;
 
     const mappedAuthorGroups = userAuthorgroups
         .filter(
@@ -78,8 +82,7 @@ export const Dashboard = async () => {
                     </div>
                     <div className="flex flex-row mt-4 md:mt-6 pr-10">
                         {/* <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</Link>
-						<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Message</Link> */}
-                        <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Edit intro</Link>
+                        <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Edit intro</Link> */}
                     </div>
                 </div>
             </div>
@@ -112,13 +115,49 @@ export const Dashboard = async () => {
                 <FeaturedSlider SliderItems={personalBooks.filter((book) => !book.isPublished)} />
             </div>
             <div>
-                <h2 className="px-3 py-4 text-xl" >Following</h2>
-                <FeaturedSlider SliderItems={books} />
-            </div>
-            <div className="box-sizing: border-box">
-                <h2 className="px-3 py-4 text-xl" >Followers</h2>
-                <FeaturedSlider SliderItems={books} />
-            </div>
-        </div>
-    );
-};
+				<div className="flex flex-row justify-between items-center">
+					<h2 className="px-3 py-4 text-xl" >Groups</h2>
+					<Link to="/creategroup" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+						<svg className="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
+						</svg>
+						Add group
+					</Link>
+				</div>
+				<FeaturedSlider SliderItems={mappedAuthorGroups} />
+			</div>
+			<div>
+				<div className="flex flex-row justify-between items-center">
+					<h2 className="px-3 py-4 text-xl">Books</h2>
+					<Link to="/bookcreator" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+						<svg className="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
+						</svg>
+						Add book
+					</Link>
+				</div>
+				<FeaturedSlider SliderItems={personalBooks.filter((book)=>book.isPublished)} />
+			</div>
+			<div>
+				<h2 className="px-3 py-4 text-xl" >Drafts</h2>
+				<FeaturedSlider SliderItems={personalBooks.filter((book)=>!book.isPublished)} />
+			</div>
+			<div>
+				<h2 className="px-3 py-4 text-xl" >Following</h2>
+				<FeaturedSlider SliderItems={booksFollowing.map(book => {
+					return {
+						id: book.book_id,
+						imageUrl: book.book_image_url,
+						heading: book.book_name,
+					}
+				})}
+				itemType="book"
+				/>
+			</div>
+			<div className="box-sizing: border-box">
+				<h2 className="px-3 py-4 text-xl" >Followers</h2>
+				<FeaturedSlider SliderItems={books} />
+			</div>
+    </div>
+  )
+}
