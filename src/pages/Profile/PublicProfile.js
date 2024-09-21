@@ -46,7 +46,7 @@ export const PublicProfile = ({id}) => {
                     for(let i = 0; i < personalAuthorGroupData.data.authorGroup.book.length; i++) {
                         let book = personalAuthorGroupData.data.authorGroup.book[i];
                         personalBooks.push({
-                            id: i,
+                            id: book.book_id,
                             imageUrl: book.book_image_url,
                             heading: book.book_name,
                             isPublished: book.is_published
@@ -77,12 +77,12 @@ export const PublicProfile = ({id}) => {
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl">Books</h2>
-                <FeaturedSlider SliderItems={accountBooks.filter((book) => book.isPublished)}/>
+                <FeaturedSlider SliderItems={accountBooks.filter((book) => book.isPublished)} itemType={"book"}/>
             </div>
 
             <div>
                 <h2 className="px-3 py-4 text-xl" >Groups</h2>
-                <FeaturedSlider SliderItems={authorGroups} itemType={"AuthorGroup"} />
+                <FeaturedSlider SliderItems={authorGroups} itemType={"authorGroup"} />
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl" >Following</h2>

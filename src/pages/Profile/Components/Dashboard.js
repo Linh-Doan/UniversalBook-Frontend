@@ -70,7 +70,7 @@ export const Dashboard = () => {
                     for(let i = 0; i < personalAuthorGroupData.data.authorGroup.book.length; i++) {
                         let book = personalAuthorGroupData.data.authorGroup.book[i];
                         personalBooks.push({
-                            id: i,
+                            id: book.book_id,
                             imageUrl: book.book_image_url,
                             heading: book.book_name,
                             isPublished: book.is_published
@@ -90,7 +90,7 @@ export const Dashboard = () => {
                 <div className="flex flex-row justify-between items-end py-10 w-4/5 mx-auto">
                     <div className="flex flex-col items-center">
                         <img className="w-40 h-40 mb-3 rounded-full shadow-lg" src={UserProfile} alt="User profile" />
-                        <h5 className="mb-1 text-xl font-medium text-gray-900">Bonnie Green</h5>
+                        <h5 className="mb-1 text-xl font-medium text-gray-900">{(user)? user.account_name: "Loading"}</h5>
                         <span className="text-sm text-gray-500">3.9M followers • 155 following</span>
                     </div>
                     <div className="flex flex-row mt-4 md:mt-6 pr-10">
@@ -109,7 +109,7 @@ export const Dashboard = () => {
                         Add group
                     </Link>
                 </div>
-                <FeaturedSlider SliderItems={authorGroups} />
+                <FeaturedSlider SliderItems={authorGroups} itemType={'authorGroup'}/>
             </div>
             <div>
                 <div className="flex flex-row justify-between items-center">
@@ -121,11 +121,11 @@ export const Dashboard = () => {
                         Add book
                     </Link>
                 </div>
-                <FeaturedSlider SliderItems={personalBooks.filter((book) => book.isPublished)} />
+                <FeaturedSlider SliderItems={personalBooks.filter((book) => book.isPublished)} itemType={'book'}/>
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl" >Drafts</h2>
-                <FeaturedSlider SliderItems={personalBooks.filter((book) => !book.isPublished)} />
+                <FeaturedSlider SliderItems={personalBooks.filter((book) => !book.isPublished)} itemType={'book'}/>
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl" >Following</h2>
