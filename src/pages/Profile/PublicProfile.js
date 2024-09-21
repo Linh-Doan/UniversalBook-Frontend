@@ -5,10 +5,6 @@ import Book4 from "../../assets/book1.jpeg";
 import {apiBaseUrl, endpoints} from '../../config';
 import {useEffect, useState} from "react";
 
-const email = 'test1@gmail.com'; //TODO: change to code to get email from cookie
-
-
-
 export const PublicProfile = ({id}) => {
     const [accountName, setAccountName] = useState(null);
     const [accountBooks, setAccountBooks] = useState([]);
