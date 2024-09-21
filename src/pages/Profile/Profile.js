@@ -6,10 +6,10 @@ import { useUser } from "../../hooks/useUser";
 export const Profile = () => {
 	const { id } = useParams()
 	console.log(id)
-    const { user, userId, isAuthenticated } = useUser();
-	const isUser = id == userId;
+    const { userId, isAuthenticated } = useUser();
+	const isUser = id === userId;
     if (isAuthenticated) {
-        if (isUser) return <PersonalProfile id={userId}/>
+        if (isUser) return <PersonalProfile/>
 	    else return <PublicProfile id={userId}/>
     }
 	

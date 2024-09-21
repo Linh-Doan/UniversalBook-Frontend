@@ -9,7 +9,7 @@ const personaDetails = 'personaldetails';
 const createBook = 'createbook';
 const membership = 'membership';
 
-export const PersonalProfile = (id) => {
+export const PersonalProfile = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   return (
     <main>
