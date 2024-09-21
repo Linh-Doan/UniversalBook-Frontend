@@ -17,7 +17,6 @@ export const PersonalDetails = () => {
     setCachedProfile(tmpProfile)
   }, []);
 
-
   const handleEditClick = () => {
     setEditing(true);
   };
