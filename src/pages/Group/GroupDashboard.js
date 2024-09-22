@@ -125,6 +125,7 @@ export const GroupDashboard = () => {
 						<span className="text-sm text-gray-500">{authorGroupData.membersCount} members</span>
 					</div>
 					<div className="flex flex-row items-start">
+						{!userId && <div className="mr-12"><Loading height="50px"/> </div>}
 						{userId && !isMember &&
 						<>
 							<button onClick={() => joinGroup()}className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
