@@ -3,6 +3,7 @@ import { apiBaseUrl, endpoints } from '../config.js';
 import FeaturedSlider from "../components/FeaturedSlider";
 
 const genresToSliderItems = (genres) => {
+    console.log(genres)
     return genres.map(genre => ({
         id: genre.genre_id,
         imageUrl: genre.genre_image_url,

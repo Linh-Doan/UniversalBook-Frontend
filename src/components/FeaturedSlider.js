@@ -45,7 +45,7 @@ const getItemUrl = (itemType, id) => {
 const FeaturedSlider = ({ SliderItems, itemType }) => {
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: SliderItems.length > 6,
     speed: 500,
     slidesToShow: 7,
     slidesToScroll: 1,

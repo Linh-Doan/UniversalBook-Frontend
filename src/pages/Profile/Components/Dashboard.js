@@ -1,29 +1,11 @@
 import {Link} from "react-router-dom";
 import UserProfile from "../../../assets/userProfile.png";
 import FeaturedSlider from "../../../components/FeaturedSlider";
-import Book4 from "../../../assets/book4.jpg";
-import Book5 from "../../../assets/book5.jpg";
-import Book6 from "../../../assets/book6.jpg";
 import {apiBaseUrl, endpoints} from '../../../config';
 import {useUser} from '../../../hooks/useUser';
 import {useEffect, useState} from "react";
 import axiosInstance from "../../../api/axiosInstance";
 import './Dashboard.css';
-const books = [
-    {
-        id: 1,
-        imageUrl: Book4,
-    },
-    {
-        id: 2,
-        imageUrl: Book5,
-    },
-    {
-        id: 3,
-        imageUrl: Book6,
-    }
-];
-
 
 export const Dashboard = () => {
     const {user, userId} = useUser();
@@ -53,7 +35,7 @@ export const Dashboard = () => {
                     .map((authorGroup) => {
                         return {
                             id: authorGroup.author_group.author_group_id,
-                            imageUrl: Book4,
+                            imageUrl: authorGroup.author_group.author_group_image_url,
                             heading: authorGroup.author_group.author_group_name
                         };
                     }));
@@ -138,10 +120,6 @@ export const Dashboard = () => {
                 })}
                     itemType="book"
                 />
-            </div>
-            <div className="box-sizing: border-box">
-                <h2 className="px-3 py-4 text-xl" >Followers</h2>
-                <FeaturedSlider SliderItems={books} />
             </div>
         </div>
     );
