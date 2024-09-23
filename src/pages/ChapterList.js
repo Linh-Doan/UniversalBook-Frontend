@@ -7,6 +7,7 @@ const chaptersToSliderItems = (chapters) => {
     for (let i = 0; i < chapters.length; i++) {
         newList.push({
             id: chapters[i].chapter_id,
+            bookId: chapters[i].book_id,
             imageUrl: chapters[i].chapter_image_url,
             heading: `Chapter ${chapters[i].chapter_sequence}: ${chapters[i].chapter_name || 'Untitled'}`
         });

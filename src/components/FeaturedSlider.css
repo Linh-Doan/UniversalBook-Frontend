@@ -2,7 +2,6 @@
   overflow: visible !important; /* Allows scaled items to overflow their container */
 }
 
-
 .custom-arrow {
   position: absolute;
   top: 50%;
@@ -26,4 +25,68 @@
   font-size: 30px; 
   opacity: 0.5;
   color: white; /* Arrow color */
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed; /* Fixed positioning to overlay the whole screen */
+  top: 50%; /* Position it at the center vertically */
+  left: 50%; /* Position it at the center horizontally */
+  transform: translate(-50%, -50%); /* Correct the position to center the modal */
+  background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height to cover the screen */
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.modal-content {
+  background-color: white; /* The modal content itself */
+  padding: 20px;
+  border-radius: 10px; /* Rounded corners */
+  text-align: center;
+  max-width: 300px; /* Limit the modal width */
+  width: 90%; /* Adjust width to be responsive */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+}
+
+/* Bigger and bold text for 'Select an option' */
+.select-option-text {
+  font-size: 20px; /* Font size for the title */
+  font-weight: bold; /* Bold text */
+  margin-bottom: 20px; /* Spacing under the text */
+}
+
+/* Buttons inside modal */
+.modal-content button {
+  margin: 5px 10px; /* Reduce space between buttons */
+  padding: 10px 20px; /* Adjust button padding */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Add smooth transitions */
+  border-radius: 8px; /* Rounded corners for buttons */
+}
+
+/* View buttons styles */
+.view-button {
+  color: white;
+  background-color: blue; /* Default background */
+}
+
+.view-button:hover {
+  background-color: darkblue; /* Darken on hover */
+  transform: scale(1.05); /* Slight zoom */
+}
+
+/* Cancel button styles */
+.cancel-button {
+  color: white;
+  background-color: red; /* Red button for Cancel */
+}
+
+.cancel-button:hover {
+  background-color: darkred; /* Darken on hover */
+  transform: scale(1.05); /* Slight zoom */
 }
