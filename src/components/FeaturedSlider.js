@@ -34,9 +34,7 @@ const getItemUrl = (itemType, id) => {
   if (itemType === 'genre') {
     return `/genres/${id}`;
   }
-    if (itemType === 'authorGroup') {
-    return `/group/${id}`
-    }
+ 
   return null;
 };
 
