@@ -85,7 +85,7 @@ export const BookEditor = () => {
         chapter_sequence: chapter.chapter_sequence, 
         chapter_content: chapterContent,
         chapter_rating: 0, 
-        chapter_image_url: chapter.chapter_image_url || "", 
+        chapter_image_url: chapter.chapter_image_url, 
         created_on: new Date().toISOString(),
         book_id: bookCreated.book_id
       };
