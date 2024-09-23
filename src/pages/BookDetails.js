@@ -115,7 +115,7 @@ export const BookDetails = () => {
 
     return (
         <main>
-            {loadingBook? <Loading height="200px"/> : book ?
+            {loadingBook? <Loading/> : book ?
             <div className="relative bg-cover bg-center min-h-screen p-8" style={{ backgroundImage: `url(${background_img})` }}>
                 <div className="flex h-full">
                     {/* Book Details Section */}

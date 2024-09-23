@@ -8,10 +8,6 @@ export const useUser = () => {
     
     useEffect(() => {
         async function fetchUser(){
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-              }
-            await sleep(1000)
             try {
                 const response = await axiosInstance.get(`${endpoints.currentUser}`);
                 setIsLoading(false);
