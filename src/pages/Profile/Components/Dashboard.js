@@ -73,7 +73,7 @@ export const Dashboard = () => {
                     <div className="flex flex-col items-center">
                         <img className="w-40 h-40 mb-3 rounded-full shadow-lg" src={UserProfile} alt="User profile" />
                         <h5 className="mb-1 text-xl font-medium text-gray-900">{(user)? user.account_name: "Loading"}</h5>
-                        <span className="text-sm text-gray-500">3.9M followers • 155 following</span>
+                        {/* <span className="text-sm text-gray-500">3.9M followers • 155 following</span> */}
                     </div>
                     <div className="flex flex-row mt-4 md:mt-6 pr-10">
                         {/* <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</Link>

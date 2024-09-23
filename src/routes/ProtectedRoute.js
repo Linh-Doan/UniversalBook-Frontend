@@ -12,7 +12,7 @@ export const ProtectedRoute = ({children}) => {
             navigate("/login");
         }
     }, [isAuthenticated, isLoading, navigate]);
-    if (isLoading) return <Loading height="200px"/>
+    if (isLoading) return <Loading/>
     
     if (isAuthenticated) return children
 }

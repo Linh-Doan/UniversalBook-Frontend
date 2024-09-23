@@ -1,4 +1,4 @@
-export const Loading = ({ height = 'auto' }) => {
+export const Loading = ({ height = '200px' }) => {
   return (
     <div className="flex items-center justify-center" style={{ height }}>
         <div role="status">

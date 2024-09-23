@@ -8,7 +8,7 @@ export const HeaderDropdown = ({setDropdownVisible}) => {
   return (
     <div>
         { isLoading? (
-            <Loading height="200px"/>
+            <Loading/>
         ) : user ? (
             <DropdownLoggedIn 
                 setDropdownVisible={setDropdownVisible} 

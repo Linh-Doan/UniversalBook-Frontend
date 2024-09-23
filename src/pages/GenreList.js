@@ -3,7 +3,6 @@ import { apiBaseUrl, endpoints } from '../config.js';
 import FeaturedSlider from "../components/FeaturedSlider";
 
 const genresToSliderItems = (genres) => {
-    console.log(genres)
     return genres.map(genre => ({
         id: genre.genre_id,
         imageUrl: genre.genre_image_url,
@@ -14,7 +13,7 @@ const genresToSliderItems = (genres) => {
 export const GenreList = () => {
     const [topRatedGenres, setTopRatedGenres] = useState([]);
     const [latestGenres, setLatestGenres] = useState([]);
-    const [trendingGenres, setTrendingGenres] = useState([]);
+    // const [trendingGenres, setTrendingGenres] = useState([]);
     const [discoverGenres, setDiscoverGenres] = useState([]);
 
     useEffect(() => {
@@ -35,14 +34,14 @@ export const GenreList = () => {
         fetchLatestGenres();
     }, []);
 
-    useEffect(() => {
-        async function fetchTrendingGenres() {
-            const response = await fetch(`${apiBaseUrl}${endpoints.getTrendingGenres}`);
-            const data = await response.json();
-            setTrendingGenres(data.data.genres);
-        }
-        fetchTrendingGenres();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchTrendingGenres() {
+    //         const response = await fetch(`${apiBaseUrl}${endpoints.getTrendingGenres}`);
+    //         const data = await response.json();
+    //         setTrendingGenres(data.data.genres);
+    //     }
+    //     fetchTrendingGenres();
+    // }, []);
 
     useEffect(() => {
         async function fetchDiscoverGenres() {
@@ -71,14 +70,14 @@ export const GenreList = () => {
                 </div>
                 <FeaturedSlider SliderItems={genresToSliderItems(latestGenres)} itemType='genre'/>
             </section>
-            <section className="bg-[#5c5d72] pb-8">
+            {/* <section className="bg-[#5c5d72] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
                         Trending Genres
                     </p>
                 </div>
                 <FeaturedSlider SliderItems={genresToSliderItems(trendingGenres)} itemType='genre'/>
-            </section>
+            </section> */}
             <section className="bg-[#6781a1] pb-8">
                 <div className="flex justify-center items-center py-4">
                     <p className="text-white text-xl font-semibold px-3 py-1 rounded">
