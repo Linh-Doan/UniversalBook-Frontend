@@ -5,7 +5,7 @@ export const PersonalDetails = () => {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState({});
   const [cachedProfile, setCachedProfile] = useState({})
-  const { user, userId } = useUser();
+  const { user} = useUser();
 
   useEffect(() => {
     // Ensure user object is not null or undefined before setting profile
