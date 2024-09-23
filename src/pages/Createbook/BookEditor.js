@@ -1,6 +1,6 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axiosInstance from '../../api/axiosInstance'; // Assuming axiosInstance is configured properly
 import "./BookEditor.css";
@@ -26,7 +26,6 @@ export const BookEditor = () => {
   const { bookCreated } = location.state || { bookCreated: {} };
   const { authorGroupName } = location.state || { authorGroupName: {} };
   const { chapter } = location.state || { chapter: ""};
-  const { index } = location.state || { index: -1};
   const [isExpanded, setIsExpanded] = useState(false);
   const [isUpdateChapter, setIsUpdateChapter] = useState(false);
 
