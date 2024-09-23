@@ -43,7 +43,6 @@ export const BookEditor = () => {
     setUpdate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
