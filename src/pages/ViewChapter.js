@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../assets/ChapterCreatorBackground.png';
 import "./Createbook/ChapterCreator.css";
+import { useUser } from '../hooks/useUser.js';
 import { endpoints } from '../config.js';
 import axiosInstance from '../api/axiosInstance.js';
-import { useUser } from '../hooks/useUser.js';
 
 export const ViewChapter = () => {
   const navigate = useNavigate();
@@ -61,12 +61,40 @@ export const ViewChapter = () => {
   // Check if the book's author_group_id exists in the user's author groups
   const canStartWriting = authorGroups.some(group => group.author_group_id === bookCreated.author_group_id);
 
+  // Find the authorGroupName
+  const authorGroup = authorGroups.find(group => group.author_group_id === bookCreated.author_group_id);
+  const authorGroupName = authorGroup ? authorGroup.author_group_name : "";
+
+  // Start Writing function
+  const startWriting = (chapter, index) => {
+    // Navigate to the book editor or writing interface and pass the relevant state
+    console.log(chapter);
+    navigate('/bookeditor', { state: { bookCreated, chapter, index, authorGroupName } });
+  };
+
   const startViewing = (chapter, index) => {
     navigate(`/chapters/${chapter.chapter_id}`, { state: { bookCreated, chapter } });
   };
 
+  // Add New Chapter function (modified to only add a new row in the list)
   const addNewChapter = () => {
-    navigate(`/books/${id}/add-chapter`, { state: { bookCreated } });
+    // Ask for the chapter name
+    const chapterName = prompt("Enter the name of the new chapter:");
+
+    if (chapterName && chapterName.trim()) {
+      // Add the new chapter to the local chapters state
+      const newChapter = {
+        chapter_name: chapterName,
+        chapter_sequence: chapters.length + 1,
+        chapter_content: "",
+        book_id: bookCreated.book_id
+      };
+
+      setChapters([...chapters, newChapter]); // Just add a new chapter to the list
+
+    } else {
+      alert("Chapter name cannot be empty.");
+    }
   };
 
   return (
@@ -93,6 +121,7 @@ export const ViewChapter = () => {
                   <button
                     type="button"
                     className="py-2 px-4 text-md font-medium text-white bg-green-600 hover:bg-green-800 rounded-md focus:outline-none focus:ring-4 focus:ring-green-300"
+                    onClick={() => startWriting(chapter, index)} // Call startWriting when clicked
                   >
                     ✍️ Start Writing
                   </button>
@@ -109,6 +138,8 @@ export const ViewChapter = () => {
               </div>
             </li>
           ))}
+
+          {/* Newly added chapter row */}
         </ul>
 
         {/* Add New Chapter button */}
