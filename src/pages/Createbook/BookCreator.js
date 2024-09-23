@@ -21,7 +21,7 @@ export const BookCreator = () => {
   useEffect(() => {
     async function fetchAuthorGroups() {
       if (userId) {
-        const response = await axiosInstance.get(`${endpoints.authorGroup}?account_id=${userId}`);
+        const response = await axiosInstance.get(`${endpoints.authorGroup}/account/${userId}`);
         setAuthorGroups(response.data.data.authorGroups);
       }
     }

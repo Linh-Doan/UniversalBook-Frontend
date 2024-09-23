@@ -278,7 +278,10 @@ export const ViewChapterDetails = () => {
                         {processedChapter.imageUrl && (
                             <img src={processedChapter.imageUrl} alt={processedChapter.heading} className="w-full h-auto object-cover mb-4 rounded" />
                         )}
-                        <p>{processedChapter.content}</p>
+                        {/* <p>{processedChapter.content}</p> */}
+                        <div
+                            dangerouslySetInnerHTML={{ __html: processedChapter.content }}
+                        ></div>
                     </>
                 ) : (
                     <p>Loading chapter content...</p>
