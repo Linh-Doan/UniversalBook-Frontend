@@ -28,7 +28,7 @@ export const ViewChapter = () => {
     };
 
     fetchAuthorGroup();
-  }, [userId]);
+  }, [userId, user]);
 
   // Fetch chapters for the book
   useEffect(() => {
