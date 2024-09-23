@@ -11,7 +11,7 @@ export const ViewChapter = () => {
   const [chapters, setChapters] = useState([]);
   const [bookCreated, setBookCreated] = useState({});
   const { id } = useParams(); 
-  const { user, userId } = useUser();
+  const { userId } = useUser();
   const [authorGroups, setAuthorGroups] = useState([]);
 
   // Fetch author groups associated with the user
@@ -28,7 +28,7 @@ export const ViewChapter = () => {
     };
 
     fetchAuthorGroup();
-  }, [userId, user]);
+  }, [userId]);
 
   // Fetch chapters for the book
   useEffect(() => {

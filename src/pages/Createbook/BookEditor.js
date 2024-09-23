@@ -1,6 +1,6 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axiosInstance from '../../api/axiosInstance'; // Assuming axiosInstance is configured properly
 import "./BookEditor.css";
@@ -34,6 +34,15 @@ export const BookEditor = () => {
     setIsExpanded(!isExpanded);
   };
 
+  useEffect(() => {
+    const setUpdate = () => {
+      if (chapterContent.length > 0) {
+        setIsUpdateChapter(true);
+      }
+    };
+    setUpdate();
+  }, []);
+
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
 
@@ -48,7 +57,6 @@ export const BookEditor = () => {
     // If chapterContent is not empty, load it into the editor
     if (chapterContent.length > 0) {
       quill.clipboard.dangerouslyPasteHTML(0, chapterContent);
-      setIsUpdateChapter(true);
     } else {
       // Default header if no existing content
       quill.clipboard.dangerouslyPasteHTML(0, `
