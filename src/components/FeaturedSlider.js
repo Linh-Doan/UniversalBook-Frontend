@@ -103,7 +103,7 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
 
   const handleViewChapter = () => {
     setShowModal(false);
-    navigate(`/viewchapterdetails/${selectedItem.id}`);
+    navigate(`/chapters/${selectedItem.id}`);
   };
 
   return (
@@ -123,7 +123,7 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-                  <p>Select an option:</p>
+                  <p className="select-option-text">Select an option:</p>
                   <button className="view-button" onClick={handleViewBookSummary}>
                     View Book Summary
                   </button>
