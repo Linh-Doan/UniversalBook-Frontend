@@ -17,5 +17,4 @@ export { PageNotFound } from "./PageNotFound";
 export { CreateGroup } from "./CreateGroup";
 export { BookEditor } from "./Createbook/BookEditor";
 export { BookCreator } from "./Createbook/BookCreator";
-export { ChapterCreator } from "./Createbook/ChapterCreator";
 export { ViewChapter } from "./ViewChapter";

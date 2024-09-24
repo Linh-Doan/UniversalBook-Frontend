@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../assets/ChapterCreatorBackground.png';
-import "./Createbook/ChapterCreator.css";
 import { useUser } from '../hooks/useUser.js';
 import { endpoints } from '../config.js';
 import axiosInstance from '../api/axiosInstance.js';
@@ -10,11 +9,15 @@ export const ViewChapter = () => {
   const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [bookCreated, setBookCreated] = useState({});
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { userId } = useUser();
   const [authorGroups, setAuthorGroups] = useState([]);
+  const [chapterName, setChapterName] = useState("");
 
-  // Fetch author groups associated with the user
+  const handleChapterNameChange = (e) => {
+    setChapterName(e.target.value);
+  };
+
   useEffect(() => {
     const fetchAuthorGroup = async () => {
       if (userId) {
@@ -30,7 +33,6 @@ export const ViewChapter = () => {
     fetchAuthorGroup();
   }, [userId]);
 
-  // Fetch chapters for the book
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -44,7 +46,6 @@ export const ViewChapter = () => {
     fetchChapter();
   }, [id]);
 
-  // Fetch book details
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -58,17 +59,11 @@ export const ViewChapter = () => {
     fetchBookDetails();
   }, [id]);
 
-  // Check if the book's author_group_id exists in the user's author groups
   const canStartWriting = authorGroups.some(group => group.author_group_id === bookCreated.author_group_id);
-
-  // Find the authorGroupName
   const authorGroup = authorGroups.find(group => group.author_group_id === bookCreated.author_group_id);
   const authorGroupName = authorGroup ? authorGroup.author_group_name : "";
 
-  // Start Writing function
   const startWriting = (chapter, index) => {
-    // Navigate to the book editor or writing interface and pass the relevant state
-    console.log(chapter);
     navigate('/bookeditor', { state: { bookCreated, chapter, index, authorGroupName } });
   };
 
@@ -76,13 +71,8 @@ export const ViewChapter = () => {
     navigate(`/chapters/${chapter.chapter_id}`, { state: { bookCreated, chapter } });
   };
 
-  // Add New Chapter function (modified to only add a new row in the list)
   const addNewChapter = () => {
-    // Ask for the chapter name
-    const chapterName = prompt("Enter the name of the new chapter:");
-
     if (chapterName && chapterName.trim()) {
-      // Add the new chapter to the local chapters state
       const newChapter = {
         chapter_name: chapterName,
         chapter_sequence: chapters.length + 1,
@@ -90,11 +80,14 @@ export const ViewChapter = () => {
         book_id: bookCreated.book_id
       };
 
-      setChapters([...chapters, newChapter]); // Just add a new chapter to the list
-
+      setChapters([...chapters, newChapter]);
     } else {
       alert("Chapter name cannot be empty.");
     }
+  };
+
+  const viewAllBooks = () => {
+    navigate(`/profile/${userId}`);
   };
 
   return (
@@ -112,22 +105,16 @@ export const ViewChapter = () => {
           {chapters.map((chapter, index) => (
             <li key={index} className="flex justify-between items-center mb-2 animate-fadeIn">
               <span>{index + 1}. {chapter.chapter_name}</span>
-
               <div className="flex space-x-2">
-                {/* Differentiated buttons */}
-
-                {/* Start Writing button */}
                 {canStartWriting && (
                   <button
                     type="button"
                     className="py-2 px-4 text-md font-medium text-white bg-green-600 hover:bg-green-800 rounded-md focus:outline-none focus:ring-4 focus:ring-green-300"
-                    onClick={() => startWriting(chapter, index)} // Call startWriting when clicked
+                    onClick={() => startWriting(chapter, index)}
                   >
                     ✍️ Start Writing
                   </button>
                 )}
-
-                {/* View Chapter button */}
                 <button
                   type="button"
                   className="py-1 px-3 text-md font-medium text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white rounded-md focus:outline-none focus:ring-4 focus:ring-blue-300"
@@ -138,11 +125,14 @@ export const ViewChapter = () => {
               </div>
             </li>
           ))}
-
-          {/* Newly added chapter row */}
         </ul>
-
-        {/* Add New Chapter button */}
+        <input
+          type="text"
+          value={chapterName}
+          onChange={handleChapterNameChange}
+          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="New chapter name"
+        />
         {canStartWriting && (
           <div className="mt-6 flex justify-end">
             <button
@@ -154,6 +144,16 @@ export const ViewChapter = () => {
             </button>
           </div>
         )}
+        {/* New Button for Viewing All Books */}
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={viewAllBooks}
+            className="py-2 px-5 text-md font-medium text-white bg-indigo-600 hover:bg-indigo-800 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 flex items-center"
+          >
+            📚 Explore My Library
+          </button>
+        </div>
       </div>
     </div>
   );
