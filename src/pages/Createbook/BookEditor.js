@@ -1,6 +1,6 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axiosInstance from '../../api/axiosInstance'; // Assuming axiosInstance is configured properly
 import "./BookEditor.css";
@@ -26,12 +26,23 @@ export const BookEditor = () => {
   const { bookCreated } = location.state || { bookCreated: {} };
   const { authorGroupName } = location.state || { authorGroupName: {} };
   const { chapter } = location.state || { chapter: ""};
-  const { index } = location.state || { index: -1};
   const [isExpanded, setIsExpanded] = useState(false);
-  const [chapterContent, setChapterContent] = useState(""); // For storing chapter content
+  const [isUpdateChapter, setIsUpdateChapter] = useState(false);
+
+  const [chapterContent, setChapterContent] = useState(chapter.chapter_content); // For storing chapter content
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
+
+  useEffect(() => {
+    const setUpdate = () => {
+      if (chapterContent.length > 0) {
+        setIsUpdateChapter(true);
+      }
+    };
+    setUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -44,47 +55,68 @@ export const BookEditor = () => {
       modules: { toolbar: TOOLBAR_OPTIONS }
     });
 
-    quill.clipboard.dangerouslyPasteHTML(0, `
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 2.5em; margin-bottom: 0.5em;">
-          ${chapter}
-        </h1>
-        <h3 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 1.5em;">
-          Author: ${authorGroupName}
-        </h3>
-      </div>
-    `);
+    // If chapterContent is not empty, load it into the editor
+    if (chapterContent.length > 0) {
+      quill.clipboard.dangerouslyPasteHTML(0, chapterContent);
+    } else {
+      // Default header if no existing content
+      quill.clipboard.dangerouslyPasteHTML(0, `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 2.5em; margin-bottom: 0.5em;">
+            ${chapter.chapter_name}
+          </h1>
+          <h3 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 1.5em;">
+            Author: ${authorGroupName}
+          </h3>
+        </div>
+      `);
+    }
 
     quill.on('text-change', () => {
       setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
     });
-  }, [chapter]);
+  }, [chapter, authorGroupName, chapterContent]);
 
   // Function to handle publishing a new chapter
   const publishBook = async () => {
     try {
       // Prepare data for the new chapter
       const newChapter = {
-        chapter_name: chapter, 
-        chapter_sequence: index, 
+        chapter_name: chapter.chapter_name, 
+        chapter_sequence: chapter.chapter_sequence, 
         chapter_content: chapterContent,
-        chapter_rating: null, 
-        chapter_image_url: "", 
+        chapter_rating: 0, 
+        chapter_image_url: chapter.chapter_image_url, 
         created_on: new Date().toISOString(),
         book_id: bookCreated.book_id
       };
 
       // API call to create the chapter
-      const response = await axiosInstance.post(`${endpoints.getChapters}`, newChapter, {
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8"
-        }
-      });
+      if (isUpdateChapter === false) {
+          const response = await axiosInstance.post(`${endpoints.getChapters}`, newChapter, {
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8"
+            }
+          });
 
-      if (response.status === 201) {
-        alert("Chapter created successfully!");
-      } else {
-        alert("Failed to create chapter.");
+          if (response.status === 201) {
+            alert("Chapter created successfully!");
+          } else {
+            alert("Failed to create chapter.");
+          }
+      }
+      else {
+        const response = await axiosInstance.patch(`${endpoints.getChapters}/${chapter.chapter_id}`, newChapter, {
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8"
+          }
+        });
+
+        if (response.status === 200) {
+          alert("Chapter updated successfully!");
+        } else {
+          alert("Failed to update chapter.");
+        }
       }
     } catch (error) {
       console.error("Error creating chapter:", error);

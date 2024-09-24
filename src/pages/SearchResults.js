@@ -131,7 +131,7 @@ export const SearchResults = () => {
                 onClickUrl = `/books/${item.book_id}`; // Link to book details page
                 console.log(`Generated link for book: ${onClickUrl}`);
               } else if (tabs[activeTab].category === 'chapters') {
-                onClickUrl = `/viewchapterdetails/${item.chapter_id}`; // Link to chapter reading page
+                onClickUrl = `/chapters/${item.chapter_id}`; // Link to chapter reading page
                 console.log(`Generated link for chapter: ${onClickUrl}`);
               } else if (tabs[activeTab].category === 'genres') {
                 onClickUrl = `/genres/${item.genre_id}`; // Link to genre details page

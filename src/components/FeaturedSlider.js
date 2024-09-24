@@ -33,6 +33,14 @@ const getItemUrl = (itemType, id) => {
   }
   if (itemType === 'genre') {
     return `/genres/${id}`;
+  } 
+
+  // if (itemType === 'chapter'){
+  //   return `/chapters/${id}`;
+  // }
+
+  if (itemType === 'authorGroup') {
+    return `/group/${id}`
   }
  
   return null;
@@ -45,7 +53,7 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: SliderItems.length > 6,
     speed: 500,
     slidesToShow: 7,
     slidesToScroll: 1,

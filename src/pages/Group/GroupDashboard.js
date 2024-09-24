@@ -3,8 +3,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import FeaturedSlider from "../../components/FeaturedSlider";
 import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
+import { useUser } from "../../hooks/useUser";
+import { Loading } from "../../components/Loading";
 
-const accountId = "3c23729a-820b-4cfe-9b29-70132bac0c74" // TODO: replace with getting account id from cookie or session storage
 const booksToSliderItems = (books) => {
     let newList = []
     for (let i = 0; i < books.length; i++) {
@@ -23,17 +24,18 @@ export const GroupDashboard = () => {
         membersCount: 0,
         books: []
     });
-	const [isMember, setIsMember] = useState(true);
+	const [isMember, setIsMember] = useState(null);
 	const [following, setFollowing] = useState(false);
 	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
 	const [followClicked, setFollowClicked] = useState(false);
+	const {userId} = useUser();
 	const joinGroup = () => {
         const body = JSON.stringify({
             account_author_group_member: {
                 create: {
                     account: {
                         connect: {
-                            account_id: accountId
+                            account_id: userId
                         }
                     }
                 }
@@ -62,7 +64,7 @@ export const GroupDashboard = () => {
             account_author_group_member: {
                 delete: {
                     account: {
-                        account_id: accountId
+                        account_id: userId
                     }
                 }
             }
@@ -99,17 +101,19 @@ export const GroupDashboard = () => {
                 membersCount: data.data.authorGroup.account_author_group_member.length,
                 books: data.data.authorGroup.book
             });
-
-            if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(accountId)) {
-                setIsMember(true);
-                setFollowing(true);
-            } else {
-                setIsMember(false);
-                setFollowing(false);
-            }
+			if (userId) {
+				if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(userId)) {
+					setIsMember(true);
+					setFollowing(true);
+				} else {
+					setIsMember(false);
+					setFollowing(false);
+				}
+			}
+            
         });
         return () => {};
-    }, [id])
+    }, [id, userId]) // eslint-disable-line
 
     return (
     <div className="mx-auto px-8">
@@ -121,15 +125,16 @@ export const GroupDashboard = () => {
 						<span className="text-sm text-gray-500">{authorGroupData.membersCount} members</span>
 					</div>
 					<div className="flex flex-row items-start">
-						{!isMember &&
+						{!userId && <div className="mr-12"><Loading height="50px"/> </div>}
+						{userId && !isMember &&
 						<>
 							<button onClick={() => joinGroup()}className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
 								Join group
 							</button>
 						</>
 						}
-						{!isMember && !following && <button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</button>}
-						{!isMember && following && 
+						{userId && !isMember && !following && <button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</button>}
+						{userId && !isMember && following && 
 						<div>
 							<button id="dropdownFollowButton" onClick={()=>setFollowClicked(!followClicked)} data-dropdown-toggle="dropdown" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">
 								Following

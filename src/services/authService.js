@@ -1,42 +1,48 @@
 import axiosInstance from "../api/axiosInstance";
 import { endpoints } from '../config.js';
-// export async function login(authDetail){
-//     const requestOptions = {
-//         method: "POST",
-//         headers: {"content-Type": "application/json"},
-//         body: JSON.stringify(authDetail)
-//     }
-//     const response = await fetch(`${process.env.REACT_APP_HOST}/login`, requestOptions);
-//     if(!response.ok){
-//         throw { message: response.statusText, status: response.status }; //eslint-disable-line
-//     }
-//     const data = await response.json();
-//     if(data.accessToken){
-//         sessionStorage.setItem("token", JSON.stringify(data.accessToken));
-//         sessionStorage.setItem("cbid", JSON.stringify(data.user.id));
-//     }
-//     return data;
-// }
 
-// export async function register(authDetail){
-//     const requestOptions = {
-//         method: "POST",
-//         headers: {"content-Type": "application/json"},
-//         body: JSON.stringify(authDetail)
-//     }  
-//     const response = await fetch(`${process.env.REACT_APP_HOST}/register`, requestOptions);
-//     if(!response.ok){
-//         throw { message: response.statusText, status: response.status }; //eslint-disable-line
-//     }
-//     const data = await response.json();
+export class AuthError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'AuthError';
+    }
+  }
+
+export async function login(loginDetails){
+    try{
+        await axiosInstance.post(`${endpoints.login}`, 
+        loginDetails,
+        {
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }
+        );
+    } catch (error) {
+        if (error.response.status === 401) {
+            throw new AuthError('Authentication failed: Invalid credentials');
+        } else {
+            throw error;
+        }
+    }
+}
+
+export async function register(authDetails){
+    try {
+        await axiosInstance.post(
+            `${endpoints.signup}`,
+            authDetails, 
+            {
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }
+        );
+    } catch (error) {
+        throw error;
+    }
     
-//     if(data.accessToken){
-//         sessionStorage.setItem("token", JSON.stringify(data.accessToken));
-//         sessionStorage.setItem("cbid", JSON.stringify(data.user.id));
-//     }
-
-//     return data;
-// }
+}
 
 export async function logout(){
     try {

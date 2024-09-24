@@ -7,14 +7,14 @@ export const DropdownLoggedIn = ({setDropdownVisible, currentUser}) => {
     const [showConfirmLogout, setShowConfirmLogout] = useState(false);
     const navigate = useNavigate();
 
-    const logoutNavigate = () => {
-        logout();
+    const logoutNavigate = async () => {
+        await logout();
         navigate('/');
     }
 
-    const confirmLogout = () => {
+    const confirmLogout = async () => {
         setShowConfirmLogout(false);
-        logoutNavigate();
+        await logoutNavigate();
         
     };
     return (
@@ -24,7 +24,7 @@ export const DropdownLoggedIn = ({setDropdownVisible, currentUser}) => {
                     <span className="text-gray-700">{currentUser.account_name}</span>
                     <img src={UserProfile} alt="User Profile" className="h-8 w-8 rounded-full" />
                 </div>
-                <Link onClick={() => setDropdownVisible(false)} to="/profile/1" className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</Link>
+                <Link onClick={() => setDropdownVisible(false)} to={"/profile/" + currentUser.account_id} className="text-blue-700 font-semibold mb-2 text-left hover:bg-gray-200">Dashboard</Link>
                 <button onClick={() => setShowConfirmLogout(true)} className="text-blue-700 font-semibold text-left hover:bg-gray-200">Logout</button>
             </div>
             {showConfirmLogout && (
