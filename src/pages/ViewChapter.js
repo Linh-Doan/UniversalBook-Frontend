@@ -81,6 +81,7 @@ export const ViewChapter = () => {
       };
 
       setChapters([...chapters, newChapter]);
+      setChapterName("");
     } else {
       alert("Chapter name cannot be empty.");
     }
@@ -101,59 +102,73 @@ export const ViewChapter = () => {
     >
       <h1 className="text-4xl font-bold mb-4 mt-14 text-white animate-fadeIn">View chapter list of {bookCreated.book_name}</h1>
       <div className="w-full max-w-2xl bg-white/[.75] p-6 rounded-lg shadow-md animate-slideIn">
-        <ul className="list-decimal list-inside">
-          {chapters.map((chapter, index) => (
-            <li key={index} className="flex justify-between items-center mb-2 animate-fadeIn">
-              <span>{index + 1}. {chapter.chapter_name}</span>
-              <div className="flex space-x-2">
-                {canStartWriting && (
+        {chapters.length === 0 ? (
+          <div>
+            <p className="text-center text-lg font-medium text-gray-700 mt-6">
+              🌟 No adventures for this book have begun yet.
+            </p>
+            {canStartWriting && (
+            <p className="text-center text-lg font-medium text-gray-700 mt-6">
+              Start the first chapter of this epic journey! 🌟
+            </p>)}
+          </div>
+        ) : (
+          <ul className="list-decimal list-inside">
+            {chapters.map((chapter, index) => (
+              <li key={index} className="flex justify-between items-center mb-2 animate-fadeIn">
+                <span>{index + 1}. {chapter.chapter_name}</span>
+                <div className="flex space-x-2">
+                  {canStartWriting && (
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-md font-medium text-white bg-green-600 hover:bg-green-800 rounded-md focus:outline-none focus:ring-4 focus:ring-green-300"
+                      onClick={() => startWriting(chapter, index)}
+                    >
+                      ✍️ Start Writing
+                    </button>
+                  )}
                   <button
                     type="button"
-                    className="py-2 px-4 text-md font-medium text-white bg-green-600 hover:bg-green-800 rounded-md focus:outline-none focus:ring-4 focus:ring-green-300"
-                    onClick={() => startWriting(chapter, index)}
+                    className="py-1 px-3 text-md font-medium text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white rounded-md focus:outline-none focus:ring-4 focus:ring-blue-300"
+                    onClick={() => startViewing(chapter, index)}
                   >
-                    ✍️ Start Writing
+                    📖 View Chapter
                   </button>
-                )}
-                <button
-                  type="button"
-                  className="py-1 px-3 text-md font-medium text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white rounded-md focus:outline-none focus:ring-4 focus:ring-blue-300"
-                  onClick={() => startViewing(chapter, index)}
-                >
-                  📖 View Chapter
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <input
-          type="text"
-          value={chapterName}
-          onChange={handleChapterNameChange}
-          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          placeholder="New chapter name"
-        />
-        {canStartWriting && (
-          <div className="mt-6 flex justify-end">
-            <button
-              type="button"
-              onClick={addNewChapter}
-              className="py-2 px-5 text-md font-medium text-white bg-purple-600 hover:bg-purple-800 rounded-md focus:outline-none focus:ring-4 focus:ring-purple-300"
-            >
-              ➕ Add New Chapter
-            </button>
-          </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
-        {/* New Button for Viewing All Books */}
-        <div className="mt-6 flex justify-end">
-          <button
-            type="button"
-            onClick={viewAllBooks}
-            className="py-2 px-5 text-md font-medium text-white bg-indigo-600 hover:bg-indigo-800 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 flex items-center"
-          >
-            📚 Explore My Library
-          </button>
-        </div>
+
+        {canStartWriting && (
+          <>
+            <input
+              type="text"
+              value={chapterName}
+              onChange={handleChapterNameChange}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              placeholder="New chapter name"
+            />
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={addNewChapter}
+                className="py-2 px-5 text-md font-medium text-white bg-purple-600 hover:bg-purple-800 rounded-md focus:outline-none focus:ring-4 focus:ring-purple-300"
+              >
+                ➕ Add New Chapter
+              </button>
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={viewAllBooks}
+                className="py-2 px-5 text-md font-medium text-white bg-indigo-600 hover:bg-indigo-800 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 flex items-center"
+              >
+                📚 Explore My Library
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
