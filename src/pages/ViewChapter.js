@@ -189,7 +189,7 @@ export const ViewChapter = () => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPublish(true)}
-                className="py-2 px-5 text-md font-medium text-white bg-purple-600 hover:bg-purple-800 rounded-md focus:outline-none focus:ring-4 focus:ring-purple-300"
+                className="py-2 px-5 text-md font-medium text-white bg-red-500 hover:bg-red-600 rounded-md focus:outline-none focus:ring-4 focus:ring-red-300"
               >
                 ⬆️ Publish Book
               </button>
