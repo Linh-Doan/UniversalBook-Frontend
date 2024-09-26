@@ -22,7 +22,7 @@ export const BookList = () => {
         async function fetchTopRatedBooks() {
             const response = await fetch(`${apiBaseUrl}${endpoints.getTopRatedBooks}`);
             const data = await response.json();
-            setTopRatedBooks(data.data.books)
+            setTopRatedBooks((data.data.books).filter((book)=>book.is_published))
         }
         fetchTopRatedBooks();
     }, [])
@@ -30,7 +30,7 @@ export const BookList = () => {
         async function fetchTopRatedBooks() {
             const response = await fetch(`${apiBaseUrl}${endpoints.getNewBooks}`);
             const data = await response.json();
-            setNewBooks(data.data.books)
+            setNewBooks((data.data.books).filter((book)=>book.is_published))
         }
         fetchTopRatedBooks();
     }, [])
@@ -38,7 +38,7 @@ export const BookList = () => {
         async function fetchTopRatedBooks() {
             const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}`);
             const data = await response.json();
-            setDiscoverBooks(data.data.books)
+            setDiscoverBooks((data.data.books).filter((book)=>book.is_published))
         }
         fetchTopRatedBooks();
     }, [])

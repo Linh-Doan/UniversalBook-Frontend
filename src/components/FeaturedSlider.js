@@ -35,9 +35,9 @@ const getItemUrl = (itemType, id) => {
     return `/genres/${id}`;
   } 
 
-  // if (itemType === 'chapter'){
-  //   return `/chapters/${id}`;
-  // }
+  if (itemType === 'draft') {
+    return `/drafts/${id}`
+  }
 
   if (itemType === 'authorGroup') {
     return `/group/${id}`
@@ -52,7 +52,7 @@ const FeaturedSlider = ({ SliderItems, itemType }) => {
   const navigate = useNavigate();
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: SliderItems.length > 6,
     speed: 500,
     slidesToShow: 7,

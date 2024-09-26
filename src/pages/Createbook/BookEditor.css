@@ -20,6 +20,7 @@
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
   background-color: #f0e4cc;
   overflow-y: auto; 
+  white-space: normal !important;
 }
 
 .container .ql-container.ql-snow {

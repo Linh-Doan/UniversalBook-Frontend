@@ -107,7 +107,7 @@ export const Dashboard = () => {
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl" >Drafts</h2>
-                <FeaturedSlider SliderItems={personalBooks.filter((book) => !book.isPublished)} itemType={'book'}/>
+                <FeaturedSlider SliderItems={personalBooks.filter((book) => !book.isPublished)} itemType={'draft'}/>
             </div>
             <div>
                 <h2 className="px-3 py-4 text-xl" >Following</h2>
