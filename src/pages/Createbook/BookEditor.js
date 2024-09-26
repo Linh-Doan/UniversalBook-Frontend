@@ -105,7 +105,6 @@ export const BookEditor = () => {
           });
 
           if (response.status === 201) {
-            alert("Chapter created successfully!");
             navigate(`/books/${bookCreated.book_id}/chapters`);
           } else {
             alert("Failed to create chapter.");
@@ -119,7 +118,6 @@ export const BookEditor = () => {
         });
 
         if (response.status === 200) {
-          alert("Chapter updated successfully!");
           navigate(`/books/${bookCreated.book_id}/chapters`);
         } else {
           alert("Failed to update chapter.");
@@ -198,7 +196,7 @@ export const BookEditor = () => {
                 className="font-merriweather text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg px-4 py-2 transition duration-200 transform hover:scale-105"
                 onClick={publishBook}
               >
-                Save
+                Save and close
               </button>
               <button
                 className="font-merriweather text-white bg-red-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-lg px-4 py-2 transition duration-200 transform hover:scale-105 ml-4"

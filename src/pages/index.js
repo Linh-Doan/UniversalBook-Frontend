@@ -18,3 +18,4 @@ export { CreateGroup } from "./CreateGroup";
 export { BookEditor } from "./Createbook/BookEditor";
 export { BookCreator } from "./Createbook/BookCreator";
 export { ViewChapter } from "./ViewChapter";
+export { DraftDetails } from "./DraftDetails";

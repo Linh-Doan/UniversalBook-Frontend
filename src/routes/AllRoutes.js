@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 
 
-import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard} from "../pages";
+import { HomePage, GenreList, BookList, ChapterList, Login, Register, PageNotFound, SearchResults, BookDetails, ViewChapter, Profile, BookEditor, BookCreator, CreateGroup, GroupDashboard, DraftDetails} from "../pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ViewChapterDetails } from "../pages/ViewChapterDetails";
 import { Genre } from "../pages/Genre";
@@ -24,6 +24,7 @@ export const AllRoutes = () => {
             <Route path="books/:id" element={<ProtectedRoute><BookDetails /></ProtectedRoute>} />
             <Route path="books/:id/chapters" element={<ProtectedRoute><ViewChapter /></ProtectedRoute>} />
             <Route path="chapters/:id" element={<ProtectedRoute><ViewChapterDetails /></ProtectedRoute>} />
+            <Route path="drafts/:id" element={<ProtectedRoute><DraftDetails /></ProtectedRoute>} />
             <Route path="profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
             <Route path ="/creategroup" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>} />
             <Route path="group" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>}></Route>

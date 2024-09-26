@@ -210,7 +210,7 @@ export const GroupDashboard = () => {
 			</div>
 			<div>
 				<h2 className="px-3 py-4 text-xl">Drafts</h2>
-				<FeaturedSlider SliderItems={booksToSliderItems(authorGroupData.books.filter((book)=>!book.is_published))} itemType='book'/>
+				<FeaturedSlider SliderItems={booksToSliderItems(authorGroupData.books.filter((book)=>!book.is_published))} itemType='draft'/>
 			</div>
     </div>
   )

@@ -5,7 +5,6 @@ import { useUser } from "../../hooks/useUser";
 
 export const Profile = () => {
 	const { id } = useParams()
-	console.log(id)
     const { userId, isAuthenticated } = useUser();
 	const isUser = id === userId;
     if (isAuthenticated) {
