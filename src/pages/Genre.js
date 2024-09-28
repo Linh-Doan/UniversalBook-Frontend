@@ -29,7 +29,7 @@ export const Genre = () => {
         const fetchBooks = async () => {
             try {
                 const response = await axiosInstance.get(`${endpoints.getBooks}/genre/${id}`);
-                setBooks(response.data.data.books);
+                setBooks((response.data.data.books).filter((book)=>book.is_published));
             } catch (err) {
                 console.error(err);
             }

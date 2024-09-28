@@ -84,13 +84,7 @@ export const BookCreator = () => {
         }
       );
       const createdBook = res.data.data.book;
-      // setBookCreated(createdBook);
-      navigate('/chaptercreator', {
-        state: {
-          bookCreated: createdBook,
-          authorGroupName: bookDetails.authorGroup.name, // Pass the name directly
-        },
-      });
+      navigate(`/books/${createdBook.book_id}/chapters`);
     } catch (err) {
       console.error("Error creating book:", err);
       alert("Error creating book, try again later");

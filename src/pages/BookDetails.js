@@ -21,7 +21,9 @@ export const BookDetails = () => {
         async function fetchBook(){
             try{
                 const response = await axiosInstance.get(`${endpoints.getBooks}/${id}`);
-                setBook(response.data.data.book);
+                if (response.data.data.book.is_published) {
+                    setBook(response.data.data.book);
+                }
             } catch (err) {
                 alert('Fail to load book');
             } finally {
