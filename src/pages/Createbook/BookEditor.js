@@ -1,25 +1,26 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import Delta from "quill-delta";
-import {useCallback, useState, useEffect} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useCallback, useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from '../../api/axiosInstance'; // Assuming axiosInstance is configured properly
 import "./BookEditor.css";
 import backgroundImage from '../../assets/bookeditorbackground3.png';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBookOpen} from '@fortawesome/free-solid-svg-icons';
-import {endpoints} from '../../config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { endpoints } from '../../config';
 import { useUser } from "../../hooks/useUser";
 import { io } from "socket.io-client";
+import { apiBaseUrlRoot } from '../../config.js';
 
 const TOOLBAR_OPTIONS = [
-    [{header: [1, 2, 3, 4, 5, 6, false]}],
-    [{font: []}],
-    [{list: "ordered"}, {list: "bullet"}],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
     ["bold", "italic", "underline"],
-    [{color: []}, {background: []}],
-    [{script: "sub"}, {script: "super"}],
-    [{align: []}],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ align: [] }],
     ["image", "blockquote", "code-block"],
     ["clean"],
 ];
@@ -27,9 +28,9 @@ const TOOLBAR_OPTIONS = [
 export const BookEditor = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {bookCreated} = location.state || {bookCreated: {}};
-    const {authorGroupName} = location.state || {authorGroupName: {}};
-    const {chapter} = location.state || {chapter: ""};
+    const { bookCreated } = location.state || { bookCreated: {} };
+    const { authorGroupName } = location.state || { authorGroupName: {} };
+    const { chapter } = location.state || { chapter: "" };
     const [isExpanded, setIsExpanded] = useState(false);
     const [isUpdateChapter, setIsUpdateChapter] = useState(false);
     const { user, userId } = useUser();
@@ -37,58 +38,40 @@ export const BookEditor = () => {
     const [chapterContent, setChapterContent] = useState(chapter.chapter_content); // For storing chapter content
 
     const [content, setContent] = useState(new Delta()); // all local content
-    const [newOps, setNewOps] = useState(new Delta()); // new local content
-    const [operations, setOperations] = useState([]); // new content from server
-    const [quillEditor, setQuillEditor] = useState(null);
+    const newOps = useRef(new Delta()); // new local content
 
+    const socket = useRef(io(apiBaseUrlRoot + '?chapterId=' + chapter.chapter_id));
 
-
-
-
-    // Effects
-    useEffect(() => { // receive data from server
-        if(!operations.length) return;
-
-        const indices = [];
-
-        operations.forEach((operation, index) => {
-            // To make it as a broadcast event.
-            if(operation.userId === user.account_id) {
-                // As return in forEach just breaks the current execution
-                return;
-            }
-
-            indices.push(index);
-
-            // As compose is done on the `value` prop of `<ReactQuill />`
-            const transformedDelta = new Delta().transform(operation.delta, true);
-            const composedDelta = content.compose(transformedDelta);
-            setNewOps(new Delta());
-            setContent(composedDelta);
-            quillEditor.setContents(content.compose(newOps));
-        });
-        if(!indices.length) return;
-
-        const newOperations = operations.filter(
-            (_, index) => !indices.includes(index)
-        );
-
-        // TODO: remove once socket.io is implemented
-        
-        setOperations(newOperations);
-    }, [operations]);
+    useEffect(() => {
+        if (socket.current.active) {
+            socket.current.on("change", (args) => {
+                console.log("operation received", args)
+                let operation = args;
+                //args.forEach((operation) => {
+                const transformedDelta = new Delta().transform(operation.delta, true);
+                const composedDelta = editor.compose(transformedDelta);
+                //quillEditor.setContents(composedDelta);
+                newOps.current = new Delta();
+                setContent(composedDelta);
+                //})
+            })
+        }
+    }, [socket])
 
     // Handlers
     // push data to server
-    const handleDebounceChange = (delta, currentDelta, oldDelta, userId) => {
-        const diff = oldDelta.diff(currentDelta);
+    const handleDebounceChange = (delta, currentDelta, oldDelta, userId, editor) => {
+        //const diff = oldDelta.diff(currentDelta);
 
-        setContent((pre) => pre.compose(diff));
-        setNewOps(new Delta());
+        //setContent((pre) => pre.compose(diff));
 
-        // TODO: replace with socket.io operation
-        setOperations((pre) => [...pre, {delta: diff, userId: (userId)? userId: 'local'}]);
+        console.log("change sent", { delta: delta, userId: (userId) ? userId : 'local' });
+
+        socket.current.emit("change", { delta: delta, userId: (userId) ? userId : 'local' });
         console.log("Operations pushed---");
+
+        //setContent(editor.getContents())
+        newOps.current = new Delta();
     };
 
     const debounce = (fn, ms = 300) => {
@@ -101,20 +84,8 @@ export const BookEditor = () => {
 
     const debouncedHandleChange = useCallback(
         debounce(handleDebounceChange, 500),
-        [userId]
+        []
     );
-
-    const onChange = (delta, source, editor) => {
-        // If the change is not caused due to user input ignore...
-        if(source === "api") return;
-
-        const deltaContents = editor.getContents();
-
-        const diff = content.diff(deltaContents);
-        setNewOps(diff);
-
-        debouncedHandleChange(delta, deltaContents, content, userId);
-    };
 
     const toggleSidebar = () => {
         setIsExpanded(!isExpanded);
@@ -122,17 +93,17 @@ export const BookEditor = () => {
 
     useEffect(() => {
         const setUpdate = () => {
-            if(chapterContent.length > 0) {
+            if (chapterContent.length > 0) {
                 setIsUpdateChapter(true);
             }
         };
         setUpdate();
     }, []);
 
-    
+
 
     const wrapperRef = useCallback((wrapper) => {
-        if(wrapper == null) {
+        if (wrapper == null) {
             return;
         }
 
@@ -141,12 +112,12 @@ export const BookEditor = () => {
         wrapper.append(editor);
         let quill = new Quill(editor, {
             theme: "snow",
-            modules: {toolbar: TOOLBAR_OPTIONS}
+            modules: { toolbar: TOOLBAR_OPTIONS }
         });
 
         // If chapterContent is not empty, load it into the editor
-        if(chapterContent.length > 0) {
-            quill.clipboard.dangerouslyPasteHTML(0, chapterContent);
+        if (content.length > 0) {
+            quill.setContents(content);
         } else {
             // Default header if no existing content
             quill.clipboard.dangerouslyPasteHTML(0, `
@@ -165,11 +136,18 @@ export const BookEditor = () => {
             // console.log(`content arr`, content);
             // console.log('newOps', newOps);
             // console.log('chapterContent', chapterContent);
-            console.log('operations', operations);
-            onChange(delta, source, quill);
-            setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
+            // If the change is not caused due to user input ignore...
+            if (source === "api") return;
+
+            const deltaContents = quill.getContents();
+
+            // const diff = content.diff(deltaContents);
+            // setNewOps(diff);
+            newOps.current = newOps.current.compose(delta);
+
+            debouncedHandleChange(newOps.current, deltaContents, content, userId, editor);
+            //setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
         });
-        setQuillEditor(quill);
     }, [chapter, authorGroupName, chapterContent]);
 
     const cancel = () => {
@@ -191,14 +169,14 @@ export const BookEditor = () => {
             };
 
             // API call to create the chapter
-            if(isUpdateChapter === false) {
+            if (isUpdateChapter === false) {
                 const response = await axiosInstance.post(`${endpoints.getChapters}`, newChapter, {
                     headers: {
                         "Content-Type": "application/json; charset=UTF-8"
                     }
                 });
 
-                if(response.status === 201) {
+                if (response.status === 201) {
                     navigate(`/books/${bookCreated.book_id}/chapters`);
                 } else {
                     alert("Failed to create chapter.");
@@ -211,13 +189,13 @@ export const BookEditor = () => {
                     }
                 });
 
-                if(response.status === 200) {
+                if (response.status === 200) {
                     navigate(`/books/${bookCreated.book_id}/chapters`);
                 } else {
                     alert("Failed to update chapter.");
                 }
             }
-        } catch(error) {
+        } catch (error) {
             console.error("Error creating chapter:", error);
             alert("Error creating chapter, try again later.");
         }
