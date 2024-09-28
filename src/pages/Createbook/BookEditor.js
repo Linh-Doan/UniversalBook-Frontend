@@ -33,7 +33,7 @@ export const BookEditor = () => {
     const {authorGroupName} = location.state || {authorGroupName: {}};
     const {chapter} = location.state || {chapter: ""};
     const [isExpanded, setIsExpanded] = useState(false);
-    const {userId} = useUser();
+    const {user, userId} = useUser();
 
     const [content, setContent] = useState(new Delta().insert(chapter.chapter_content)); // all local content
     const newOps = useRef(new Delta()); // new local content
@@ -62,8 +62,22 @@ export const BookEditor = () => {
                 }
 
             });
+
+            socket.current.on("publish", (userName) => {
+                alert(`page has been saved by ${userName}, syncing content`);
+                const fetchChapter = async () => {
+                    try {
+                      const response = await axiosInstance.get(`${endpoints.getChapters}/${chapter.chapter_id}`);
+                      chapter.chapter_content = response.data.data.chapter.chapter_content;
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  };
+              
+                fetchChapter();
+            })
         }
-    }, [socket]);
+    }, [socket, chapter]);
 
     // Handlers
     // push data to server
@@ -195,6 +209,8 @@ export const BookEditor = () => {
                 });
 
                 if(response.status === 200) {
+                    socket.current.emit("publish", user.account_name);
+                    socket.current.disconnect();
                     navigate(`/books/${bookCreated.book_id}/chapters`);
                 } else {
                     alert("Failed to update chapter.");
