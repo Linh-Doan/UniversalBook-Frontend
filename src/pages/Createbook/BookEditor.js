@@ -53,13 +53,17 @@ export const BookEditor = () => {
                 console.log("operation received", args);
                 let operation = args;
                 //args.forEach((operation) => {
-                const transformedDelta = new Delta().transform(operation.delta, true);
-                const composedDelta = quill.current.getContents().compose(transformedDelta);
-                //quillEditor.setContents(composedDelta);
-                newOps.current = new Delta();
-                quill.current.setContents(composedDelta);
-                setContent(composedDelta);
-                //})
+
+                if(operation.delta != null) {
+                    const transformedDelta = new Delta().transform(operation.delta, true);
+                    const composedDelta = quill.current.getContents().compose(transformedDelta);
+                    //quillEditor.setContents(composedDelta);
+                    newOps.current = new Delta();
+                    quill.current.setContents(composedDelta);
+                    setContent(composedDelta);
+                    //})
+                }
+
             });
         }
     }, [socket]);
@@ -138,7 +142,7 @@ export const BookEditor = () => {
             `);
             //setContent(quill.current.getContents());
         }
-        
+
         quill.current.on('text-change', (delta, oldContents, source) => {
             // console.log(`content arr`, content);
             // console.log('newOps', newOps);
@@ -152,10 +156,10 @@ export const BookEditor = () => {
             // setNewOps(diff);
             newOps.current = newOps.current.compose(delta);
             setContent(deltaContents);
-            if (socket.current != null) {
+            if(socket.current != null) {
                 debouncedHandleChange(newOps.current, userId);
             }
-            
+
             //setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
         });
     }, [chapter, authorGroupName]);
