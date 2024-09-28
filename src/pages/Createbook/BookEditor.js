@@ -45,23 +45,20 @@ export const BookEditor = () => {
         if(isUpdateChapter.current) {
             socket.current = io(apiBaseUrlRoot + '?chapterId=' + chapter.chapter_id);
         }
-    }, [isUpdateChapter]);
+    }, [isUpdateChapter, chapter]);
 
     useEffect(() => { // receive updated changes
         if((socket.current != null) && socket.current.active) {
             socket.current.on("change", (args) => {
                 console.log("operation received", args);
                 let operation = args;
-                //args.forEach((operation) => {
 
                 if(operation.delta != null) {
                     const transformedDelta = new Delta().transform(operation.delta, true);
                     const composedDelta = quill.current.getContents().compose(transformedDelta);
-                    //quillEditor.setContents(composedDelta);
                     newOps.current = new Delta();
                     quill.current.setContents(composedDelta);
                     setContent(composedDelta);
-                    //})
                 }
 
             });
@@ -71,16 +68,12 @@ export const BookEditor = () => {
     // Handlers
     // push data to server
     const handleDebounceChange = (delta, userId) => {
-        //const diff = oldDelta.diff(currentDelta);
-
-        //setContent((pre) => pre.compose(diff));
 
         console.log("change sent", {delta: delta, userId: (userId) ? userId : 'local'});
 
         socket.current.emit("change", {delta: delta, userId: (userId) ? userId : 'local'});
         console.log("Operations pushed---");
 
-        //setContent(editor.getContents())
         newOps.current = new Delta();
     };
 
@@ -92,6 +85,7 @@ export const BookEditor = () => {
         };
     };
 
+    // eslint-disable-next-line
     const debouncedHandleChange = useCallback(
         debounce(handleDebounceChange, 500),
         []
@@ -103,66 +97,63 @@ export const BookEditor = () => {
 
     useEffect(() => {
         const setUpdate = () => {
-            if(content.length() > 0) {
+            if(chapter.chapter_content.length > 0) {
                 isUpdateChapter.current = true;
             }
         };
         setUpdate();
-    }, []);
+    }, [chapter]);
 
 
 
     const wrapperRef = useCallback((wrapper) => {
-        if(wrapper == null) {
-            return;
-        }
-
-        wrapper.innerHTML = "";
-        const editor = document.createElement("div");
-        wrapper.append(editor);
-        quill.current = new Quill(editor, {
-            theme: "snow",
-            modules: {toolbar: TOOLBAR_OPTIONS}
-        });
-
-        // If chapterContent is not empty, load it into the editor
-        if(content.length() > 0) {
-            quill.current.setContents(content);
-        } else {
-            // Default header if no existing content
-            quill.current.clipboard.dangerouslyPasteHTML(0, `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 2.5em; margin-bottom: 0.5em;">
-            ${chapter.chapter_name}
-          </h1>
-          <h3 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 1.5em;">
-            Author: ${authorGroupName}
-            </h3>
-            </div>
-            `);
-            //setContent(quill.current.getContents());
-        }
-
-        quill.current.on('text-change', (delta, oldContents, source) => {
-            // console.log(`content arr`, content);
-            // console.log('newOps', newOps);
-            // console.log('chapterContent', chapterContent);
-            // If the change is not caused due to user input ignore...
-            if(source === "api") return;
-
-            const deltaContents = quill.current.getContents();
-
-            // const diff = content.diff(deltaContents);
-            // setNewOps(diff);
-            newOps.current = newOps.current.compose(delta);
-            setContent(deltaContents);
-            if(socket.current != null) {
-                debouncedHandleChange(newOps.current, userId);
+        function createEditor(wrapper) {
+            if(wrapper == null) {
+                return;
             }
-
-            //setChapterContent(quill.root.innerHTML); // Capture the chapter content from the editor
-        });
-    }, [chapter, authorGroupName]);
+    
+            wrapper.innerHTML = "";
+            const editor = document.createElement("div");
+            wrapper.append(editor);
+            quill.current = new Quill(editor, {
+                theme: "snow",
+                modules: {toolbar: TOOLBAR_OPTIONS}
+            });
+    
+            // If chapterContent is not empty, load it into the editor
+            if(content.length() > 0) {
+                quill.current.setContents(content);
+            } else {
+                // Default header if no existing content
+                quill.current.clipboard.dangerouslyPasteHTML(0, `
+            <div style="text-align: center; margin-bottom: 20px;">
+              <h1 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 2.5em; margin-bottom: 0.5em;">
+                ${chapter.chapter_name}
+              </h1>
+              <h3 style="font-family: 'Merriweather', serif; color: #563b23; font-size: 1.5em;">
+                Author: ${authorGroupName}
+                </h3>
+                </div>
+                `);
+            }
+    
+            quill.current.on('text-change', (delta, oldContents, source) => {
+                // If the change is not caused due to user input ignore...
+                if(source === "api") return;
+    
+                const deltaContents = quill.current.getContents();
+    
+                newOps.current = newOps.current.compose(delta);
+                setContent(deltaContents);
+                if(socket.current != null) {
+                    debouncedHandleChange(newOps.current, userId);
+                }
+    
+            });
+        }
+        createEditor(wrapper);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const cancel = () => {
         setIsExpanded(false);
