@@ -67,7 +67,7 @@ export const BookEditor = () => {
                     const updatedContent = response.data.data.chapter.chapter_content;
                     setContent(updatedContent);
                     // Set the HTML content into the editor
-                    quill.current.clipboard.dangerouslyPasteHTML(0, updatedContent);
+                    // quill.current.clipboard.dangerouslyPasteHTML(0, updatedContent);
                 } catch (err) {
                     console.log(err);
                 }
