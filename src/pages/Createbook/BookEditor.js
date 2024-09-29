@@ -89,10 +89,10 @@ export const BookEditor = () => {
         };
     };
 
-    const debouncedHandleChange = useCallback(
+    const debouncedHandleChange = useCallback( // eslint-disable-line
         debounce(handleDebounceChange, 500),
         []
-    );
+    ); // eslint-disable-line
 
     const toggleSidebar = () => {
         setIsExpanded(!isExpanded);
@@ -140,8 +140,6 @@ export const BookEditor = () => {
 
             quill.current.on('text-change', (delta, oldContents, source) => {
                 if (source === "api") return;
-
-                const deltaContents = quill.current.getContents();
                 newOps.current = newOps.current.compose(delta);
                 setContent(quill.current.root.innerHTML); // Update the state with the HTML content
                 if (socket.current != null) {
@@ -150,7 +148,7 @@ export const BookEditor = () => {
             });
         }
         createEditor(wrapper);
-    }, [content, authorGroupName, chapter]);
+    }, [content, authorGroupName, chapter]); // eslint-disable-line
 
     const cancel = () => {
         setIsExpanded(false);
