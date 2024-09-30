@@ -48,9 +48,13 @@ export const CreateGroup = () => {
                 body: body
             }).then((response) => {
                 if(response.ok) {
-                    window.location.href = "/profile/1" //TODO: go to actual dashboard page of correct user
+                    return response.json();
                 } else {
                     alert("Creation Failure");
+                }
+            }).then((jsonResponse) => {
+                if (jsonResponse != null) {
+                    window.location.href = '/group/' + jsonResponse.data.newAuthorGroup.author_group_id;
                 }
             });
 
