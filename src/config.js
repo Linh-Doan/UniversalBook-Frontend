@@ -16,6 +16,8 @@ const endpoints = {
     getDiscoverGenres: '/genres/discover',   // Endpoint to get discover genres
     getMostFollowedGenres: '/genres/most-followed',  // Endpoint to get most-followed genres
     isUserFollowingGenre: '/genres/is-following', // Endpoint to check if a user is following a specific genre
+    createBookGenre: '/bookgenre/',
+    getBookGenres: '/bookgenre/',
     getChapters: '/chapters',  
     getTopRatedChapters: '/chapters/top-rated', 
     getNewChapters: '/chapters/latest',

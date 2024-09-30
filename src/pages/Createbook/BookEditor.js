@@ -40,6 +40,24 @@ export const BookEditor = () => {
     const socket = useRef(null);
     const quill = useRef(null);
 
+    const [genres, setGenres] = useState([]); // State to store genres
+
+    // Fetch genres associated with the book
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                const res = await axiosInstance.get(`${endpoints.getBookGenres}/${bookCreated.book_id}/genres`);
+                setGenres(res.data.data.genres);
+            } catch (err) {
+                console.error("Error fetching genres:", err);
+            }
+        };
+
+        if (bookCreated.book_id) {
+            fetchGenres();
+        }
+    }, [bookCreated.book_id]);
+
     useEffect(() => {
         if (isUpdateChapter.current) {
             socket.current = io(apiBaseUrlRoot + '?chapterId=' + chapter.chapter_id);
@@ -247,19 +265,24 @@ export const BookEditor = () => {
                             <strong>Author:</strong> {authorGroupName}
                         </p>
                         <p className="font-merriweather text-gray-800">
-                            <strong>Created on:</strong> {bookCreated.created_on}
+                            <strong>Created on:</strong> {new Intl.DateTimeFormat('en-AU', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            }).format(new Date(bookCreated.created_on))}
                         </p>
                         <p className="font-merriweather text-gray-800">
                             <strong>Genres:</strong>
                         </p>
                         <div className="flex flex-wrap mb-4">
-                            {bookCreated.genres?.map((genre, index) => (
+                            {genres.map((genre) => (
                                 <span
-                                    key={index}
                                     className="m-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full"
                                 >
                                     {genre}
-                                </span>
+                                </span> 
                             ))}
                         </div>
                         <div className="flex justify-end">

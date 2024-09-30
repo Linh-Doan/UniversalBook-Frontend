@@ -68,14 +68,14 @@ export const BookCreator = () => {
   };
 
   const handleSubmit = async () => {
-    try {
+    try {  
+      // Create the book
       const res = await axiosInstance.post(
         `${endpoints.getBooks}`,
         {
           book_name: bookDetails.name,
           author_group_id: bookDetails.authorGroup.id,
           summary_text: bookDetails.description,
-          genres: bookDetails.genres.map(genre => genre[0]),
         },
         {
           headers: {
@@ -83,13 +83,34 @@ export const BookCreator = () => {
           }
         }
       );
+  
       const createdBook = res.data.data.book;
+  
+      // Loop through genres and create book-genre association
+      for (const genre of bookDetails.genres) {
+        const genreId = genre[0];
+        await axiosInstance.post(
+          `${endpoints.createBookGenre}`,
+          {
+            bookId: createdBook.book_id,
+            genreId: genreId,
+          },
+          {
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            }
+          }
+        );
+      }
+  
+      // Navigate to the book's chapters page
       navigate(`/books/${createdBook.book_id}/chapters`);
     } catch (err) {
-      console.error("Error creating book:", err);
+      console.error("Error creating book or book-genre associations:", err);
       alert("Error creating book, try again later");
     }
   };
+  
 
   return (
     <div
