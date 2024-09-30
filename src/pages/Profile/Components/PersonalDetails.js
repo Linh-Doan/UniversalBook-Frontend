@@ -1,22 +1,26 @@
 import { useState, useEffect } from "react";
+import { useUser } from '../../../hooks/useUser';
+
 export const PersonalDetails = () => {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState({});
   const [cachedProfile, setCachedProfile] = useState({})
-  useEffect(() => {
-    //Replace with call to backend
-    const tmpProfile = {
-      firstName: 'Bonnie',
-      lastName: 'Green',
-      dob: '2000-01-01',
-      email: 'bonnie.green@email.com',
-      phoneNumber: '041111111',
-      religion: null
-    }
-    setProfile(tmpProfile)
-    setCachedProfile(tmpProfile)
-  }, []);
+  const { user} = useUser();
 
+  useEffect(() => {
+    // Ensure user object is not null or undefined before setting profile
+    if (user) {
+      const tmpProfile = {
+        fullName: user.account_name || '',  // Use empty string if account_name is undefined or null
+        dob: '2000-01-01',  // Placeholder DOB
+        email: user.email || '',
+        phoneNumber: '041111111',  // Placeholder phone number
+        language: user.language_id || ''
+      };
+      setProfile(tmpProfile);
+      setCachedProfile(tmpProfile);
+    }
+  }, [user]);
 
   const handleEditClick = () => {
     setEditing(true);
@@ -75,12 +79,11 @@ export const PersonalDetails = () => {
       ) : (
         <div className="w-full flex flex-row items-start justify-between p-6 bg-white border border-gray-200 rounded-lg shadow">
           <div>
-            <p className="mb-3 font-normal text-gray-700">First name: {profile.firstName}</p>
-            <p className="mb-3 font-normal text-gray-700">Last name: {profile.lastName}</p>
+            <p className="mb-3 font-normal text-gray-700">Full name: {profile.fullName}</p>
             <p className="mb-3 font-normal text-gray-700">DOB: {profile.dob}</p>
             <p className="mb-3 font-normal text-gray-700">Email: {profile.email}</p>
             <p className="mb-3 font-normal text-gray-700">Phone number: {profile.phoneNumber}</p>
-            <p className="mb-3 font-normal text-gray-700">Religion: {profile.religion}</p>
+            <p className="mb-3 font-normal text-gray-700">Language: {profile.language}</p>
           </div>
           <div className="flex justify-end px-4 pt-4">
             <button id="editButton"  onClick={handleEditClick} className=" inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
