@@ -1,7 +1,5 @@
-import {Link} from "react-router-dom";
 import UserProfile from "../../assets/userProfile.png";
 import FeaturedSlider from "../../components/FeaturedSlider";
-import Book4 from "../../assets/book1.jpeg";
 import {apiBaseUrl, endpoints} from '../../config';
 import {useEffect, useState} from "react";
 

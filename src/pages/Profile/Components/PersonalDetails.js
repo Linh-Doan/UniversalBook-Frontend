@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useUser } from '../../../hooks/useUser';
 
 export const PersonalDetails = () => {
-  const [editing, setEditing] = useState(false);
+  const editing = false;
+  // const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState({});
-  const [cachedProfile, setCachedProfile] = useState({})
+  //const [cachedProfile, setCachedProfile] = useState({})
   const { user} = useUser();
 
   useEffect(() => {
@@ -18,27 +19,27 @@ export const PersonalDetails = () => {
         language: user.language_id || ''
       };
       setProfile(tmpProfile);
-      setCachedProfile(tmpProfile);
+      //setCachedProfile(tmpProfile);
     }
   }, [user]);
 
-  const handleEditClick = () => {
-    setEditing(true);
-  };
+//   const handleEditClick = () => {
+//     setEditing(true);
+//   };
 
-  const handleSave = (e) => {
-    e.preventDefault()
-    setEditing(false);
-    //send data to DB
-    setCachedProfile(profile)
-  };
+//   const handleSave = (e) => {
+//     e.preventDefault()
+//     setEditing(false);
+//     //send data to DB
+//     setCachedProfile(profile)
+//   };
 
-  const handleCancel = (e) => {
-    e.preventDefault()
-    setEditing(false);
-    //Alternatively can make another DB call
-    setProfile(cachedProfile)
-  };
+//   const handleCancel = (e) => {
+//     e.preventDefault()
+//     setEditing(false);
+//     //Alternatively can make another DB call
+//     setProfile(cachedProfile)
+//   };
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
