@@ -12,10 +12,6 @@ export const UserDataRow = ({userName, email}) => {
                             <h5 className="mb-1 text-xl font-medium text-gray-900">{userName}</h5>
                             <span className="text-sm text-gray-500">{email}</span>
                         </div>
-                        
-                    </li>
-                    <li>
-                        <span className="text-sm mx-3 text-gray-500">3.9M followers • 155 following</span>
                     </li>
                 </ul>
             </div>
