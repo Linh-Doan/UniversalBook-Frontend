@@ -7,9 +7,9 @@ export const HomePage = () => {
   const [books, setBooks] = useState([]);
   useEffect(() =>{
     async function fetchBooks() {
-      const response = await fetch(`${apiBaseUrl}${endpoints.getBooks}`);
+      const response = await fetch(`${apiBaseUrl}${endpoints.getTopRatedBooks}`);
       const data = await response.json();
-      setBooks(data.data.books)
+      setBooks((data.data.books).filter((book)=>book.is_published))
     }
     fetchBooks();
   }, [])
@@ -18,7 +18,7 @@ export const HomePage = () => {
       <FeaturedCarousel />
       <div className="flex justify-center items-center my-4">
         <p className="text-white text-xl font-semibold px-3 py-1 rounded">
-          Top picks
+        Top Rated Books
         </p>
       </div>
       <div className="px-16">
