@@ -5,6 +5,7 @@ import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
 import { useUser } from "../../hooks/useUser";
 import { Loading } from "../../components/Loading";
+import { UserDataRow } from "../../components/UserDataRow";
 
 const booksToSliderItems = (books) => {
     let newList = []
@@ -22,12 +23,13 @@ export const GroupDashboard = () => {
     const [authorGroupData, setAuthorGroupData] = useState({
         name: "Loading",
         membersCount: 0,
-        books: []
+        books: [],
+        members: []
     });
 	const [isMember, setIsMember] = useState(null);
-	const [following, setFollowing] = useState(false);
+	//const [following, setFollowing] = useState(false);
 	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
-	const [followClicked, setFollowClicked] = useState(false);
+	//const [followClicked, setFollowClicked] = useState(false);
 	const {userId} = useUser();
 	const joinGroup = () => {
         const body = JSON.stringify({
@@ -52,10 +54,10 @@ export const GroupDashboard = () => {
 				...authorGroupData,
                 name: data.data.updatedAuthorGroup.author_group_name,
                 membersCount: data.data.updatedAuthorGroup.account_author_group_member.length,
-				
+                members: data.data.updatedAuthorGroup.account_author_group_member
             })
             setIsMember(true)
-		    setFollowing(true)
+		    //setFollowing(true)
         });
 		
 	}
@@ -79,10 +81,11 @@ export const GroupDashboard = () => {
             setAuthorGroupData({
 				...authorGroupData,
                 name: data.data.updatedAuthorGroup.author_group_name,
-                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length
+                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length,
+                members: data.data.updatedAuthorGroup.account_author_group_member
             })
             setIsMember(false)
-		    setFollowing(false)
+		    //setFollowing(false)
         });
 	}
 
@@ -99,15 +102,16 @@ export const GroupDashboard = () => {
             setAuthorGroupData({
                 name: data.data.authorGroup.author_group_name,
                 membersCount: data.data.authorGroup.account_author_group_member.length,
-                books: data.data.authorGroup.book
+                books: data.data.authorGroup.book,
+                members: data.data.authorGroup.account_author_group_member
             });
 			if (userId) {
 				if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(userId)) {
 					setIsMember(true);
-					setFollowing(true);
+					//setFollowing(true);
 				} else {
 					setIsMember(false);
-					setFollowing(false);
+					//setFollowing(false);
 				}
 			}
             
@@ -179,7 +183,7 @@ export const GroupDashboard = () => {
 										</ul>
 								</div>
 							</div>
-							<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10">Edit group</Link>
+							{/* <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10">Edit group</Link> */}
 						</>
 						}
 					</div>
@@ -194,6 +198,14 @@ export const GroupDashboard = () => {
 					</div>
 				</div>
 			</div> */}
+            <div>
+				<div className="flex flex-row justify-between items-center">
+					<h2 className="px-3 py-4 text-xl">Members</h2>
+				</div>
+                <div className="flex flex-row items-center"> 
+                    {authorGroupData.members.map((user) => <UserDataRow userName={user.account.account_name} email={user.account.email} id={user.account.account_id}></UserDataRow>)}
+                </div>
+			</div>
 			<div>
 				<div className="flex flex-row justify-between items-center">
 					<h2 className="px-3 py-4 text-xl">Books</h2>
