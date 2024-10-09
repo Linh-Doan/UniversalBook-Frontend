@@ -5,6 +5,7 @@ import GroupImg from "../../assets/GroupImage.jpeg"
 import {apiBaseUrl, endpoints} from '../../config';
 import { useUser } from "../../hooks/useUser";
 import { Loading } from "../../components/Loading";
+import { UserDataRow } from "../../components/UserDataRow";
 
 const booksToSliderItems = (books) => {
     let newList = []
@@ -22,12 +23,13 @@ export const GroupDashboard = () => {
     const [authorGroupData, setAuthorGroupData] = useState({
         name: "Loading",
         membersCount: 0,
-        books: []
+        books: [],
+        members: []
     });
 	const [isMember, setIsMember] = useState(null);
-	const [following, setFollowing] = useState(false);
+	//const [following, setFollowing] = useState(false);
 	const [joinGroupClicked, setJoinGroupClicked] = useState(false);
-	const [followClicked, setFollowClicked] = useState(false);
+	//const [followClicked, setFollowClicked] = useState(false);
 	const {userId} = useUser();
 	const joinGroup = () => {
         const body = JSON.stringify({
@@ -52,10 +54,10 @@ export const GroupDashboard = () => {
 				...authorGroupData,
                 name: data.data.updatedAuthorGroup.author_group_name,
                 membersCount: data.data.updatedAuthorGroup.account_author_group_member.length,
-				
+                members: data.data.updatedAuthorGroup.account_author_group_member
             })
             setIsMember(true)
-		    setFollowing(true)
+		    //setFollowing(true)
         });
 		
 	}
@@ -79,10 +81,11 @@ export const GroupDashboard = () => {
             setAuthorGroupData({
 				...authorGroupData,
                 name: data.data.updatedAuthorGroup.author_group_name,
-                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length
+                membersCount: data.data.updatedAuthorGroup.account_author_group_member.length,
+                members: data.data.updatedAuthorGroup.account_author_group_member
             })
             setIsMember(false)
-		    setFollowing(false)
+		    //setFollowing(false)
         });
 	}
 
@@ -99,15 +102,16 @@ export const GroupDashboard = () => {
             setAuthorGroupData({
                 name: data.data.authorGroup.author_group_name,
                 membersCount: data.data.authorGroup.account_author_group_member.length,
-                books: data.data.authorGroup.book
+                books: data.data.authorGroup.book,
+                members: data.data.authorGroup.account_author_group_member
             });
 			if (userId) {
 				if (data.data.authorGroup.account_author_group_member.map(member => member.account.account_id).includes(userId)) {
 					setIsMember(true);
-					setFollowing(true);
+					//setFollowing(true);
 				} else {
 					setIsMember(false);
-					setFollowing(false);
+					//setFollowing(false);
 				}
 			}
             
@@ -133,7 +137,7 @@ export const GroupDashboard = () => {
 							</button>
 						</>
 						}
-						{userId && !isMember && !following && <button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</button>}
+						{/* {userId && !isMember && !following && <button onClick={() => setFollowing(!following)} className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</button>}
 						{userId && !isMember && following && 
 						<div>
 							<button id="dropdownFollowButton" onClick={()=>setFollowClicked(!followClicked)} data-dropdown-toggle="dropdown" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">
@@ -152,15 +156,15 @@ export const GroupDashboard = () => {
 										</li>
 									</ul>
 							</div>
-						</div>}
+						</div>} */}
 						{isMember &&
 						<>
-							<button type="button" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+							{/* <button type="button" className="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
 								<svg className="w-4.5 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 									<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/>
 								</svg>
 								Invite
-							</button>
+							</button> */}
 							<div>
 								<button id="dropdownDefaultButton" onClick={()=>setJoinGroupClicked(!joinGroupClicked)} data-dropdown-toggle="dropdown" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" type="button">
 										Joined
@@ -179,7 +183,7 @@ export const GroupDashboard = () => {
 										</ul>
 								</div>
 							</div>
-							<Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10">Edit group</Link>
+							{/* <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10">Edit group</Link> */}
 						</>
 						}
 					</div>
@@ -194,6 +198,14 @@ export const GroupDashboard = () => {
 					</div>
 				</div>
 			</div> */}
+            <div>
+				<div className="flex flex-row justify-between items-center">
+					<h2 className="px-3 py-4 text-xl">Members</h2>
+				</div>
+                <div className="flex flex-row items-center"> 
+                    {authorGroupData.members.map((user) => <UserDataRow userName={user.account.account_name} email={user.account.email} id={user.account.account_id}></UserDataRow>)}
+                </div>
+			</div>
 			<div>
 				<div className="flex flex-row justify-between items-center">
 					<h2 className="px-3 py-4 text-xl">Books</h2>

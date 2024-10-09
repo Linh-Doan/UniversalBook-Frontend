@@ -1,7 +1,5 @@
-import {Link} from "react-router-dom";
 import UserProfile from "../../assets/userProfile.png";
 import FeaturedSlider from "../../components/FeaturedSlider";
-import Book4 from "../../assets/book1.jpeg";
 import {apiBaseUrl, endpoints} from '../../config';
 import {useEffect, useState} from "react";
 
@@ -17,7 +15,7 @@ export const PublicProfile = ({id}) => {
                 let curUser = await curUserRes.json();
 
                 let userAuthorgroups = curUser.data.user.account_author_group_member;
-                setAccountName(curUser.data.account_name);
+                setAccountName(curUser.data.user.account_name);
                 setAuthorGroups(userAuthorgroups
                     .filter(
                         (authorGroup) => !authorGroup.author_group.author_group_is_single
@@ -25,7 +23,7 @@ export const PublicProfile = ({id}) => {
                     .map((authorGroup) => {
                         return {
                             id: authorGroup.author_group.author_group_id,
-                            imageUrl: Book4,
+                            imageUrl: authorGroup.author_group.author_group_image_url,
                             heading: authorGroup.author_group.author_group_name
                         };
                     }));
@@ -63,11 +61,11 @@ export const PublicProfile = ({id}) => {
                     <div className="flex flex-col items-center">
                         <img className="w-40 h-40 mb-3 rounded-full shadow-lg" src={UserProfile} alt="User profile" />
                         <h5 className="mb-1 text-xl font-medium text-gray-900">{accountName}</h5>
-                        <span className="text-sm text-gray-500">3.9M followers • 155 following</span>
+                        {/* <span className="text-sm text-gray-500">3.9M followers • 155 following</span> */}
                     </div>
                     <div className="flex flex-row mt-4 md:mt-6 pr-10">
-                        <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</Link>
-                        <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Message</Link>
+                        {/* <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Follow</Link>
+                        <Link to="#" className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Message</Link> */}
                     </div>
                 </div>
             </div>
@@ -80,14 +78,14 @@ export const PublicProfile = ({id}) => {
                 <h2 className="px-3 py-4 text-xl" >Groups</h2>
                 <FeaturedSlider SliderItems={authorGroups} itemType={"authorGroup"} />
             </div>
-            <div>
+            {/* <div>
                 <h2 className="px-3 py-4 text-xl" >Following</h2>
                 <FeaturedSlider SliderItems={authorGroups}/>
             </div>
             <div className="box-sizing: border-box">
                 <h2 className="px-3 py-4 text-xl" >Followers</h2>
                 <FeaturedSlider SliderItems={authorGroups}/>
-            </div>
+            </div> */}
         </div>
     );
 };
