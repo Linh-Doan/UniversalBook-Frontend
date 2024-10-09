@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { HeaderDropdown } from "./HeaderDropdown";
+import logo from "../assets/logo.png"
 
 export const Header = () => {
   const [hidden, setHidden] = useState(true);
@@ -40,7 +41,7 @@ export const Header = () => {
         <div className="flex flex-wrap items-center justify-between mx-auto p-4 px-6">
           <section className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-              <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Universal Book Logo" />
+              <img src={logo} className="h-8" alt="Universal Book Logo" />
               <span className="self-center text-2xl font-semibold whitespace-nowrap">Universal Book</span>
             </Link>
             <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 ps-6" id="navbar-search">
